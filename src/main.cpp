@@ -3,29 +3,8 @@
 #include <iostream>
 
 int main() {
-  // Initialize GLFW
-  if (!glfwInit()) {
-    std::cerr << "Failed to initialize GLFW" << std::endl;
-    return -1;
-  }
-
-  // Create a windowed mode window and its OpenGL context
-  GLFWwindow *window =
-      glfwCreateWindow(800, 600, "CompGrafica - OpenGL", nullptr, nullptr);
+  GLFWwindow *window = setup();
   if (!window) {
-    std::cerr << "Failed to create GLFW window" << std::endl;
-    glfwTerminate();
-    return -1;
-  }
-
-  // Make the window's context current
-  glfwMakeContextCurrent(window);
-
-  // Initialize GLAD
-  if (!gladLoadGLLoader((GLADloadproc)glfwGetProcAddress)) {
-    std::cerr << "Failed to initialize GLAD" << std::endl;
-    glfwDestroyWindow(window);
-    glfwTerminate();
     return -1;
   }
 
@@ -49,4 +28,32 @@ int main() {
   glfwTerminate();
 
   return 0;
+}
+
+GLFWwindow *setup() {
+  // Initialize GLFW
+  if (!glfwInit()) {
+    std::cerr << "Failed to initialize GLFW" << std::endl;
+    return nullptr;
+  }
+
+  // Create a windowed mode window and its OpenGL context
+  GLFWwindow *window =
+      glfwCreateWindow(800, 600, "CompGrafica - OpenGL", nullptr, nullptr);
+  if (!window) {
+    std::cerr << "Failed to create GLFW window" << std::endl;
+    glfwTerminate();
+    return nullptr;
+  }
+
+  // Make the window's context current
+  glfwMakeContextCurrent(window);
+
+  // Initialize GLAD
+  if (!gladLoadGLLoader((GLADloadproc)glfwGetProcAddress)) {
+    std::cerr << "Failed to initialize GLAD" << std::endl;
+    glfwDestroyWindow(window);
+    glfwTerminate();
+    return nullptr;
+  }
 }
