@@ -1,0 +1,68 @@
+# CMake
+CMakeCache.txt
+CMakeFiles/
+CMakeScripts/
+Testing/
+Makefile
+cmake_install.cmake
+install_manifest.txt
+compile_commands.json
+CTestTestfile.cmake
+_deps
+
+# Build artifacts
+build/
+out/
+bin/
+lib/
+
+# Executables
+*.exe
+*.out
+*.app
+Graphics
+
+# Compiled Object files
+*.o
+*.obj
+*.ko
+*.elf
+
+# Precompiled Headers
+*.gch
+*.pch
+
+# Static libraries
+*.a
+*.lib
+*.la
+*.lo
+
+# Shared libraries
+*.so
+*.so.*
+*.dylib
+*.dll
+
+# IDE and Editor files
+.vscode/
+.idea/
+*.swp
+*.swo
+*~
+.DS_Store
+
+# Debug files
+*.dSYM/
+*.su
+*.idb
+*.pdb
+
+# Generated documentation
+docs/html/
+docs/latex/
+
+# Backup files
+*.bak
+*.backup
+*~
