@@ -12,16 +12,22 @@ add_subdirectory(dependencies/glfw)
 
 find_package(OpenGL REQUIRED)
 
+# Add GLAD
+add_library(glad STATIC dependencies/glad/src/glad.c)
+target_include_directories(glad PUBLIC dependencies/glad/include)
+
 add_executable(Graphics src/main.cpp)
 
 # Include directories
 target_include_directories(Graphics PRIVATE 
     ${OPENGL_INCLUDE_DIR}
     dependencies/glfw/include
+    dependencies/glad/include
 )
 
 # Link libraries
 target_link_libraries(Graphics
     glfw
+    glad
     ${OPENGL_LIBRARIES}
 )
