@@ -66,3 +66,5 @@ docs/latex/
 *.bak
 *.backup
 *~
+
+.cache/clangd/
