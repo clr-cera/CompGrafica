@@ -12,6 +12,10 @@ add_subdirectory(dependencies/glfw)
 
 find_package(OpenGL REQUIRED)
 
+# Add glm for rotation matrices
+find_package(glm REQUIRED)
+
+
 # Add GLAD
 add_library(glad STATIC dependencies/glad/src/glad.c)
 target_include_directories(glad PUBLIC dependencies/glad/include)
@@ -23,6 +27,7 @@ target_include_directories(Graphics PRIVATE
     ${OPENGL_INCLUDE_DIR}
     dependencies/glfw/include
     dependencies/glad/include
+		${CMAKE_CURRENT_SOURCE_DIR}/include
 )
 
 # Link libraries
