@@ -8,6 +8,7 @@ Scene::Scene(std::string vertexShaderPath, std::string fragmentShaderPath,
              std::vector<std::string> objectPaths,
              std::vector<std::string> objectNames)
     : shader(vertexShaderPath, fragmentShaderPath) {
+
   if (objectPaths.size() != objectNames.size()) {
     throw std::runtime_error("Object paths and names must have the same size.");
   }
