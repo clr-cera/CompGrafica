@@ -1,6 +1,7 @@
 #ifndef SCENE_OBJECT_HPP
 #define SCENE_OBJECT_HPP
 #include "mesh.hpp"
+#include "shader.hpp"
 #include <glm/glm.hpp>
 #include <string>
 
@@ -10,7 +11,8 @@ public:
 
   Mesh mesh;
 
-  void draw();
+  void bind(Shader shader);
+  void unbind();
 
   glm::mat4 transMatrix();
 

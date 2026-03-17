@@ -11,5 +11,7 @@ public:
   std::vector<SceneObject> objects;
   Scene(std::string vertexShaderPath, std::string fragmentShaderPath,
         std::vector<std::string> objectPaths);
+
+  void Render();
 };
 #endif // SCENE_HPP

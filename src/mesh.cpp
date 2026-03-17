@@ -1,19 +1,11 @@
 #include "mesh.hpp"
 
-#include <iostream>
-
 Mesh::Mesh(std::string path_to_wavefront_obj) {
   // Parse wavefront object
   auto parser = ObjFileParser(path_to_wavefront_obj);
   auto [vertices, indices] = parser.parse();
   this->vertices = vertices;
   this->indices = indices;
-  for (const auto &vertex : vertices) {
-    std::cout << "Vertex: (" << vertex.position.x << ", " << vertex.position.y
-              << ", " << vertex.position.z << ")\n";
-    std::cout << "Color: (" << vertex.color.x << ", " << vertex.color.y << ", "
-              << vertex.color.z << ")\n";
-  }
 
   // Setup gpu vertex buffers
   glGenBuffers(1, &VBO);

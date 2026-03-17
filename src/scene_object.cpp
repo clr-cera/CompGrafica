@@ -1,5 +1,6 @@
 #include "scene_object.hpp"
 #include "glm/ext/matrix_transform.hpp"
+#include "shader.hpp"
 
 SceneObject::SceneObject(std::string path) : mesh(path) {}
 
@@ -56,3 +57,10 @@ void SceneObject::setPosition(glm::vec3 tra) {
 glm::vec3 SceneObject::getRotation() { return rotation; }
 glm::vec3 SceneObject::getScale() { return scale; }
 glm::vec3 SceneObject::getPosition() { return position; }
+
+void SceneObject::bind(Shader shader) {
+  mesh.bind();
+  shader.setMat4("transform", transMatrix());
+}
+
+void SceneObject::unbind() { mesh.unbind(); }
