@@ -48,7 +48,7 @@ add_custom_command(
 		"${OBJECT_DIR}"
 		"${OBJECT_OUTPUT_DIR}"
 		COMMENT "Copying objects to the build directory"
-
+)
 
 # Include directories
 target_include_directories(Graphics PRIVATE
