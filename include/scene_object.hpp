@@ -11,8 +11,7 @@ public:
 
   Mesh mesh;
 
-  void bind(Shader shader);
-  void unbind();
+  void draw(Shader shader);
 
   glm::mat4 transMatrix();
 
@@ -35,6 +34,9 @@ private:
   glm::vec3 rotation = glm::vec3(0.0f, 0.0f, 0.0f);
   glm::vec3 scale = glm::vec3(1.0f, 1.0f, 1.0f);
   glm::vec3 position = glm::vec3(0.0f, 0.0f, 0.0f);
+
+  void bind(Shader shader);
+  void unbind();
 };
 
 #endif // SCENE_OBJECT_HPP

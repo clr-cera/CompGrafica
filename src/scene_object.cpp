@@ -64,3 +64,9 @@ void SceneObject::bind(Shader shader) {
 }
 
 void SceneObject::unbind() { mesh.unbind(); }
+
+void SceneObject::draw(Shader shader) {
+  bind(shader);
+  glDrawElements(GL_TRIANGLES, mesh.indices.size(), GL_UNSIGNED_INT, nullptr);
+  unbind();
+}

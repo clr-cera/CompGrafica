@@ -15,12 +15,11 @@ Scene::Scene(std::string vertexShaderPath, std::string fragmentShaderPath,
 void Scene::Render() {
   glClear(GL_COLOR_BUFFER_BIT);
   glClearColor(1.0f, 1.0f, 1.0f, 1.0f);
+  objects[0].rotate(glm::vec3(0.0f, 0.0f, 1.0f));
+  objects[1].rotate(glm::vec3(0.0f, 0.0f, -1.0f));
 
   shader.use();
   for (auto &object : objects) {
-    object.bind(shader);
-    glDrawElements(GL_TRIANGLES, object.mesh.indices.size(), GL_UNSIGNED_INT,
-                   nullptr);
-    object.unbind();
+    object.draw(shader);
   }
 }

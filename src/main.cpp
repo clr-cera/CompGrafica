@@ -13,7 +13,7 @@ int main() {
   }
 
   Scene scene("shaders/vertex_shader.glsl", "shaders/fragment_shader.glsl",
-              {"objects/sample.obj"});
+              {"objects/sample.obj", "objects/sample.obj"});
 
   // Main render loop
   while (!glfwWindowShouldClose(window)) {
