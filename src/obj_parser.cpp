@@ -18,13 +18,13 @@ Vertex parseVertexLine(std::vector<float> lineArr) {
     if (lineArr.size() == 3) {
         return Vertex {
           glm::vec3(lineArr[0], lineArr[1], lineArr[2]),
-          glm::vec2(0.0f, 0.0f),
+          // glm::vec2(0.0f, 0.0f),
           glm::vec3(0.0f, 0.0f, 0.0f)
         };
     }
     return Vertex {
         glm::vec3(lineArr[0], lineArr[1], lineArr[2]),
-        glm::vec2(0.0f, 0.0f),
+        // glm::vec2(0.0f, 0.0f),
         glm::vec3(lineArr[3], lineArr[4], lineArr[5])
       };
 }

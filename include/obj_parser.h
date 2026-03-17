@@ -13,12 +13,12 @@
 
 struct Vertex {
     glm::vec3 position;
-    glm::vec2 texCoords;
+    // glm::vec2 texCoords;
     glm::vec3 color;
     // The "Quickest" way: Overload the insertion operator
     friend std::ostream& operator<<(std::ostream& os, const Vertex& v) {
         os << "[Pos: " << v.position.x << ", " << v.position.y << ", " << v.position.z << "] "
-           << "[UV: "  << v.texCoords.x << ", " << v.texCoords.y << "] "
+           // << "[UV: "  << v.texCoords.x << ", " << v.texCoords.y << "] "
            << "[Col: " << v.color.r    << ", " << v.color.g    << ", " << v.color.b << "]";
         return os;
     }

@@ -20,13 +20,35 @@ find_package(OpenGL REQUIRED)
 add_library(glad STATIC dependencies/glad/src/glad.c)
 target_include_directories(glad PUBLIC dependencies/glad/include)
 
-add_executable(Graphics src/main.cpp  src/obj_parser.cpp )
+add_executable(Graphics src/main.cpp  src/obj_parser.cpp src/mesh.cpp src/shader.cpp)
 #add_executable(Graphics src/main.cpp  src/mesh.cpp  src/obj_parser.cpp  src/scene.cpp  src/scene_object.cpp  src/shader.cpp)
+
 # Setup asset directories
-file(COPY "${CMAKE_CURRENT_SOURCE_DIR}/shaders"
-		DESTINATION "${CMAKE_CURRENT_BINARY_DIR}")
-file(COPY "${CMAKE_CURRENT_SOURCE_DIR}/objects"
-		DESTINATION "${CMAKE_CURRENT_BINARY_DIR}")
+set(SHADER_DIR "${CMAKE_CURRENT_SOURCE_DIR}/shaders")
+set(SHADER_OUTPUT_DIR "${CMAKE_CURRENT_BINARY_DIR}/shaders")
+
+file(GLOB SHADER_FILES "${SHADER_DIR}/*")
+add_custom_command(
+		TARGET Graphics # Replace with your target name
+		POST_BUILD          # Run after the executable is built
+		COMMAND ${CMAKE_COMMAND} -E copy_directory
+		"${SHADER_DIR}"
+		"${SHADER_OUTPUT_DIR}"
+		COMMENT "Copying shaders to the build directory"
+)
+
+set(OBJECT_DIR "${CMAKE_CURRENT_SOURCE_DIR}/objects")
+set(OBJECT_OUTPUT_DIR "${CMAKE_CURRENT_BINARY_DIR}/objects")
+
+file(GLOB OBJECT_FILES "${OBJECT_DIR}/*")
+add_custom_command(
+		TARGET Graphics # Replace with your target name
+		POST_BUILD          # Run after the executable is built
+		COMMAND ${CMAKE_COMMAND} -E copy_directory
+		"${OBJECT_DIR}"
+		"${OBJECT_OUTPUT_DIR}"
+		COMMENT "Copying objects to the build directory"
+
 
 # Include directories
 target_include_directories(Graphics PRIVATE

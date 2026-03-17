@@ -4,6 +4,7 @@
 #include <string>
 #include <vector>
 #include "obj_parser.h"
+#include "glad/glad.h"
 
 class Mesh {
 public:
@@ -14,8 +15,7 @@ public:
   unsigned int VAO, VBO, EBO;
 
   Mesh(std::string path_to_wavefront_obj);
-
-private:
-  void setupMesh();
+    void bind();
+    void unbind();
 };
 #endif // MESH_HPP
