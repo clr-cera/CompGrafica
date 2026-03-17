@@ -5,21 +5,25 @@
 #include <vector>
 
 Scene::Scene(std::string vertexShaderPath, std::string fragmentShaderPath,
-             std::vector<std::string> objectPaths)
+             std::vector<std::string> objectPaths,
+             std::vector<std::string> objectNames)
     : shader(vertexShaderPath, fragmentShaderPath) {
-  for (const auto &path : objectPaths) {
-    objects.push_back(SceneObject(path));
+  if (objectPaths.size() != objectNames.size()) {
+    throw std::runtime_error("Object paths and names must have the same size.");
+  }
+  for (size_t i = 0; i < objectPaths.size(); ++i) {
+    objects.emplace(objectNames[i], SceneObject(objectPaths[i]));
   }
 }
 
 void Scene::Render() {
   glClear(GL_COLOR_BUFFER_BIT);
   glClearColor(1.0f, 1.0f, 1.0f, 1.0f);
-  objects[0].rotate(glm::vec3(0.0f, 0.0f, 1.0f));
-  objects[1].rotate(glm::vec3(0.0f, 0.0f, -1.0f));
+  objects["left"].rotate(glm::vec3(0.0f, 0.0f, 1.0f));
+  objects["right"].rotate(glm::vec3(0.0f, 0.0f, -1.0f));
 
   shader.use();
-  for (auto &object : objects) {
-    object.draw(shader);
+  for (auto &pair : objects) {
+    pair.second.draw(shader);
   }
 }

@@ -7,11 +7,12 @@
 
 class SceneObject {
 public:
+  SceneObject() {}
   SceneObject(std::string path);
 
   Mesh mesh;
 
-  void draw(Shader shader);
+  const void draw(Shader shader);
 
   glm::mat4 transMatrix();
 
@@ -35,8 +36,8 @@ private:
   glm::vec3 scale = glm::vec3(1.0f, 1.0f, 1.0f);
   glm::vec3 position = glm::vec3(0.0f, 0.0f, 0.0f);
 
-  void bind(Shader shader);
-  void unbind();
+  const void bind(Shader shader);
+  const void unbind();
 };
 
 #endif // SCENE_OBJECT_HPP

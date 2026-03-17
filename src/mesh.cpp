@@ -39,6 +39,6 @@ Mesh::Mesh(std::string path_to_wavefront_obj) {
   glBindVertexArray(0);
 }
 
-void Mesh::bind() { glBindVertexArray(VAO); }
+void Mesh::bind() const { glBindVertexArray(VAO); }
 
-void Mesh::unbind() { glBindVertexArray(0); }
+void Mesh::unbind() const { glBindVertexArray(0); }

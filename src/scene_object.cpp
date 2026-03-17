@@ -58,14 +58,14 @@ glm::vec3 SceneObject::getRotation() { return rotation; }
 glm::vec3 SceneObject::getScale() { return scale; }
 glm::vec3 SceneObject::getPosition() { return position; }
 
-void SceneObject::bind(Shader shader) {
+const void SceneObject::bind(Shader shader) {
   mesh.bind();
   shader.setMat4("transform", transMatrix());
 }
 
-void SceneObject::unbind() { mesh.unbind(); }
+const void SceneObject::unbind() { mesh.unbind(); }
 
-void SceneObject::draw(Shader shader) {
+const void SceneObject::draw(Shader shader) {
   bind(shader);
   glDrawElements(GL_TRIANGLES, mesh.indices.size(), GL_UNSIGNED_INT, nullptr);
   unbind();
