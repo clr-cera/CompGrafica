@@ -2,10 +2,13 @@
 #include "GLFW/glfw3.h"
 #include "glad/glad.h"
 #include <iostream>
+#include "obj_parser.h"
 
 GLFWwindow *setup();
 
 int main() {
+
+    return 0;
   GLFWwindow *window = setup();
   if (!window) {
     return -1;

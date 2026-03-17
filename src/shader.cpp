@@ -3,6 +3,8 @@
 //
 #include "shader.hpp"
 
+Shader::~Shader() = default;
+
 Shader::Shader(std::string vertexShaderPath, std::string fragmentShaderPath) {
 
   // Shader input from files

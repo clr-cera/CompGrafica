@@ -20,7 +20,13 @@ find_package(OpenGL REQUIRED)
 add_library(glad STATIC dependencies/glad/src/glad.c)
 target_include_directories(glad PUBLIC dependencies/glad/include)
 
-add_executable(Graphics src/main.cpp)
+add_executable(Graphics src/main.cpp  src/obj_parser.cpp )
+#add_executable(Graphics src/main.cpp  src/mesh.cpp  src/obj_parser.cpp  src/scene.cpp  src/scene_object.cpp  src/shader.cpp)
+# Setup asset directories
+file(COPY "${CMAKE_CURRENT_SOURCE_DIR}/shaders"
+		DESTINATION "${CMAKE_CURRENT_BINARY_DIR}")
+file(COPY "${CMAKE_CURRENT_SOURCE_DIR}/objects"
+		DESTINATION "${CMAKE_CURRENT_BINARY_DIR}")
 
 # Include directories
 target_include_directories(Graphics PRIVATE
