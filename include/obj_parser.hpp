@@ -26,6 +26,7 @@ struct Vertex {
     return os;
   }
 };
+// No texture yet
 struct Texture {
   unsigned int id;
 };

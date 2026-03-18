@@ -5,6 +5,8 @@
 #include <glm/glm.hpp>
 #include <string>
 
+// SceneObject represents an instance of a mesh,
+// it has its own transformation
 class SceneObject {
 public:
   SceneObject() {}
@@ -16,10 +18,12 @@ public:
 
   glm::mat4 transMatrix();
 
+  // Incremental transformations
   void rotate(glm::vec3 rot);
   void scaleUp(glm::vec3 sca);
   void translate(glm::vec3 tra);
 
+  // Directly set transformations
   void setRotation(glm::vec3 rot);
   void setScale(glm::vec3 sca);
   void setPosition(glm::vec3 tra);
@@ -29,6 +33,7 @@ public:
   glm::vec3 getPosition();
 
 private:
+  // Cache the matrix if there is no transformation change
   glm::mat4 cachedTransMatrix;
   bool transMatrixNeedsUpdate = true;
 

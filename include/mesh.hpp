@@ -6,6 +6,8 @@
 #include <string>
 #include <vector>
 
+// Meshes contains all geometric data, and is already setup to the gpu on
+// construction.
 class Mesh {
 public:
   std::vector<Vertex> vertices;
@@ -21,6 +23,7 @@ public:
 };
 
 // Singleton to cache meshes if the path is repeated
+// We assumed that paths are not changed after the first creation
 class MeshRegistry {
 public:
   // Get singleton
