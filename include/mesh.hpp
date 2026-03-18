@@ -19,4 +19,24 @@ public:
   void bind() const;
   void unbind() const;
 };
+
+// Singleton to cache meshes if the path is repeated
+class MeshRegistry {
+public:
+  // Get singleton
+  static MeshRegistry &getInstance() {
+    static MeshRegistry instance;
+    return instance;
+  }
+
+  Mesh *getMesh(std::string path);
+
+  // Remove creating more objects or assignment
+  MeshRegistry(const MeshRegistry &) = delete;
+  void operator=(const MeshRegistry &) = delete;
+
+private:
+  MeshRegistry() {}
+  std::unordered_map<std::string, Mesh> meshCache;
+};
 #endif // MESH_HPP

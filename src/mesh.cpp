@@ -42,3 +42,10 @@ Mesh::Mesh(std::string path_to_wavefront_obj) {
 void Mesh::bind() const { glBindVertexArray(VAO); }
 
 void Mesh::unbind() const { glBindVertexArray(0); }
+
+Mesh *MeshRegistry::getMesh(std::string path) {
+  if (meshCache.find(path) == meshCache.end()) {
+    meshCache[path] = Mesh(path);
+  }
+  return &meshCache[path];
+}

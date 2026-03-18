@@ -1,8 +1,12 @@
 #include "scene_object.hpp"
 #include "glm/ext/matrix_transform.hpp"
+#include "scene.hpp"
 #include "shader.hpp"
 
-SceneObject::SceneObject(std::string path) : mesh(path) {}
+// Get or create the mesh on registry
+SceneObject::SceneObject(std::string path) {
+  mesh = MeshRegistry::getInstance().getMesh(path);
+}
 
 // Transformation matrix caching, every time a transformation is updated,
 // the matrix is marked as dirty and will be recalculated on the next call to
@@ -59,14 +63,14 @@ glm::vec3 SceneObject::getScale() { return scale; }
 glm::vec3 SceneObject::getPosition() { return position; }
 
 const void SceneObject::bind(Shader shader) {
-  mesh.bind();
+  mesh->bind();
   shader.setMat4("transform", transMatrix());
 }
 
-const void SceneObject::unbind() { mesh.unbind(); }
+const void SceneObject::unbind() { mesh->unbind(); }
 
 const void SceneObject::draw(Shader shader) {
   bind(shader);
-  glDrawElements(GL_TRIANGLES, mesh.indices.size(), GL_UNSIGNED_INT, nullptr);
+  glDrawElements(GL_TRIANGLES, mesh->indices.size(), GL_UNSIGNED_INT, nullptr);
   unbind();
 }

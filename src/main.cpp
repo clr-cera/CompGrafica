@@ -14,15 +14,37 @@ GLFWwindow *setup_screen();
 // the inputSystem would reference a dead space
 std::pair<Scene *, InputSystem> setup_environment(GLFWwindow *window) {
   // Creates the scene which contain all the data
-  Scene *scene = new Scene(
-      "shaders/vertex_shader.glsl", "shaders/fragment_shader.glsl",
-      {"objects/sample.obj", "objects/sample.obj"}, {"left", "right"});
+  Scene *scene =
+      new Scene("shaders/vertex_shader.glsl", "shaders/fragment_shader.glsl");
+
+  // Inserts objects
+  scene->addObject({"vertical", "horizontal"}, "objects/sample.obj");
+  scene->addObject({"vertical"}, "objects/sample.obj",
+                   glm::vec3(0.5f, 0.0f, 0.0f), glm::vec3(0.0f, 0.0f, 0.0f),
+                   glm::vec3(1.0f, 1.0f, 1.0f));
+
   // Creates the input system and inserts actions and their related keys
   InputSystem inputSystem(scene, window);
 
   inputSystem.registerKeyAction(GLFW_KEY_W, [](Scene *scene, float delta_time) {
-    scene->objects["left"].rotate(glm::vec3(0, 0, 45 * delta_time));
-    scene->objects["right"].rotate(glm::vec3(0, 0, -45 * delta_time));
+    scene->applyToObjects("vertical", [delta_time](SceneObject *obj) {
+      obj->translate(glm::vec3(0, 1 * delta_time, 0));
+    });
+  });
+  inputSystem.registerKeyAction(GLFW_KEY_S, [](Scene *scene, float delta_time) {
+    scene->applyToObjects("vertical", [delta_time](SceneObject *obj) {
+      obj->translate(glm::vec3(0, -1 * delta_time, 0));
+    });
+  });
+  inputSystem.registerKeyAction(GLFW_KEY_A, [](Scene *scene, float delta_time) {
+    scene->applyToObjects("horizontal", [delta_time](SceneObject *obj) {
+      obj->translate(glm::vec3(-1 * delta_time, 0, 0));
+    });
+  });
+  inputSystem.registerKeyAction(GLFW_KEY_D, [](Scene *scene, float delta_time) {
+    scene->applyToObjects("horizontal", [delta_time](SceneObject *obj) {
+      obj->translate(glm::vec3(1 * delta_time, 0, 0));
+    });
   });
 
   return {scene, inputSystem};

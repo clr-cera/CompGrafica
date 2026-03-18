@@ -10,7 +10,7 @@ public:
   SceneObject() {}
   SceneObject(std::string path);
 
-  Mesh mesh;
+  Mesh *mesh;
 
   const void draw(Shader shader);
 
