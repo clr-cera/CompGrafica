@@ -35,8 +35,8 @@ void Scene::addObject(std::vector<std::string> components, std::string path,
   scene_object->setPosition(position);
   scene_object->setRotation(rotation);
   scene_object->setScale(scale);
-  objects.push_back(scene_object);
 
+  objects.push_back(scene_object);
   for (const auto &component : components) {
     component_map.emplace(component, scene_object);
   }

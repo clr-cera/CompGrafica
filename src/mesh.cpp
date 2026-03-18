@@ -43,6 +43,7 @@ void Mesh::bind() const { glBindVertexArray(VAO); }
 
 void Mesh::unbind() const { glBindVertexArray(0); }
 
+// Creates mesh if it doesnt exist
 Mesh *MeshRegistry::getMesh(std::string path) {
   if (meshCache.find(path) == meshCache.end()) {
     meshCache[path] = Mesh(path);

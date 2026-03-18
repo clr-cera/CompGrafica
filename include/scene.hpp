@@ -17,6 +17,7 @@ public:
   Shader shader;
   // Maps components to multiple objects
   std::unordered_multimap<std::string, SceneObject *> component_map;
+  // Stores objects to be rendered
   std::vector<SceneObject *> objects;
   Scene(std::string vertexShaderPath, std::string fragmentShaderPath);
 
