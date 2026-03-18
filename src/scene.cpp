@@ -20,8 +20,6 @@ Scene::Scene(std::string vertexShaderPath, std::string fragmentShaderPath,
 void Scene::Render() {
   glClear(GL_COLOR_BUFFER_BIT);
   glClearColor(1.0f, 1.0f, 1.0f, 1.0f);
-  objects["left"].rotate(glm::vec3(0.0f, 0.0f, 1.0f));
-  objects["right"].rotate(glm::vec3(0.0f, 0.0f, -1.0f));
 
   shader.use();
   for (auto &pair : objects) {

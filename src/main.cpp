@@ -1,23 +1,47 @@
+#include "glm/fwd.hpp"
 #define GLFW_INCLUDE_NONE
 #include "GLFW/glfw3.h"
 #include "glad/glad.h"
+#include "input_system.hpp"
 #include "scene.hpp"
 #include <iostream>
-GLFWwindow *setup();
 
+GLFWwindow *setup_screen();
+
+// Sets up all non generic things. All objects, shaders and input actions should
+// be inserted here.
+// Scene needs to be a pointer or else it would die when this function ends and
+// the inputSystem would reference a dead space
+std::pair<Scene *, InputSystem> setup_environment(GLFWwindow *window) {
+  // Creates the scene which contain all the data
+  Scene *scene = new Scene(
+      "shaders/vertex_shader.glsl", "shaders/fragment_shader.glsl",
+      {"objects/sample.obj", "objects/sample.obj"}, {"left", "right"});
+  // Creates the input system and inserts actions and their related keys
+  InputSystem inputSystem(scene, window);
+
+  inputSystem.registerKeyAction(GLFW_KEY_W, [](Scene *scene, float delta_time) {
+    scene->objects["left"].rotate(glm::vec3(0, 0, 45 * delta_time));
+    scene->objects["right"].rotate(glm::vec3(0, 0, -45 * delta_time));
+  });
+
+  return {scene, inputSystem};
+}
+
+// Initializes window, screen and input system, then enters the main loop
 int main() {
-  GLFWwindow *window = setup();
+  GLFWwindow *window = setup_screen();
 
   if (!window) {
     return -1;
   }
 
-  Scene scene("shaders/vertex_shader.glsl", "shaders/fragment_shader.glsl",
-              {"objects/sample.obj", "objects/sample.obj"}, {"left", "right"});
+  auto [scene, inputSystem] = setup_environment(window);
 
   // Main render loop
   while (!glfwWindowShouldClose(window)) {
-    scene.Render();
+    inputSystem.update();
+    scene->Render();
 
     // Swap front and back buffers
     glfwSwapBuffers(window);
@@ -27,13 +51,14 @@ int main() {
   }
 
   // Clean up
+  delete scene;
   glfwDestroyWindow(window);
   glfwTerminate();
 
   return 0;
 }
 
-GLFWwindow *setup() {
+GLFWwindow *setup_screen() {
   // Initialize GLFW
   if (!glfwInit()) {
     std::cerr << "Failed to initialize GLFW" << std::endl;

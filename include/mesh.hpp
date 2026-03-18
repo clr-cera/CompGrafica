@@ -1,7 +1,7 @@
 #ifndef MESH_HPP
 #define MESH_HPP
 #include "glad/glad.h"
-#include "obj_parser.h"
+#include "obj_parser.hpp"
 #include <glm/glm.hpp>
 #include <string>
 #include <vector>
