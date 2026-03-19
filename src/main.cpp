@@ -6,6 +6,9 @@
 #include "scene.hpp"
 #include <iostream>
 
+#define WIDTH 800
+#define HEIGHT 800
+
 GLFWwindow *setup_screen();
 
 // Sets up all non generic things. All objects, shaders and input actions should
@@ -18,10 +21,9 @@ std::pair<Scene *, InputSystem> setup_environment(GLFWwindow *window) {
       new Scene("shaders/vertex_shader.glsl", "shaders/fragment_shader.glsl");
 
   // Inserts objects
-  scene->addObject({"vertical", "horizontal"}, "objects/sample.obj");
-  scene->addObject({"vertical"}, "objects/sample.obj",
-                   glm::vec3(0.5f, 0.0f, 0.0f), glm::vec3(0.0f, 0.0f, 0.0f),
-                   glm::vec3(1.0f, 1.0f, 1.0f));
+  scene->addObject({"vertical", "horizontal"}, "objects/triforce.obj",
+                   glm::vec3(0.0f, 0.0f, 0.0f), glm::vec3(0.0f, 0.0f, 0.0f),
+                   glm::vec3(0.2f, 0.2f, 0.2f));
 
   // Creates the input system and inserts actions and their related keys
   InputSystem inputSystem(scene, window);
@@ -89,7 +91,7 @@ GLFWwindow *setup_screen() {
 
   // Create a windowed mode window and its OpenGL context
   GLFWwindow *window =
-      glfwCreateWindow(800, 600, "CompGrafica - OpenGL", nullptr, nullptr);
+      glfwCreateWindow(WIDTH, HEIGHT, "CompGrafica - OpenGL", nullptr, nullptr);
   if (!window) {
     std::cerr << "Failed to create GLFW window" << std::endl;
     glfwTerminate();
@@ -106,5 +108,6 @@ GLFWwindow *setup_screen() {
     glfwTerminate();
     return nullptr;
   }
+  glViewport(0, 0, WIDTH, HEIGHT);
   return window;
 }
