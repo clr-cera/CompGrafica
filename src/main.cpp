@@ -21,9 +21,10 @@ std::pair<Scene *, InputSystem> setup_environment(GLFWwindow *window) {
       new Scene("shaders/vertex_shader.glsl", "shaders/fragment_shader.glsl");
 
   // Inserts objects
-  scene->addObject({"vertical", "horizontal"}, "objects/triforce.obj",
-                   glm::vec3(0.0f, 0.0f, 0.0f), glm::vec3(0.0f, 0.0f, 0.0f),
+  scene->addObject({"vertical", "horizontal"}, "objects/sample.obj",
+                   glm::vec3(0.0f, 0.0f, 0.0f), glm::vec3(45.0f, 0.0f, 0.0f),
                    glm::vec3(0.2f, 0.2f, 0.2f));
+  glPolygonMode(GL_FRONT_AND_BACK, GL_FILL);
 
   // Creates the input system and inserts actions and their related keys
   InputSystem inputSystem(scene, window);
