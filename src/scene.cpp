@@ -10,7 +10,7 @@ Scene::Scene(std::string vertexShaderPath, std::string fragmentShaderPath)
 
 // Clears the screen and draws all objects
 void Scene::Render() {
-  glClear(GL_COLOR_BUFFER_BIT);
+  glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
   glClearColor(1.0f, 1.0f, 1.0f, 1.0f);
 
   shader.use();

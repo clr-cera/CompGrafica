@@ -6,8 +6,8 @@
 #include "scene.hpp"
 #include <iostream>
 
-#define WIDTH 800
-#define HEIGHT 800
+#define WIDTH 1000
+#define HEIGHT 1000
 
 GLFWwindow *setup_screen();
 
@@ -21,9 +21,12 @@ std::pair<Scene *, InputSystem> setup_environment(GLFWwindow *window) {
       new Scene("shaders/vertex_shader.glsl", "shaders/fragment_shader.glsl");
 
   // Inserts objects
-  scene->addObject({"vertical", "horizontal"}, "objects/sample.obj",
-                   glm::vec3(0.0f, 0.0f, 0.0f), glm::vec3(45.0f, 0.0f, 0.0f),
-                   glm::vec3(0.2f, 0.2f, 0.2f));
+  scene->addObject({"horizontal"}, "objects/link.obj",
+                   glm::vec3(0.0f, 0.0f, -0.15f), glm::vec3(0.0f, 45.0f, 0.0f),
+                   glm::vec3(0.15f, 0.15f, 0.15f));
+  scene->addObject({"vertical", "rotate"}, "objects/triforce.obj",
+                   glm::vec3(0.0f, 0.65f, 0.0f), glm::vec3(0.0f, 0.0f, 0.0f),
+                   glm::vec3(0.05f, 0.05f, 0.05f));
   glPolygonMode(GL_FRONT_AND_BACK, GL_FILL);
 
   // Creates the input system and inserts actions and their related keys
@@ -47,6 +50,16 @@ std::pair<Scene *, InputSystem> setup_environment(GLFWwindow *window) {
   inputSystem.registerKeyAction(GLFW_KEY_D, [](Scene *scene, float delta_time) {
     scene->applyToObjects("horizontal", [delta_time](SceneObject *obj) {
       obj->translate(glm::vec3(1 * delta_time, 0, 0));
+    });
+  });
+  inputSystem.registerKeyAction(GLFW_KEY_Q, [](Scene *scene, float delta_time) {
+    scene->applyToObjects("rotate", [delta_time](SceneObject *obj) {
+      obj->rotate(glm::vec3(0, 60 * delta_time, 0));
+    });
+  });
+  inputSystem.registerKeyAction(GLFW_KEY_E, [](Scene *scene, float delta_time) {
+    scene->applyToObjects("rotate", [delta_time](SceneObject *obj) {
+      obj->rotate(glm::vec3(0, -60 * delta_time, 0));
     });
   });
 
@@ -110,5 +123,6 @@ GLFWwindow *setup_screen() {
     return nullptr;
   }
   glViewport(0, 0, WIDTH, HEIGHT);
+  glEnable(GL_DEPTH_TEST);
   return window;
 }
