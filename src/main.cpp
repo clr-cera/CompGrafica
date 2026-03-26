@@ -21,17 +21,35 @@ std::pair<Scene *, InputSystem> setup_environment(GLFWwindow *window) {
       new Scene("shaders/vertex_shader.glsl", "shaders/fragment_shader.glsl");
 
   // Inserts objects
+  // Link
   scene->addObject({"horizontal"}, "objects/link.obj",
                    glm::vec3(0.0f, 0.0f, -0.15f), glm::vec3(0.0f, 45.0f, 0.0f),
                    glm::vec3(0.15f, 0.15f, 0.15f));
+  // Triforce
   scene->addObject({"vertical", "rotate"}, "objects/triforce.obj",
                    glm::vec3(0.0f, 0.65f, 0.0f), glm::vec3(0.0f, 0.0f, 0.0f),
                    glm::vec3(0.05f, 0.05f, 0.05f));
+  // Sword
+  scene->addObject({"horizontal", "scale"}, "objects/sword.obj",
+                   glm::vec3(0.11f, 0.02f, -0.55f),
+                   glm::vec3(-90.0f, 45.0f, 45.0f),
+                   glm::vec3(0.05f, 0.05f, 0.05f));
+
+  // Shield
+  scene->addObject({"horizontal"}, "objects/shield.obj",
+                   glm::vec3(-0.1f, 0.02f, -0.55f),
+                   glm::vec3(0.0f, 45.0f, 0.0f), glm::vec3(0.5f, 0.5f, 0.5f));
+
+  // Rupee (zelda money)
+  scene->addObject({"vertical", "horizontal", "rotate"}, "objects/rupee.obj",
+                   glm::vec3(-0.5f, 0.15f, 0.0f), glm::vec3(0.0f, 0.0f, 0.0f),
+                   glm::vec3(0.2f, 0.2f, 0.2f));
   glPolygonMode(GL_FRONT_AND_BACK, GL_FILL);
 
   // Creates the input system and inserts actions and their related keys
   InputSystem inputSystem(scene, window);
 
+  // Vertical translate
   inputSystem.registerKeyAction(GLFW_KEY_W, [](Scene *scene, float delta_time) {
     scene->applyToObjects("vertical", [delta_time](SceneObject *obj) {
       obj->translate(glm::vec3(0, 1 * delta_time, 0));
@@ -42,6 +60,7 @@ std::pair<Scene *, InputSystem> setup_environment(GLFWwindow *window) {
       obj->translate(glm::vec3(0, -1 * delta_time, 0));
     });
   });
+  // Horizontal translate
   inputSystem.registerKeyAction(GLFW_KEY_A, [](Scene *scene, float delta_time) {
     scene->applyToObjects("horizontal", [delta_time](SceneObject *obj) {
       obj->translate(glm::vec3(-1 * delta_time, 0, 0));
@@ -52,6 +71,7 @@ std::pair<Scene *, InputSystem> setup_environment(GLFWwindow *window) {
       obj->translate(glm::vec3(1 * delta_time, 0, 0));
     });
   });
+  // Rotate on Y axis
   inputSystem.registerKeyAction(GLFW_KEY_Q, [](Scene *scene, float delta_time) {
     scene->applyToObjects("rotate", [delta_time](SceneObject *obj) {
       obj->rotate(glm::vec3(0, 60 * delta_time, 0));
@@ -61,6 +81,28 @@ std::pair<Scene *, InputSystem> setup_environment(GLFWwindow *window) {
     scene->applyToObjects("rotate", [delta_time](SceneObject *obj) {
       obj->rotate(glm::vec3(0, -60 * delta_time, 0));
     });
+  });
+  // Scale
+  inputSystem.registerKeyAction(GLFW_KEY_H, [](Scene *scene, float delta_time) {
+    scene->applyToObjects("scale", [delta_time](SceneObject *obj) {
+      obj->scaleUp(
+          glm::vec3(0.5f * delta_time, 0.5f * delta_time, 0.5f * delta_time));
+    });
+  });
+  inputSystem.registerKeyAction(GLFW_KEY_J, [](Scene *scene, float delta_time) {
+    scene->applyToObjects("scale", [delta_time](SceneObject *obj) {
+      obj->scaleUp(glm::vec3(-0.5f * delta_time, -0.5f * delta_time,
+                             -0.5f * delta_time));
+    });
+  });
+
+  // See mesh wires
+  inputSystem.registerKeyAction(GLFW_KEY_M, [](Scene *scene, float delta_time) {
+    glPolygonMode(GL_FRONT_AND_BACK, GL_LINE);
+  });
+  // See mesh filled
+  inputSystem.registerKeyAction(GLFW_KEY_N, [](Scene *scene, float delta_time) {
+    glPolygonMode(GL_FRONT_AND_BACK, GL_FILL);
   });
 
   return {scene, inputSystem};
