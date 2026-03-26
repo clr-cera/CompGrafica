@@ -14,11 +14,6 @@
 // have the same component.
 class Scene {
 public:
-  Shader shader;
-  // Maps components to multiple objects
-  std::unordered_multimap<std::string, SceneObject *> component_map;
-  // Stores objects to be rendered
-  std::vector<SceneObject *> objects;
   Scene(std::string vertexShaderPath, std::string fragmentShaderPath);
 
   void addObject(std::vector<std::string> components, std::string path);
@@ -27,7 +22,17 @@ public:
 
   void applyToObjects(std::string component,
                       std::function<void(SceneObject *)>);
-
   void Render();
+  void ToggleFill();
+
+private:
+  Shader shader;
+  // Maps components to multiple objects
+  std::unordered_multimap<std::string, SceneObject *> component_map;
+  // Stores objects to be rendered
+  std::vector<SceneObject *> objects;
+  // Is used on ToggleFill to change polygon behavior
+  bool opengl_should_fill;
+  float last_toggle_time;
 };
 #endif // SCENE_HPP

@@ -96,14 +96,9 @@ std::pair<Scene *, InputSystem> setup_environment(GLFWwindow *window) {
     });
   });
 
-  // See mesh wires
-  inputSystem.registerKeyAction(GLFW_KEY_M, [](Scene *scene, float delta_time) {
-    glPolygonMode(GL_FRONT_AND_BACK, GL_LINE);
-  });
-  // See mesh filled
-  inputSystem.registerKeyAction(GLFW_KEY_N, [](Scene *scene, float delta_time) {
-    glPolygonMode(GL_FRONT_AND_BACK, GL_FILL);
-  });
+  // Toggle mesh fill
+  inputSystem.registerKeyAction(
+      GLFW_KEY_P, [](Scene *scene, float delta_time) { scene->ToggleFill(); });
 
   return {scene, inputSystem};
 }

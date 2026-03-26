@@ -2,11 +2,12 @@
 #include "mesh.hpp"
 #include "scene_object.hpp"
 #include "shader.hpp"
+#include <GLFW/glfw3.h>
 #include <vector>
 
 // Creates a scene with the given shader
 Scene::Scene(std::string vertexShaderPath, std::string fragmentShaderPath)
-    : shader(vertexShaderPath, fragmentShaderPath) {}
+    : shader(vertexShaderPath, fragmentShaderPath), opengl_should_fill(true) {}
 
 // Clears the screen and draws all objects
 void Scene::Render() {
@@ -48,5 +49,18 @@ void Scene::applyToObjects(std::string component,
   auto range = component_map.equal_range(component);
   for (auto it = range.first; it != range.second; ++it) {
     func(it->second);
+  }
+}
+
+void Scene::ToggleFill() {
+  if (last_toggle_time + 0.2f > glfwGetTime()) {
+    return;
+  }
+  last_toggle_time = glfwGetTime();
+  opengl_should_fill = !opengl_should_fill;
+  if (opengl_should_fill) {
+    glPolygonMode(GL_FRONT_AND_BACK, GL_FILL);
+  } else {
+    glPolygonMode(GL_FRONT_AND_BACK, GL_LINE);
   }
 }
