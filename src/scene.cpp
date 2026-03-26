@@ -7,7 +7,7 @@
 
 // Creates a scene with the given shader
 Scene::Scene(std::string vertexShaderPath, std::string fragmentShaderPath)
-    : shader(vertexShaderPath, fragmentShaderPath), opengl_should_fill(true) {}
+    : shader(vertexShaderPath, fragmentShaderPath) {}
 
 // Clears the screen and draws all objects
 void Scene::Render() {
@@ -53,12 +53,12 @@ void Scene::applyToObjects(std::string component,
 }
 
 void Scene::ToggleFill() {
-  if (last_toggle_time + 0.2f > glfwGetTime()) {
+  if (fill_toggle.last_toggle_time + 0.2f > glfwGetTime()) {
     return;
   }
-  last_toggle_time = glfwGetTime();
-  opengl_should_fill = !opengl_should_fill;
-  if (opengl_should_fill) {
+  fill_toggle.last_toggle_time = glfwGetTime();
+  fill_toggle.should_fill = !fill_toggle.should_fill;
+  if (fill_toggle.should_fill) {
     glPolygonMode(GL_FRONT_AND_BACK, GL_FILL);
   } else {
     glPolygonMode(GL_FRONT_AND_BACK, GL_LINE);

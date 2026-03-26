@@ -32,7 +32,9 @@ private:
   // Stores objects to be rendered
   std::vector<SceneObject *> objects;
   // Is used on ToggleFill to change polygon behavior
-  bool opengl_should_fill;
-  float last_toggle_time;
+  struct FillToggle {
+    bool should_fill = true;
+    float last_toggle_time = 0.0f;
+  } fill_toggle;
 };
 #endif // SCENE_HPP
