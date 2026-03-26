@@ -44,6 +44,23 @@ std::pair<Scene *, InputSystem> setup_environment(GLFWwindow *window) {
   scene->addObject({"vertical", "horizontal", "rotate"}, "objects/rupee.obj",
                    glm::vec3(-0.5f, 0.15f, 0.0f), glm::vec3(0.0f, 0.0f, 0.0f),
                    glm::vec3(0.2f, 0.2f, 0.2f));
+  // Floor
+  scene->addObject({}, "objects/floor.obj", glm::vec3(0.0f, -0.5f, 0.0f),
+                   glm::vec3(-25.0f, 0.0f, 0.0f), glm::vec3(3.0f, 3.0f, 3.0f));
+  // Grass
+  for (int i = -10; i <= 10; i++) {
+    for (int j = -23; j <= 2; j++) {
+      float randomX = (static_cast<float>(rand()) / RAND_MAX - 0.5f) * 10.0f; // Random noise between -5 and 5 degrees
+      float randomY = (static_cast<float>(rand()) / RAND_MAX - 0.5f) * 10.0f;
+      float randomZ = (static_cast<float>(rand()) / RAND_MAX - 0.5f) * 10.0f;
+
+      scene->addObject({}, "objects/grass.obj",
+                       glm::vec3(i * 0.1f, -0.3f + j * 0.1f, j * 0.15f),
+                       glm::vec3(-95.0f + randomX, randomY, randomZ),
+                       glm::vec3(1.0f, 1.0f, 1.0f));
+    }
+  }
+  int i  = 1;
   glPolygonMode(GL_FRONT_AND_BACK, GL_FILL);
 
   // Creates the input system and inserts actions and their related keys

@@ -32,7 +32,6 @@ class Shape:
             faces_str += f"f {face[0]} {face[1]} {face[2]}\n"
         return faces_str
 
-    @abstractmethod
     def circle(radius, num_segments, empty_dim, color, offset):
         t = np.linspace(0, 2 * pi, num_segments, endpoint=False)
         dim1 = radius * np.cos(t)
@@ -53,8 +52,7 @@ class Shape:
         for i in range(1, num_segments-1):
             faces.append([0, i, i + 1])
         return Shape(vertices, colors, np.array(faces), offset)
-    
-    @abstractmethod
+
     def cylinder(height, radius, num_segments, color, offset):
         top_circle = Shape.circle(radius, num_segments, "z", color, offset)
         bottom_circle = Shape.circle(radius, num_segments, "z", color, offset + num_segments)
@@ -69,8 +67,7 @@ class Shape:
             faces.append([i, (i + 1) % num_segments, i + num_segments])
             faces.append([i+num_segments, helper(i+1+num_segments), (i+1)%num_segments])
         return Shape(np.vstack((top_circle.vertices, bottom_circle.vertices)), np.vstack((top_circle.colors, bottom_circle.colors)), np.array(faces), offset)
-    
-    @abstractmethod
+
     def sphere(radius, num_segments, color, offset):
         vertices = []
         colors = []
@@ -94,7 +91,6 @@ class Shape:
                 faces.append([next_i * num_segments + j, next_i * num_segments + next_j, i * num_segments + next_j])
         return Shape(vertices, colors, np.array(faces), offset)
 
-    @abstractmethod
     def cone(height, radius, num_segments, color, offset):
         base_circle = Shape.circle(radius, num_segments, "z", color, offset)
         tip_vertex = np.array([[0, 0, height / 2]])
@@ -104,6 +100,21 @@ class Shape:
         for i in range(num_segments):
             faces.append([i, (i + 1) % num_segments, num_segments])  # Connect base to tip
         return Shape(vertices, colors, np.array(faces), offset)
+
+    def square(side, color, offset):
+        s = side / 2
+        vertices = np.array([
+            [s, 0, s],
+            [s, 0, -s],
+            [-s, 0, -s],
+            [-s, 0, s]
+        ])
+        faces = np.array([
+            [0, 1, 2],
+            [2, 3, 0]
+        ])
+        colors = np.tile(color, (4, 1))
+        return Shape(vertices, colors, faces, offset)
 
     def transform(self, translation: np.array = np.array([0, 0, 0]), scale: np.array = np.array([1, 1, 1]), rotation_deg: np.array = np.array([0, 0, 0])) -> 'Shape':
         """

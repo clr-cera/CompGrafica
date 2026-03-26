@@ -1,5 +1,12 @@
 from model import *
 
+def grass():
+    obj = Object()
+    obj.add_shape(Shape.square(1.0, [45/255, 135/255, 69/255], obj.last_offset))
+    obj.save("../objects/floor.obj")
+    obj = Object()
+    obj.add_shape(Shape.cone(0.1, 0.05, 30, [12/255, 46/255, 21/255], obj.last_offset))
+    obj.save("../objects/grass.obj")
 
 def link():
     obj = Object()
@@ -48,5 +55,4 @@ def link():
 
 
 if __name__ == "__main__":
-    obj = link()
-    obj.save("../objects/link.obj")
+    grass()
