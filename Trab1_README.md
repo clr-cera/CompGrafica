@@ -3,7 +3,7 @@
 Realizado por:
 
 - Felipe Carneiro Machado - 14569373
-- Clara Ernesto de Carvalho - Abroba
+- Clara Ernesto de Carvalho - 14559479
 
 O trabalho consiste em uma cena interativa simples do personagem Link, da franquia The Legend of Zelda, com sua espada, escudo, a Triforce e uma Rúpia.
 
