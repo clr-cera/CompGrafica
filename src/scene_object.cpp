@@ -1,6 +1,5 @@
 #include "scene_object.hpp"
 #include "glm/ext/matrix_transform.hpp"
-#include "scene.hpp"
 #include "shader.hpp"
 
 // Get or create the mesh on registry
