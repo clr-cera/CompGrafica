@@ -1,3 +1,4 @@
+#include "camera.hpp"
 #include "glm/fwd.hpp"
 #define GLFW_INCLUDE_NONE
 #include "GLFW/glfw3.h"
@@ -6,8 +7,8 @@
 #include "scene.hpp"
 #include <iostream>
 
-#define WIDTH 1000
-#define HEIGHT 1000
+#define WIDTH 1000.f
+#define HEIGHT 1000.f
 
 GLFWwindow *setup_screen();
 
@@ -17,8 +18,8 @@ GLFWwindow *setup_screen();
 // the inputSystem would reference a dead space
 std::pair<Scene *, InputSystem> setup_environment(GLFWwindow *window) {
   // Creates the scene which contain all the data
-  Scene *scene =
-      new Scene("shaders/vertex_shader.glsl", "shaders/fragment_shader.glsl");
+  Scene *scene = new Scene("shaders/vertex_shader.glsl",
+                           "shaders/fragment_shader.glsl", WIDTH / HEIGHT);
 
   // Inserts objects
   // Link
@@ -50,7 +51,8 @@ std::pair<Scene *, InputSystem> setup_environment(GLFWwindow *window) {
   // Grass
   for (int i = -10; i <= 10; i++) {
     for (int j = -23; j <= 2; j++) {
-      float randomX = (static_cast<float>(rand()) / RAND_MAX - 0.5f) * 10.0f; // Random noise between -5 and 5 degrees
+      float randomX = (static_cast<float>(rand()) / RAND_MAX - 0.5f) *
+                      10.0f; // Random noise between -5 and 5 degrees
       float randomY = (static_cast<float>(rand()) / RAND_MAX - 0.5f) * 10.0f;
       float randomZ = (static_cast<float>(rand()) / RAND_MAX - 0.5f) * 10.0f;
 
@@ -60,33 +62,40 @@ std::pair<Scene *, InputSystem> setup_environment(GLFWwindow *window) {
                        glm::vec3(1.0f, 1.0f, 1.0f));
     }
   }
-  int i  = 1;
+  int i = 1;
   glPolygonMode(GL_FRONT_AND_BACK, GL_FILL);
 
   // Creates the input system and inserts actions and their related keys
   InputSystem inputSystem(scene, window);
 
+  // For now this is ugly, but unfortunately glfw only allows callbacks on
+  // scroll
+  inputSystem.registerMouseScroolCallback(
+      [](GLFWwindow *window, double xoffset, double yoffset) {
+        Scene *scene = static_cast<Scene *>(glfwGetWindowUserPointer(window));
+        if (!scene) {
+          return;
+        }
+        scene->projection.zoom(yoffset);
+      });
+
+  inputSystem.registerMouseAction(
+      [](Scene *scene, float delta_time, double dx, double dy) {
+        scene->camera.rotate(dx * delta_time, -dy * delta_time);
+      });
   // Vertical translate
   inputSystem.registerKeyAction(GLFW_KEY_W, [](Scene *scene, float delta_time) {
-    scene->applyToObjects("vertical", [delta_time](SceneObject *obj) {
-      obj->translate(glm::vec3(0, 1 * delta_time, 0));
-    });
+    scene->camera.translate(FORWARD, delta_time);
   });
   inputSystem.registerKeyAction(GLFW_KEY_S, [](Scene *scene, float delta_time) {
-    scene->applyToObjects("vertical", [delta_time](SceneObject *obj) {
-      obj->translate(glm::vec3(0, -1 * delta_time, 0));
-    });
+    scene->camera.translate(BACKWARD, delta_time);
   });
   // Horizontal translate
   inputSystem.registerKeyAction(GLFW_KEY_A, [](Scene *scene, float delta_time) {
-    scene->applyToObjects("horizontal", [delta_time](SceneObject *obj) {
-      obj->translate(glm::vec3(-1 * delta_time, 0, 0));
-    });
+    scene->camera.translate(LEFT, delta_time);
   });
   inputSystem.registerKeyAction(GLFW_KEY_D, [](Scene *scene, float delta_time) {
-    scene->applyToObjects("horizontal", [delta_time](SceneObject *obj) {
-      obj->translate(glm::vec3(1 * delta_time, 0, 0));
-    });
+    scene->camera.translate(RIGHT, delta_time);
   });
   // Rotate on Y axis
   inputSystem.registerKeyAction(GLFW_KEY_Q, [](Scene *scene, float delta_time) {
@@ -168,6 +177,7 @@ GLFWwindow *setup_screen() {
 
   // Make the window's context current
   glfwMakeContextCurrent(window);
+  glfwSetInputMode(window, GLFW_CURSOR, GLFW_CURSOR_DISABLED);
 
   // Initialize GLAD
   if (!gladLoadGLLoader((GLADloadproc)glfwGetProcAddress)) {

@@ -3,11 +3,14 @@
 #include "scene_object.hpp"
 #include "shader.hpp"
 #include <GLFW/glfw3.h>
+#include <camera.hpp>
 #include <vector>
 
 // Creates a scene with the given shader
-Scene::Scene(std::string vertexShaderPath, std::string fragmentShaderPath)
-    : shader(vertexShaderPath, fragmentShaderPath) {}
+Scene::Scene(std::string vertexShaderPath, std::string fragmentShaderPath,
+             float aspect_ratio)
+    : shader(vertexShaderPath, fragmentShaderPath), camera(),
+      projection(45.0f, aspect_ratio, 0.1f, 100.0f) {}
 
 // Clears the screen and draws all objects
 void Scene::Render() {
@@ -15,6 +18,8 @@ void Scene::Render() {
   glClearColor(0.14f, 0.16f, 0.3f, 1.0f);
 
   shader.use();
+  shader.setMat4("view", camera.GetViewMatrix());
+  shader.setMat4("projection", projection.getProjectionMatrix());
   for (auto &scene_object : objects) {
     scene_object->draw(shader);
   }

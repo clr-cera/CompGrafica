@@ -3,6 +3,7 @@
 //
 
 #include "obj_parser.hpp"
+#include <sstream>
 
 ObjFileParser::ObjFileParser(std::string filename) {
   fileStream = std::ifstream(filename);

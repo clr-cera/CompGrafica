@@ -8,7 +8,6 @@
 #include <fstream>
 #include <glm/glm.hpp>
 #include <iostream>
-#include <sstream>
 #include <string>
 
 struct Vertex {

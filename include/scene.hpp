@@ -1,11 +1,12 @@
 #ifndef SCENE_HPP
 #define SCENE_HPP
 
+#include "camera.hpp"
 #include "glm/fwd.hpp"
+#include "projection.hpp"
 #include "scene_object.hpp"
 #include "shader.hpp"
 #include <functional>
-#include <map>
 #include <string>
 #include <vector>
 
@@ -14,7 +15,8 @@
 // have the same component.
 class Scene {
 public:
-  Scene(std::string vertexShaderPath, std::string fragmentShaderPath);
+  Scene(std::string vertexShaderPath, std::string fragmentShaderPath,
+        float aspect_ratio);
 
   void addObject(std::vector<std::string> components, std::string path);
   void addObject(std::vector<std::string> components, std::string path,
@@ -24,6 +26,9 @@ public:
                       std::function<void(SceneObject *)>);
   void Render();
   void ToggleFill();
+
+  Camera camera;
+  Projection projection;
 
 private:
   Shader shader;

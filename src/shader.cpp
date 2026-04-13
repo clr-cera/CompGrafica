@@ -2,7 +2,11 @@
 // Created by felipe on 16/03/26.
 //
 #include "shader.hpp"
-
+#include <cstring>
+#include <fstream>
+#include <glad/glad.h>
+#include <iostream>
+#include <sstream>
 Shader::~Shader() = default;
 
 Shader::Shader(std::string vertexShaderPath, std::string fragmentShaderPath) {
