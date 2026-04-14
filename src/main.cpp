@@ -7,8 +7,8 @@
 #include "scene.hpp"
 #include <iostream>
 
-#define WIDTH 1000.f
-#define HEIGHT 1000.f
+#define WIDTH 1920.f
+#define HEIGHT 1080.f
 
 GLFWwindow *setup_screen();
 
