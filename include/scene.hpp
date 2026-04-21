@@ -18,8 +18,8 @@ public:
   Scene(std::string vertexShaderPath, std::string fragmentShaderPath,
         float aspect_ratio);
 
-  void addObject(std::vector<std::string> components, std::string path);
-  void addObject(std::vector<std::string> components, std::string path,
+  void addObject(std::vector<std::string> components, std::string path, std::string texture_path);
+  void addObject(std::vector<std::string> components, std::string path, std::string texture_path,
                  glm::vec3 position, glm::vec3 rotation, glm::vec3 scale);
 
   void applyToObjects(std::string component,

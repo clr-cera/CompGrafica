@@ -12,12 +12,12 @@ class Mesh {
 public:
   std::vector<Vertex> vertices;
   std::vector<unsigned int> indices;
-  std::vector<Texture> textures;
+  Texture texture;
 
   unsigned int VAO, VBO, EBO;
 
   Mesh() : VAO(0), VBO(0), EBO(0) {}
-  Mesh(std::string path_to_wavefront_obj);
+  Mesh(std::string path_to_wavefront_obj, std::string path_to_texture);
   void bind() const;
   void unbind() const;
 };
@@ -32,7 +32,7 @@ public:
     return instance;
   }
 
-  Mesh *getMesh(std::string path);
+  Mesh *getMesh(std::string path, std::string texture_path);
 
   // Remove creating more objects or assignment
   MeshRegistry(const MeshRegistry &) = delete;

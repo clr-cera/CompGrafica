@@ -9,13 +9,13 @@
 // Creates a scene with the given shader
 Scene::Scene(std::string vertexShaderPath, std::string fragmentShaderPath,
              float aspect_ratio)
-    : shader(vertexShaderPath, fragmentShaderPath), camera(),
+    : shader(vertexShaderPath, fragmentShaderPath), camera(glm::vec3(0.0f, 0.0f, 1.0f)),
       projection(45.0f, aspect_ratio, 0.1f, 100.0f) {}
 
 // Clears the screen and draws all objects
 void Scene::Render() {
-  glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
   glClearColor(0.14f, 0.16f, 0.3f, 1.0f);
+  glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
 
   shader.use();
   shader.setMat4("view", camera.GetViewMatrix());
@@ -26,8 +26,8 @@ void Scene::Render() {
 }
 
 // Adds an object to the scene
-void Scene::addObject(std::vector<std::string> components, std::string path) {
-  SceneObject *scene_object = new SceneObject(path);
+void Scene::addObject(std::vector<std::string> components, std::string path, std::string texture_path) {
+  SceneObject *scene_object = new SceneObject(path, texture_path);
   objects.push_back(scene_object);
   for (const auto &component : components) {
     component_map.emplace(component, scene_object);
@@ -35,9 +35,9 @@ void Scene::addObject(std::vector<std::string> components, std::string path) {
 }
 
 // Adds an object to the scene with the given transformation
-void Scene::addObject(std::vector<std::string> components, std::string path,
+void Scene::addObject(std::vector<std::string> components, std::string path, std::string texture_path,
                       glm::vec3 position, glm::vec3 rotation, glm::vec3 scale) {
-  SceneObject *scene_object = new SceneObject(path);
+  SceneObject *scene_object = new SceneObject(path, texture_path);
   scene_object->setPosition(position);
   scene_object->setRotation(rotation);
   scene_object->setScale(scale);

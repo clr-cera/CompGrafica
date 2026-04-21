@@ -10,7 +10,7 @@
 class SceneObject {
 public:
   SceneObject() {}
-  SceneObject(std::string path);
+  SceneObject(std::string path, std::string texture_path);
 
   Mesh *mesh;
 

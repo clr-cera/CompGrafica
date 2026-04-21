@@ -3,8 +3,8 @@
 #include "shader.hpp"
 
 // Get or create the mesh on registry
-SceneObject::SceneObject(std::string path) {
-  mesh = MeshRegistry::getInstance().getMesh(path);
+SceneObject::SceneObject(std::string path, std::string texture_path) {
+  mesh = MeshRegistry::getInstance().getMesh(path, texture_path);
 }
 
 // Transformation matrix caching, every time a transformation is updated,

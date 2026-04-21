@@ -14,6 +14,7 @@ set(GLM_BUILD_LIBRARY OFF CACHE BOOL "" FORCE)
 add_subdirectory(dependencies/glfw)
 add_subdirectory(dependencies/glm)
 
+
 find_package(OpenGL REQUIRED)
 
 # Add GLAD
@@ -51,10 +52,11 @@ add_custom_command(
 
 # Include directories
 target_include_directories(Graphics PRIVATE
-    ${OPENGL_INCLUDE_DIR}
-    dependencies/glfw/include
-    dependencies/glad/include
-  ${CMAKE_CURRENT_SOURCE_DIR}/include
+		${OPENGL_INCLUDE_DIR}
+		dependencies/glfw/include
+		dependencies/glad/include
+		dependencies/stb_image          # Add this line
+		${CMAKE_CURRENT_SOURCE_DIR}/include
 )
 
 # Link libraries

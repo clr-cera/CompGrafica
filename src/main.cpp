@@ -23,46 +23,51 @@ std::pair<Scene *, InputSystem> setup_environment(GLFWwindow *window) {
 
   // Inserts objects
   // Link
-  scene->addObject({"horizontal"}, "objects/link.obj",
-                   glm::vec3(0.0f, 0.0f, -0.15f), glm::vec3(0.0f, 45.0f, 0.0f),
-                   glm::vec3(0.15f, 0.15f, 0.15f));
-  // Triforce
-  scene->addObject({"vertical", "rotate"}, "objects/triforce.obj",
-                   glm::vec3(0.0f, 0.65f, 0.0f), glm::vec3(0.0f, 0.0f, 0.0f),
-                   glm::vec3(0.05f, 0.05f, 0.05f));
-  // Sword
-  scene->addObject({"horizontal", "scale"}, "objects/sword.obj",
-                   glm::vec3(0.11f, 0.02f, -0.55f),
-                   glm::vec3(-90.0f, 45.0f, 45.0f),
-                   glm::vec3(0.05f, 0.05f, 0.05f));
+  // scene->addObject({"horizontal"}, "objects/link.obj", "objects/link.png",
+  //                  glm::vec3(0.0f, 0.0f, -0.15f), glm::vec3(0.0f, 45.0f, 0.0f),
+  //                  glm::vec3(0.15f, 0.15f, 0.15f));
+  // // Triforce
+  // scene->addObject({"vertical", "rotate"}, "objects/triforce.obj", "objects/triforce.png",
+  //                  glm::vec3(0.0f, 0.65f, 0.0f), glm::vec3(0.0f, 0.0f, 0.0f),
+  //                  glm::vec3(0.05f, 0.05f, 0.05f));
+  // // Sword
+  // scene->addObject({"horizontal", "scale"}, "objects/sword.obj", "objects/sword.png",
+  //                  glm::vec3(0.11f, 0.02f, -0.55f),
+  //                  glm::vec3(-90.0f, 45.0f, 45.0f),
+  //                  glm::vec3(0.05f, 0.05f, 0.05f));
+  //
+  // // Shield
+  // scene->addObject({"horizontal"}, "objects/shield.obj", "objects/shield.png",
+  //                  glm::vec3(-0.1f, 0.02f, -0.55f),
+  //                  glm::vec3(0.0f, 45.0f, 0.0f), glm::vec3(0.5f, 0.5f, 0.5f));
+  //
+  // // Rupee (zelda money)
+  // scene->addObject({"vertical", "horizontal", "rotate"}, "objects/rupee.obj", "objects/rupee.png",
+  //                  glm::vec3(-0.5f, 0.15f, 0.0f), glm::vec3(0.0f, 0.0f, 0.0f),
+  //                  glm::vec3(0.2f, 0.2f, 0.2f));
+  // // Floor
+  // scene->addObject({}, "objects/floor.obj", "objects/floor.png", glm::vec3(0.0f, -0.5f, 0.0f),
+  //                  glm::vec3(-25.0f, 0.0f, 0.0f), glm::vec3(3.0f, 3.0f, 3.0f));
+  // // Grass
+  // for (int i = -10; i <= 10; i++) {
+  //   for (int j = -23; j <= 2; j++) {
+  //     float randomX = (static_cast<float>(rand()) / RAND_MAX - 0.5f) *
+  //                     10.0f; // Random noise between -5 and 5 degrees
+  //     float randomY = (static_cast<float>(rand()) / RAND_MAX - 0.5f) * 10.0f;
+  //     float randomZ = (static_cast<float>(rand()) / RAND_MAX - 0.5f) * 10.0f;
+  //
+  //     scene->addObject({}, "objects/grass.obj", "objects/grass.png",
+  //                      glm::vec3(i * 0.1f, -0.3f + j * 0.1f, j * 0.15f),
+  //                      glm::vec3(-95.0f + randomX, randomY, randomZ),
+  //                      glm::vec3(1.0f, 1.0f, 1.0f));
+  //   }
+  // }
+  scene->addObject({"box"}, "objects/caixa/caixa.obj", "objects/caixa/caixa.jpg",
+    glm::vec3(0.0f, 0.0f, 0.0f),
+    glm::vec3(0.0f, 0.0f, 0.0f),
+    glm::vec3(1.0f, 1.0f, 1.0f)
+  );
 
-  // Shield
-  scene->addObject({"horizontal"}, "objects/shield.obj",
-                   glm::vec3(-0.1f, 0.02f, -0.55f),
-                   glm::vec3(0.0f, 45.0f, 0.0f), glm::vec3(0.5f, 0.5f, 0.5f));
-
-  // Rupee (zelda money)
-  scene->addObject({"vertical", "horizontal", "rotate"}, "objects/rupee.obj",
-                   glm::vec3(-0.5f, 0.15f, 0.0f), glm::vec3(0.0f, 0.0f, 0.0f),
-                   glm::vec3(0.2f, 0.2f, 0.2f));
-  // Floor
-  scene->addObject({}, "objects/floor.obj", glm::vec3(0.0f, -0.5f, 0.0f),
-                   glm::vec3(-25.0f, 0.0f, 0.0f), glm::vec3(3.0f, 3.0f, 3.0f));
-  // Grass
-  for (int i = -10; i <= 10; i++) {
-    for (int j = -23; j <= 2; j++) {
-      float randomX = (static_cast<float>(rand()) / RAND_MAX - 0.5f) *
-                      10.0f; // Random noise between -5 and 5 degrees
-      float randomY = (static_cast<float>(rand()) / RAND_MAX - 0.5f) * 10.0f;
-      float randomZ = (static_cast<float>(rand()) / RAND_MAX - 0.5f) * 10.0f;
-
-      scene->addObject({}, "objects/grass.obj",
-                       glm::vec3(i * 0.1f, -0.3f + j * 0.1f, j * 0.15f),
-                       glm::vec3(-95.0f + randomX, randomY, randomZ),
-                       glm::vec3(1.0f, 1.0f, 1.0f));
-    }
-  }
-  int i = 1;
   glPolygonMode(GL_FRONT_AND_BACK, GL_FILL);
 
   // Creates the input system and inserts actions and their related keys
@@ -81,7 +86,7 @@ std::pair<Scene *, InputSystem> setup_environment(GLFWwindow *window) {
 
   inputSystem.registerMouseAction(
       [](Scene *scene, float delta_time, double dx, double dy) {
-        scene->camera.rotate(dx * delta_time, -dy * delta_time);
+        scene->camera.rotate(dx * delta_time * 3, -dy * delta_time * 3);
       });
   // Vertical translate
   inputSystem.registerKeyAction(GLFW_KEY_W, [](Scene *scene, float delta_time) {
@@ -165,6 +170,13 @@ GLFWwindow *setup_screen() {
     std::cerr << "Failed to initialize GLFW" << std::endl;
     return nullptr;
   }
+
+  glfwWindowHint(GLFW_CONTEXT_VERSION_MAJOR, 3);
+  glfwWindowHint(GLFW_CONTEXT_VERSION_MINOR, 3);
+  glfwWindowHint(GLFW_OPENGL_PROFILE, GLFW_OPENGL_CORE_PROFILE);
+#ifdef __APPLE__
+  glfwWindowHint(GLFW_OPENGL_FORWARD_COMPAT, GL_TRUE);
+#endif
 
   // Create a windowed mode window and its OpenGL context
   GLFWwindow *window =
