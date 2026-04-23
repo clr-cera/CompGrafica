@@ -40,7 +40,7 @@ private:
   // Stores objects to be rendered
   std::vector<SceneObject *> objects;
   // Stores functions called on render
-  std::vector<std::function<void(std::vector<SceneObject *>, float)>> render_functions;
+  std::unordered_multimap<std::string, std::function<void(std::vector<SceneObject *>, float)>> render_functions;
   // Keeps the time from last frame, updated on render
   float last_frame_time = 0.0f;
   // Is used on ToggleFill to change polygon behavior

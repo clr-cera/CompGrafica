@@ -20,8 +20,13 @@ void Scene::Render() {
   // Render functions
   float current_time = glfwGetTime();
   float delta_time = current_time - last_frame_time;
-  for (auto &func : render_functions) {
-    func(objects, delta_time);
+  for (auto &render_function : render_functions) {
+    auto component = render_function.first;
+    std::vector<SceneObject*> objs;
+    for (auto it = component_map.equal_range(component).first; it != component_map.equal_range(component).second; ++it) {
+      objs.push_back(it->second);
+    }
+    render_function.second(objs, delta_time);
   }
 
   shader.use();
@@ -68,7 +73,7 @@ void Scene::applyToObjects(std::string component,
 // Registers a function to be run at each render iteration, affecting all object marked with component
 // Function will receive the array of SceneObjects
 void Scene::register_continuous_function(std::string component, std::function<void(std::vector<SceneObject *>, float)> func) {
-  render_functions.push_back(func);
+  render_functions.emplace(component, func);
 }
 
 void Scene::ToggleFill() {

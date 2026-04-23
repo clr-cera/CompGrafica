@@ -5,6 +5,7 @@
 #define STB_IMAGE_IMPLEMENTATION
 #include "obj_parser.hpp"
 #include <sstream>
+#include <map>
 
 ObjFileParser::ObjFileParser(std::string filename, std::string path_to_texture) {
   this->fileStream = std::ifstream(filename);
@@ -44,12 +45,17 @@ Texture ObjFileParser::read_texture() {
 std::tuple<std::vector<Vertex>, Texture, std::vector<unsigned int> >
 ObjFileParser::parse() {
   std::string line;
+  std::vector<glm::vec3> temp_positions;
+  std::vector<glm::vec3> temp_colors;
+  std::vector<glm::vec2> temp_tex_coords;
+
   std::vector<Vertex> vertices;
-  std::vector<glm::vec2> texture_coords;
   std::vector<unsigned int> indices;
+  std::map<std::string, unsigned int> unique_vertices;
 
   int lineNumber = 0;
   while (std::getline(fileStream, line)) {
+    lineNumber++;
     std::stringstream ss(line);
     std::string token;
     // Skip blank lines
@@ -62,91 +68,76 @@ ObjFileParser::parse() {
     }
     // Parse vertex line
     if (token == "v") {
-      std::vector<float> lineVertex;
-      while (ss >> token) {
-        try {
-          lineVertex.push_back(std::stof(token));
-        } catch (const std::invalid_argument &) {
-          std::cerr << "ERROR::OBJ_PARSER::PARSE (Line " << lineNumber
-                    << "): Invalid float value '" << token << "'" << std::endl;
-          exit(1);
-        } catch (const std::out_of_range &) {
-          std::cerr << "ERROR::OBJ_PARSER::PARSE (Line " << lineNumber
-                    << "): Float out of range '" << token << "'" << std::endl;
-          exit(1);
-        }
-      }
-
-      if (lineVertex.size() != 3 && lineVertex.size() != 6) {
-        std::cerr << "ERROR::OBJ_PARSER::PARSE (Line " << lineNumber
-                  << "): Vertex line must have 3 or 6 values, found "
-                  << lineVertex.size() << std::endl;
-        exit(1);
-      }
-      vertices.push_back(parseVertexLine(lineVertex));
-      continue;
-    }
-    // Parse face line
-    if (token == "f") {
-      int count = 0;
-      while (ss >> token) {
-        try {
-          unsigned int index = static_cast<unsigned int>(std::stoul(token));
-          indices.push_back(index - 1);
-          count++;
-        } catch (const std::invalid_argument &) {
-          std::cerr << "ERROR::OBJ_PARSER::PARSE (Line " << lineNumber
-                    << "): Invalid face index '" << token << "'" << std::endl;
-          exit(1);
-        } catch (const std::out_of_range &) {
-          std::cerr << "ERROR::OBJ_PARSER::PARSE (Line " << lineNumber
-                    << "): Face index out of range '" << token << "'"
-                    << std::endl;
-          exit(1);
-        }
-      }
-      if (count != 3) {
-        std::cerr << "ERROR::OBJ_PARSER::PARSE (Line " << lineNumber
-                  << "): Face line should have exactly 3 values, found "
-                  << count << std::endl;
-        exit(1);
+      float x, y, z;
+      ss >> x >> y >> z;
+      temp_positions.emplace_back(x, y, z);
+      
+      float r, g, b;
+      if (ss >> r >> g >> b) {
+          temp_colors.emplace_back(r, g, b);
+      } else {
+          temp_colors.emplace_back(0.0f, 0.0f, 0.0f);
       }
       continue;
     }
     // Parse texture line
     if (token == "vt") {
-      std::vector<float> lineTexture;
-      while (ss >> token) {
-        try {
-          lineTexture.push_back(std::stof(token));
-        } catch (const std::invalid_argument &) {
-          std::cerr << "ERROR::OBJ_PARSER::PARSE (Line " << lineNumber
-                    << "): Invalid float value '" << token << "'" << std::endl;
-          exit(1);
-        } catch (const std::out_of_range &) {
-          std::cerr << "ERROR::OBJ_PARSER::PARSE (Line " << lineNumber
-                    << "): Float out of range '" << token << "'" << std::endl;
-          exit(1);
-        }
-      }
-      if (lineTexture.size() != 2) {
-        std::cerr << "ERROR::OBJ_PARSER::PARSE (Line " << lineNumber
-                  << "): Texture line must have 2 values, found "
-                  << lineTexture.size() << std::endl;
-        exit(1);
-      }
-      texture_coords.emplace_back(lineTexture[0], lineTexture[1]);
+      float u, v;
+      ss >> u >> v;
+      temp_tex_coords.emplace_back(u, v);
       continue;
     }
-    std::cerr << "ERROR::OBJ_PARSER::PARSE: Unsupported or unknown line type. "
-                 "Verify docs for supported ops"
-              << std::endl;
-    exit(1);
+    // Parse face line
+    if (token == "f") {
+      std::string vertexData;
+      int faceVertices = 0;
+      std::vector<unsigned int> faceIndices;
+      while (ss >> vertexData) {
+        if (unique_vertices.find(vertexData) == unique_vertices.end()) {
+          std::stringstream vss(vertexData);
+          std::string vIdxStr, vtIdxStr, vnIdxStr;
+          
+          std::getline(vss, vIdxStr, '/');
+          std::getline(vss, vtIdxStr, '/');
+          std::getline(vss, vnIdxStr, '/');
+
+          if (vIdxStr.empty()) continue;
+
+          unsigned int vIdx = std::stoul(vIdxStr) - 1;
+          glm::vec2 texCoord(0.0f, 0.0f);
+          if (!vtIdxStr.empty()) {
+            unsigned int vtIdx = std::stoul(vtIdxStr) - 1;
+            if (vtIdx < temp_tex_coords.size()) {
+                texCoord = temp_tex_coords[vtIdx];
+            }
+          }
+
+          Vertex v;
+          v.position = temp_positions[vIdx];
+          v.texCoords = texCoord;
+          v.color = temp_colors[vIdx];
+
+          unique_vertices[vertexData] = static_cast<unsigned int>(vertices.size());
+          vertices.push_back(v);
+        }
+        faceIndices.push_back(unique_vertices[vertexData]);
+        faceVertices++;
+      }
+      
+      // Triangulate if it's a quad or polygon (fan triangulation)
+      for (size_t i = 1; i < faceIndices.size() - 1; ++i) {
+          indices.push_back(faceIndices[0]);
+          indices.push_back(faceIndices[i]);
+          indices.push_back(faceIndices[i + 1]);
+      }
+
+      if (faceVertices < 3) {
+          std::cerr << "WARNING: Face at line " << lineNumber << " has fewer than 3 vertices." << std::endl;
+      }
+      continue;
+    }
   }
-  // Add texture to the vertices
-  for (int i = 0; i < vertices.size(); i++) {
-    vertices[i].texCoords = texture_coords[i];
-  }
+
   // read texture
   auto texture = read_texture();
   return std::make_tuple(vertices, texture, indices);
