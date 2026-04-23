@@ -24,6 +24,9 @@ public:
 
   void applyToObjects(std::string component,
                       std::function<void(SceneObject *)>);
+
+  void register_continuous_function(std::string component, std::function<void(std::vector<SceneObject *>, float)>);
+
   void Render();
   void ToggleFill();
 
@@ -36,6 +39,10 @@ private:
   std::unordered_multimap<std::string, SceneObject *> component_map;
   // Stores objects to be rendered
   std::vector<SceneObject *> objects;
+  // Stores functions called on render
+  std::vector<std::function<void(std::vector<SceneObject *>, float)>> render_functions;
+  // Keeps the time from last frame, updated on render
+  float last_frame_time = 0.0f;
   // Is used on ToggleFill to change polygon behavior
   struct FillToggle {
     bool should_fill = true;

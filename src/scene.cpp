@@ -17,12 +17,20 @@ void Scene::Render() {
   glClearColor(0.14f, 0.16f, 0.3f, 1.0f);
   glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
 
+  // Render functions
+  float current_time = glfwGetTime();
+  float delta_time = current_time - last_frame_time;
+  for (auto &func : render_functions) {
+    func(objects, delta_time);
+  }
+
   shader.use();
   shader.setMat4("view", camera.GetViewMatrix());
   shader.setMat4("projection", projection.getProjectionMatrix());
   for (auto &scene_object : objects) {
     scene_object->draw(shader);
   }
+  last_frame_time = current_time;
 }
 
 // Adds an object to the scene
@@ -55,6 +63,12 @@ void Scene::applyToObjects(std::string component,
   for (auto it = range.first; it != range.second; ++it) {
     func(it->second);
   }
+}
+
+// Registers a function to be run at each render iteration, affecting all object marked with component
+// Function will receive the array of SceneObjects
+void Scene::register_continuous_function(std::string component, std::function<void(std::vector<SceneObject *>, float)> func) {
+  render_functions.push_back(func);
 }
 
 void Scene::ToggleFill() {

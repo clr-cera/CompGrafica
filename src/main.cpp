@@ -68,6 +68,12 @@ std::pair<Scene *, InputSystem> setup_environment(GLFWwindow *window) {
     glm::vec3(1.0f, 1.0f, 1.0f)
   );
 
+  scene->register_continuous_function("box", [](std::vector<SceneObject *> objs, float delta_time) {
+    for (auto &obj : objs) {
+      obj->rotate(glm::vec3(10 * delta_time, 10 * delta_time, 10 * delta_time));
+    }
+  });
+
   glPolygonMode(GL_FRONT_AND_BACK, GL_FILL);
 
   // Creates the input system and inserts actions and their related keys
