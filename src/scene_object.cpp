@@ -43,6 +43,10 @@ void SceneObject::translate(glm::vec3 tra) {
   transMatrixNeedsUpdate = true;
 }
 
+void SceneObject::accelerate(glm::vec3 acc) {
+  velocity += acc;
+}
+
 // Directly set transformations
 void SceneObject::setRotation(glm::vec3 rot) {
   rotation = rot;
@@ -57,9 +61,17 @@ void SceneObject::setPosition(glm::vec3 tra) {
   transMatrixNeedsUpdate = true;
 }
 
+void SceneObject::setVelocity(glm::vec3 vel) {
+  velocity = vel;
+}
+
 glm::vec3 SceneObject::getRotation() { return rotation; }
 glm::vec3 SceneObject::getScale() { return scale; }
 glm::vec3 SceneObject::getPosition() { return position; }
+
+glm::vec3 SceneObject::getVelocity() {
+  return velocity;
+}
 
 const void SceneObject::bind(Shader shader) {
   mesh->bind();

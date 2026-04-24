@@ -20,7 +20,7 @@ public:
 
   void addObject(std::vector<std::string> components, std::string path, std::string texture_path);
   void addObject(std::vector<std::string> components, std::string path, std::string texture_path,
-                 glm::vec3 position, glm::vec3 rotation, glm::vec3 scale);
+                 glm::vec3 position, glm::vec3 rotation, glm::vec3 scale, glm::vec3 velocity = glm::vec3(0.0f));
 
   void applyToObjects(std::string component,
                       std::function<void(SceneObject *)>);

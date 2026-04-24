@@ -6,6 +6,15 @@
 #include <camera.hpp>
 #include <vector>
 
+#include "boids.hpp"
+#include "boids.hpp"
+#include "boids.hpp"
+#include "boids.hpp"
+#include "boids.hpp"
+#include "boids.hpp"
+#include "boids.hpp"
+#include "boids.hpp"
+
 // Creates a scene with the given shader
 Scene::Scene(std::string vertexShaderPath, std::string fragmentShaderPath,
              float aspect_ratio)
@@ -49,11 +58,12 @@ void Scene::addObject(std::vector<std::string> components, std::string path, std
 
 // Adds an object to the scene with the given transformation
 void Scene::addObject(std::vector<std::string> components, std::string path, std::string texture_path,
-                      glm::vec3 position, glm::vec3 rotation, glm::vec3 scale) {
+                      glm::vec3 position, glm::vec3 rotation, glm::vec3 scale, glm::vec3 velocity) {
   SceneObject *scene_object = new SceneObject(path, texture_path);
   scene_object->setPosition(position);
   scene_object->setRotation(rotation);
   scene_object->setScale(scale);
+  scene_object->setVelocity(velocity);
 
   objects.push_back(scene_object);
   for (const auto &component : components) {

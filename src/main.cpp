@@ -6,6 +6,8 @@
 #include "input_system.hpp"
 #include "scene.hpp"
 #include <iostream>
+#include "boids.hpp"
+
 
 #define WIDTH 1920.f
 #define HEIGHT 1080.f
@@ -68,12 +70,20 @@ std::pair<Scene *, InputSystem> setup_environment(GLFWwindow *window) {
   //   glm::vec3(1.0f, 1.0f, 1.0f)
   // );
 
-  scene->addObject({"bird"}, "objects/bird2/DOVE.OBJ", "objects/bird2/DOVE.JPG");
-  scene->addObject({"bird1"}, "objects/bird/bird.obj", "objects/bird/bird.png");
+  spawn_boids(scene, 10, "objects/bird2/DOVE.OBJ", "objects/bird2/DOVE.JPG");
+  // scene->addObject({"bird"}, "objects/bird2/DOVE.OBJ", "objects/bird2/DOVE.JPG");
+  // scene->addObject({"bird1"}, "objects/bird/bird.obj", "objects/bird/bird.png");
 
-  scene->register_continuous_function("bird", [](std::vector<SceneObject *> objs, float delta_time) {
+  scene->register_continuous_function("boid", [](std::vector<SceneObject *> objs, float delta_time) {
     for (auto &obj : objs) {
-      obj->rotate(glm::vec3(10 * delta_time, 10 * delta_time, 10 * delta_time));
+      align_boid_to_velocity(obj);
+      obj->accelerate(glm::vec3(0.001f, -0.0f, 0.001f));
+    }
+  });
+  scene->register_continuous_function("has_velocity", [](std::vector<SceneObject *> objs, float delta_time) {
+    for (auto &obj : objs) {
+      auto vel = obj->getVelocity();
+      obj->translate(glm::vec3(vel.x * delta_time, vel.y * delta_time, vel.z * delta_time));
     }
   });
 

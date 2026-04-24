@@ -22,15 +22,18 @@ public:
   void rotate(glm::vec3 rot);
   void scaleUp(glm::vec3 sca);
   void translate(glm::vec3 tra);
+  void accelerate(glm::vec3 acc);
 
   // Directly set transformations
   void setRotation(glm::vec3 rot);
   void setScale(glm::vec3 sca);
   void setPosition(glm::vec3 tra);
+  void setVelocity(glm::vec3 vel);
 
   glm::vec3 getRotation();
   glm::vec3 getScale();
   glm::vec3 getPosition();
+  glm::vec3 getVelocity();
 
 private:
   // Cache the matrix if there is no transformation change
@@ -40,6 +43,7 @@ private:
   glm::vec3 rotation = glm::vec3(0.0f, 0.0f, 0.0f);
   glm::vec3 scale = glm::vec3(1.0f, 1.0f, 1.0f);
   glm::vec3 position = glm::vec3(0.0f, 0.0f, 0.0f);
+  glm::vec3 velocity = glm::vec3(0.0f, 0.0f, 0.0f);
 
   const void bind(Shader shader);
   const void unbind();
