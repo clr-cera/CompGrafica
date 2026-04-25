@@ -7,8 +7,8 @@
 // Perspective projection
 class Projection {
 public:
-  Projection(float fov = 45.0f, float aspect_ratio = 1.0f,
-             float near_plane = 0.1f, float far_plane = 100.0f)
+  Projection(float fov = 60.0f, float aspect_ratio = 1.0f,
+             float near_plane = 0.01f, float far_plane = 1000.0f)
       : fov(fov), aspect_ratio(aspect_ratio), near_plane(near_plane),
         far_plane(far_plane) {};
 

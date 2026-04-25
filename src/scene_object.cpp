@@ -65,6 +65,20 @@ void SceneObject::setVelocity(glm::vec3 vel) {
   velocity = vel;
 }
 
+void SceneObject::updatePosition(float delta_time) {
+  glm::vec3 new_pos = position + (velocity * delta_time);
+  if (std::abs(new_pos.x) > 1.0f) {
+    new_pos.x = std::copysign(0.95f, new_pos.x);
+  }
+  if (std::abs(new_pos.y) > 1.0f) {
+    new_pos.y = std::copysign(0.95f, new_pos.y);
+  }
+  if (std::abs(new_pos.z) > 1.0f) {
+    new_pos.z = std::copysign(0.95f, new_pos.z);
+  }
+  position = new_pos;
+}
+
 glm::vec3 SceneObject::getRotation() { return rotation; }
 glm::vec3 SceneObject::getScale() { return scale; }
 glm::vec3 SceneObject::getPosition() { return position; }

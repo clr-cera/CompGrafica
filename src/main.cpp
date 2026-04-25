@@ -75,17 +75,14 @@ std::pair<Scene *, InputSystem> setup_environment(GLFWwindow *window) {
   // scene->addObject({"bird1"}, "objects/bird/bird.obj", "objects/bird/bird.png");
 
   scene->register_continuous_function("boid", [](std::vector<SceneObject *> objs, float delta_time) {
-    for (auto &obj : objs) {
-      align_boid_to_velocity(obj);
-      obj->accelerate(glm::vec3(0.001f, -0.0f, 0.001f));
-    }
+    boid_iteration(objs, delta_time);
   });
-  scene->register_continuous_function("has_velocity", [](std::vector<SceneObject *> objs, float delta_time) {
-    for (auto &obj : objs) {
-      auto vel = obj->getVelocity();
-      obj->translate(glm::vec3(vel.x * delta_time, vel.y * delta_time, vel.z * delta_time));
-    }
-  });
+  // scene->register_continuous_function("has_velocity", [](std::vector<SceneObject *> objs, float delta_time) {
+  //   for (auto &obj : objs) {
+  //     auto vel = obj->getVelocity();
+  //     obj->translate(glm::vec3(vel.x * delta_time, vel.y * delta_time, vel.z * delta_time));
+  //   }
+  // });
 
   glPolygonMode(GL_FRONT_AND_BACK, GL_FILL);
 

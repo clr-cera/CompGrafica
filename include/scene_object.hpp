@@ -30,6 +30,9 @@ public:
   void setPosition(glm::vec3 tra);
   void setVelocity(glm::vec3 vel);
 
+  // Compute position based on velocity
+  void updatePosition(float delta_time);
+
   glm::vec3 getRotation();
   glm::vec3 getScale();
   glm::vec3 getPosition();
