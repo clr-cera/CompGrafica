@@ -1,0 +1,22 @@
+# Blender 5.1.0 MTL File: 'spongebob's house.blend'
+# www.blender.org
+
+newmtl 02_-_Default
+Ns 640.000000
+Ka 0.330000 0.330000 0.330000
+Ks 0.500000 0.500000 0.500000
+Ke 0.000000 0.000000 0.000000
+Ni 1.500000
+d 1.000000
+illum 3
+map_Kd 02_-_Default_baseColor.png
+
+newmtl 03_-_Default
+Ns 640.000000
+Ka 0.330000 0.330000 0.330000
+Ks 0.500000 0.500000 0.500000
+Ke 0.000000 0.000000 0.000000
+Ni 1.500000
+d 1.000000
+illum 3
+map_Kd 03_-_Default_baseColor.png

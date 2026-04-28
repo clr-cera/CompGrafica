@@ -29,7 +29,7 @@ Vertex parseVertexLine(std::vector<float> lineArr) {
 
 Texture ObjFileParser::read_texture() {
   Texture texture;
-  // stbi_set_flip_vertically_on_load(true);
+  stbi_set_flip_vertically_on_load(true);
   texture.data = stbi_load(path_to_texture.c_str(), &texture.width, &texture.height,
                            &texture.nrChannels, 0);
   if (texture.data == nullptr) {

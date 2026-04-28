@@ -19,11 +19,22 @@ public:
     this->right = glm::vec3(1.0f, 0.0f, 0.0f);
     this->up = up;
     this->cachedViewMatrix = glm::mat4(1.0f);
+    this->velocity = glm::vec3(0.0f, 0.0f, 0.0f);
     updateCameraVectors();
   }
 
   void translate(Camera_Movement direction, float value);
   void rotate(float yaw_delta, float pitch_delta);
+  void setSpeed(glm::vec3 speed) { velocity = speed; }
+  void addSpeed(glm::vec3 speed) { velocity += speed; }
+  void updatePosition(float delta_time);
+  glm::vec3 getPosition() { return position; }
+  glm::vec3 getVelocity() { return velocity; }
+  void setPosition(glm::vec3 pos) {
+    position = pos;
+    viewMatrixNeedsUpdate = true;
+  }
+  void setVelocity(glm::vec3 vel) { velocity = vel; }
 
   glm::mat4 GetViewMatrix();
 
@@ -35,6 +46,7 @@ private:
   glm::vec3 right;
   glm::vec3 world_up;
   glm::mat4 cachedViewMatrix;
+  glm::vec3 velocity;
   bool viewMatrixNeedsUpdate = true;
 
   float yaw;

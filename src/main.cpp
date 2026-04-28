@@ -2,12 +2,11 @@
 #include "glm/fwd.hpp"
 #define GLFW_INCLUDE_NONE
 #include "GLFW/glfw3.h"
+#include "boids.hpp"
 #include "glad/glad.h"
 #include "input_system.hpp"
 #include "scene.hpp"
 #include <iostream>
-#include "boids.hpp"
-
 
 #define WIDTH 1920.f
 #define HEIGHT 1080.f
@@ -26,30 +25,37 @@ std::pair<Scene *, InputSystem> setup_environment(GLFWwindow *window) {
   // Inserts objects
   // Link
   // scene->addObject({"horizontal"}, "objects/link.obj", "objects/link.png",
-  //                  glm::vec3(0.0f, 0.0f, -0.15f), glm::vec3(0.0f, 45.0f, 0.0f),
-  //                  glm::vec3(0.15f, 0.15f, 0.15f));
+  //                  glm::vec3(0.0f, 0.0f, -0.15f), glm::vec3(0.0f, 45.0f,
+  //                  0.0f), glm::vec3(0.15f, 0.15f, 0.15f));
   // // Triforce
-  // scene->addObject({"vertical", "rotate"}, "objects/triforce.obj", "objects/triforce.png",
+  // scene->addObject({"vertical", "rotate"}, "objects/triforce.obj",
+  // "objects/triforce.png",
   //                  glm::vec3(0.0f, 0.65f, 0.0f), glm::vec3(0.0f, 0.0f, 0.0f),
   //                  glm::vec3(0.05f, 0.05f, 0.05f));
   // // Sword
-  // scene->addObject({"horizontal", "scale"}, "objects/sword.obj", "objects/sword.png",
+  // scene->addObject({"horizontal", "scale"}, "objects/sword.obj",
+  // "objects/sword.png",
   //                  glm::vec3(0.11f, 0.02f, -0.55f),
   //                  glm::vec3(-90.0f, 45.0f, 45.0f),
   //                  glm::vec3(0.05f, 0.05f, 0.05f));
   //
   // // Shield
-  // scene->addObject({"horizontal"}, "objects/shield.obj", "objects/shield.png",
+  // scene->addObject({"horizontal"}, "objects/shield.obj",
+  // "objects/shield.png",
   //                  glm::vec3(-0.1f, 0.02f, -0.55f),
-  //                  glm::vec3(0.0f, 45.0f, 0.0f), glm::vec3(0.5f, 0.5f, 0.5f));
+  //                  glm::vec3(0.0f, 45.0f, 0.0f), glm::vec3(0.5f, 0.5f,
+  //                  0.5f));
   //
   // // Rupee (zelda money)
-  // scene->addObject({"vertical", "horizontal", "rotate"}, "objects/rupee.obj", "objects/rupee.png",
-  //                  glm::vec3(-0.5f, 0.15f, 0.0f), glm::vec3(0.0f, 0.0f, 0.0f),
-  //                  glm::vec3(0.2f, 0.2f, 0.2f));
+  // scene->addObject({"vertical", "horizontal", "rotate"}, "objects/rupee.obj",
+  // "objects/rupee.png",
+  //                  glm::vec3(-0.5f, 0.15f, 0.0f), glm::vec3(0.0f, 0.0f,
+  //                  0.0f), glm::vec3(0.2f, 0.2f, 0.2f));
   // // Floor
-  // scene->addObject({}, "objects/floor.obj", "objects/floor.png", glm::vec3(0.0f, -0.5f, 0.0f),
-  //                  glm::vec3(-25.0f, 0.0f, 0.0f), glm::vec3(3.0f, 3.0f, 3.0f));
+  // scene->addObject({}, "objects/floor.obj", "objects/floor.png",
+  // glm::vec3(0.0f, -0.5f, 0.0f),
+  //                  glm::vec3(-25.0f, 0.0f, 0.0f),
+  //                  glm::vec3(3.0f, 3.0f, 3.0f));
   // // Grass
   // for (int i = -10; i <= 10; i++) {
   //   for (int j = -23; j <= 2; j++) {
@@ -64,23 +70,70 @@ std::pair<Scene *, InputSystem> setup_environment(GLFWwindow *window) {
   //                      glm::vec3(1.0f, 1.0f, 1.0f));
   //   }
   // }
-  // scene->addObject({"box"}, "objects/caixa/caixa.obj", "objects/caixa/caixa.jpg",
-  //   glm::vec3(0.0f, 0.0f, 0.0f),
-  //   glm::vec3(0.0f, 0.0f, 0.0f),
-  //   glm::vec3(1.0f, 1.0f, 1.0f)
-  // );
+  scene->addObject({"box"}, "objects/caixa/caixa.obj",
+                   "objects/caixa/caixa.jpg", glm::vec3(0.5f, 0.1f, 0.0f),
+                   glm::vec3(0.0f, 0.0f, 0.0f), glm::vec3(0.1f, 0.1f, 0.1f));
+  scene->addObject({"house"}, "objects/sponge_bob_house/house.obj",
+                   "objects/sponge_bob_house/home.png",
+                   glm::vec3(0.0f, 0.0f, 0.0f), glm::vec3(0.0f, 0.0f, 0.0f),
+                   glm::vec3(0.7f, 0.7f, 0.7f));
 
-  spawn_boids(scene, "objects/bird2/DOVE.OBJ", "objects/bird2/DOVE.JPG");
-  // scene->addObject({"bird"}, "objects/bird2/DOVE.OBJ", "objects/bird2/DOVE.JPG");
-  // scene->addObject({"bird1"}, "objects/bird/bird.obj", "objects/bird/bird.png");
+  scene->addObject({"floor"}, "objects/sponge_bob_dirt/dirt.obj",
+                   "objects/sponge_bob_dirt/dirt.png",
+                   glm::vec3(0.0f, 0.0f, 0.0f), glm::vec3(0.0f, 0.0f, 0.0f),
+                   glm::vec3(0.7f, 0.7f, 0.7f));
+  scene->addObject({"sky"}, "objects/sky/sky.obj", "objects/sky/sky.png",
+                   glm::vec3(0.0f, 0.0f, 0.0f), glm::vec3(0.0f, 0.0f, 0.0f),
+                   glm::vec3(0.25f, 0.25f, 0.25f));
 
-  scene->register_continuous_function("boid", [](std::vector<SceneObject *> objs, float delta_time) {
-    boid_iteration(objs, delta_time);
+  scene->addObject({"jellyfish"}, "objects/jellyfish/jellyfish.obj",
+                   "objects/jellyfish/jellyfish1.png",
+                   glm::vec3(0.0f, 0.0f, -5.0f), glm::vec3(0.0f, 0.0f, 0.0f),
+                   glm::vec3(0.01f, 0.01f, 0.01f));
+
+  spawn_boids(scene, "objects/bird2/DOVE.OBJ", "objects/bird2/DOVE.JPG",
+              glm::vec3(0.0f, 30.0f, 0.0f));
+  // scene->addObject({"bird"}, "objects/bird2/DOVE.OBJ",
+  // "objects/bird2/DOVE.JPG"); scene->addObject({"bird1"},
+  // "objects/bird/bird.obj", "objects/bird/bird.png");
+
+  scene->register_continuous_function(
+      "boid", [](std::vector<SceneObject *> objs, float delta_time) {
+        boid_iteration(objs, delta_time);
+      });
+
+  scene->register_system([](Scene *scene, float delta_time) {
+    Camera *camera = &scene->camera;
+    // Simple gravity
+    camera->addSpeed(glm::vec3(0.0f, -9.81f * delta_time, 0.0f));
+    // Camera limits
+    if (camera->getPosition().y < 0.5f) {
+      camera->setPosition(
+          glm::vec3(camera->getPosition().x, 0.5f, camera->getPosition().z));
+      camera->setVelocity(
+          glm::vec3(camera->getVelocity().x, 0.0f, camera->getVelocity().z));
+    }
+
+    if (-2.15 > camera->getPosition().x || camera->getPosition().x > 2.15f) {
+      float x = camera->getPosition().x > 2.15f ? 2.15f : -2.15f;
+      camera->setPosition(
+          glm::vec3(x, camera->getPosition().y, camera->getPosition().z));
+    }
+
+    if (-1.35 > camera->getPosition().z || camera->getPosition().z > 2.67f) {
+      float z = camera->getPosition().z > 2.67f ? 2.67f : -1.35f;
+      camera->setPosition(
+          glm::vec3(camera->getPosition().x, camera->getPosition().y, z));
+    }
+
+    camera->updatePosition(delta_time);
   });
-  // scene->register_continuous_function("has_velocity", [](std::vector<SceneObject *> objs, float delta_time) {
+  // scene->register_continuous_function("has_velocity",
+  // [](std::vector<SceneObject *> objs, float delta_time) {
   //   for (auto &obj : objs) {
   //     auto vel = obj->getVelocity();
-  //     obj->translate(glm::vec3(vel.x * delta_time, vel.y * delta_time, vel.z * delta_time));
+  //     obj->translate(glm::vec3(vel.x * delta_time, vel.y * delta_time, vel.z
+  //     * delta_time));
   //   }
   // });
 
@@ -118,6 +171,13 @@ std::pair<Scene *, InputSystem> setup_environment(GLFWwindow *window) {
   inputSystem.registerKeyAction(GLFW_KEY_D, [](Scene *scene, float delta_time) {
     scene->camera.translate(RIGHT, delta_time);
   });
+  // Jump!
+  inputSystem.registerKeyAction(GLFW_KEY_SPACE, [](Scene *scene,
+                                                   float delta_time) {
+    scene->camera.setVelocity(glm::vec3(scene->camera.getVelocity().x, 10.0f,
+                                        scene->camera.getVelocity().z));
+  });
+
   // Rotate on Y axis
   inputSystem.registerKeyAction(GLFW_KEY_Q, [](Scene *scene, float delta_time) {
     scene->applyToObjects("rotate", [delta_time](SceneObject *obj) {
@@ -163,6 +223,7 @@ int main() {
   // Main render loop
   while (!glfwWindowShouldClose(window)) {
     inputSystem.update();
+    scene->RunSystems();
     scene->Render();
 
     // Swap front and back buffers

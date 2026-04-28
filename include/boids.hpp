@@ -5,8 +5,6 @@
 #ifndef BOIDS_H
 #define BOIDS_H
 #include "scene.hpp"
-#include <random>
-#include <cmath>
 // ========================================================================
 // Constants - Tune here the params fot the boids simultation
 // ========================================================================
@@ -28,9 +26,9 @@ constexpr float BOID_ATTRACTION_FORCE = 0.005f;
 constexpr float BOID_REPULSION_FORCE = 0.1f;
 constexpr float BOID_ALIGN_FORCE = 0.1f;
 
-
 // Adds objects to the scene
-void spawn_boids(Scene *scene, std::string obj_path, std::string texture_path);
+void spawn_boids(Scene *scene, std::string obj_path, std::string texture_path,
+                 glm::vec3 initial_position);
 
 // Iteration of the boid algo
 void boid_iteration(std::vector<SceneObject *> &boids, float delta_time);
@@ -38,4 +36,4 @@ void boid_iteration(std::vector<SceneObject *> &boids, float delta_time);
 // Makes the boid face its velocity direction
 void align_boid_to_velocity(SceneObject *boid);
 
-#endif //BOIDS_H
+#endif // BOIDS_H

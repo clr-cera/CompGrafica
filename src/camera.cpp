@@ -1,4 +1,5 @@
 #include <camera.hpp>
+#include <iostream>
 
 glm::mat4 Camera::GetViewMatrix() {
   if (viewMatrixNeedsUpdate) {
@@ -21,20 +22,27 @@ void Camera::updateCameraVectors() {
 }
 
 void Camera::translate(Camera_Movement direction, float value) {
+  // I want to change this function to only translate on x and z.
+
   viewMatrixNeedsUpdate = true;
   if (direction == FORWARD) {
-    position += front * value;
+    position.x += front.x * value;
+    position.z += front.z * value;
   }
   if (direction == BACKWARD) {
-    position -= front * value;
+    position.x -= front.x * value;
+    position.z -= front.z * value;
   }
   if (direction == LEFT) {
-    position -= right * value;
+    position.x -= right.x * value;
+    position.z -= right.z * value;
   }
   if (direction == RIGHT) {
-    position += right * value;
+    position.x += right.x * value;
+    position.z += right.z * value;
   }
 }
+
 void Camera::rotate(float yaw_delta, float pitch_delta) {
   viewMatrixNeedsUpdate = true;
   yaw += yaw_delta;
@@ -49,4 +57,15 @@ void Camera::rotate(float yaw_delta, float pitch_delta) {
   }
 
   updateCameraVectors();
+}
+
+void Camera::updatePosition(float delta_time) {
+  translate(FORWARD, this->velocity.x * delta_time * 0.5f);
+  translate(LEFT, this->velocity.z * delta_time * 0.5f);
+  if (std::abs(this->velocity.y) > 0.001f) {
+    this->position.y += this->velocity.y * delta_time * 0.5f;
+    this->viewMatrixNeedsUpdate = true;
+  }
+  std::cout << "Camera Position: " << position.x << ", " << position.y << ", "
+            << position.z << std::endl;
 }
