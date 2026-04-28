@@ -66,6 +66,4 @@ void Camera::updatePosition(float delta_time) {
     this->position.y += this->velocity.y * delta_time * 0.5f;
     this->viewMatrixNeedsUpdate = true;
   }
-  std::cout << "Camera Position: " << position.x << ", " << position.y << ", "
-            << position.z << std::endl;
 }

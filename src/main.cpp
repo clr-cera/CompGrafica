@@ -70,31 +70,52 @@ std::pair<Scene *, InputSystem> setup_environment(GLFWwindow *window) {
   //                      glm::vec3(1.0f, 1.0f, 1.0f));
   //   }
   // }
+  // box
   scene->addObject({"box"}, "objects/caixa/caixa.obj",
                    "objects/caixa/caixa.jpg", glm::vec3(0.5f, 0.16f, 0.0f),
                    glm::vec3(0.0f, 0.0f, 0.0f), glm::vec3(0.1f, 0.1f, 0.1f));
+  // house
   scene->addObject({"house"}, "objects/sponge_bob_house/house.obj",
                    "objects/sponge_bob_house/home.png",
                    glm::vec3(0.0f, 0.0f, 0.0f), glm::vec3(0.0f, 0.0f, 0.0f),
                    glm::vec3(0.7f, 0.7f, 0.7f));
 
+  // outside floor
   scene->addObject({"floor"}, "objects/sponge_bob_dirt/dirt.obj",
                    "objects/sponge_bob_dirt/dirt.png",
                    glm::vec3(0.0f, 0.0f, 0.0f), glm::vec3(0.0f, 0.0f, 0.0f),
                    glm::vec3(0.7f, 0.7f, 0.7f));
+  // sky
   scene->addObject({"sky"}, "objects/sky/sky.obj", "objects/sky/sky.png",
                    glm::vec3(0.0f, 0.0f, 0.0f), glm::vec3(0.0f, 0.0f, 0.0f),
                    glm::vec3(0.5f, 0.5f, 0.5f));
 
+  // jellyfish
   scene->addObject({"jellyfish"}, "objects/jellyfish/jellyfish.obj",
                    "objects/jellyfish/jellyfish1.png",
                    glm::vec3(0.0f, 0.0f, -5.0f), glm::vec3(0.0f, 0.0f, 0.0f),
                    glm::vec3(0.01f, 0.01f, 0.01f));
+  // floor inside the house
   scene->addObject({"floor"}, "objects/sponge_bob_house_floor/floor.obj",
                    "objects/sponge_bob_house_floor/floor.png",
                    glm::vec3(-4.7f, 0.06f, 0.0f), glm::vec3(0.0f, 0.0f, 0.0f),
                    glm::vec3(0.72f, 0.72f, 0.72f));
 
+  // spongebob
+  scene->addObject({"spongebob"}, "objects/spongebob/spongebobcore.obj",
+                   "objects/spongebob/spongebob.png",
+                   glm::vec3(0.0f, 0.06f, -0.5f), glm::vec3(0.0f, 0.0f, 0.0f),
+                   glm::vec3(0.6f, 0.6f, 0.6f));
+  scene->addObject({"spongebob"}, "objects/spongebob/spongebobarms.obj",
+                   "objects/spongebob/spongebob.png",
+                   glm::vec3(0.0f, 0.06f, -0.5f), glm::vec3(0.0f, 0.0f, 0.0f),
+                   glm::vec3(0.6f, 0.6f, 0.6f));
+  scene->addObject({"spongebob"}, "objects/spongebob/spongebobhips.obj",
+                   "objects/spongebob/spongebob.png",
+                   glm::vec3(0.0f, 0.06f, -0.5f), glm::vec3(0.0f, 0.0f, 0.0f),
+                   glm::vec3(0.6f, 0.6f, 0.6f));
+
+  // boids
   spawn_boids(scene, "objects/bird2/DOVE.OBJ", "objects/bird2/DOVE.JPG",
               glm::vec3(0.0f, 30.0f, 0.0f));
   // scene->addObject({"bird"}, "objects/bird2/DOVE.OBJ",
