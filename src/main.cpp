@@ -116,8 +116,7 @@ std::pair<Scene *, InputSystem> setup_environment(GLFWwindow *window) {
                    glm::vec3(0.6f, 0.6f, 0.6f));
 
   // boids
-  spawn_boids(scene, "objects/bird2/DOVE.OBJ", "objects/bird2/DOVE.JPG",
-              glm::vec3(0.0f, 30.0f, 0.0f));
+  spawn_boids(scene, "objects/bird2/DOVE.OBJ", "objects/bird2/DOVE.JPG");
   // scene->addObject({"bird"}, "objects/bird2/DOVE.OBJ",
   // "objects/bird2/DOVE.JPG"); scene->addObject({"bird1"},
   // "objects/bird/bird.obj", "objects/bird/bird.png");

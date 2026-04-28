@@ -8,8 +8,7 @@
 #include <numeric>
 #include <random>
 
-void spawn_boids(Scene *scene, std::string obj_path, std::string texture_path,
-                 glm::vec3 initial_position) {
+void spawn_boids(Scene *scene, std::string obj_path, std::string texture_path) {
   // Init rng
   std::random_device rd;
   std::mt19937 gen(rd());
@@ -24,8 +23,7 @@ void spawn_boids(Scene *scene, std::string obj_path, std::string texture_path,
 
   for (int i = 0; i < BOID_COUNT; i++) {
     scene->addObject({"boid"}, obj_path, texture_path,
-                     initial_position +
-                         glm::vec3(dis_x(gen), dis_y(gen), dis_z(gen)),
+                     glm::vec3(dis_x(gen), dis_y(gen), dis_z(gen)),
                      glm::vec3(0.0f, 0.0f, 0.0f), glm::vec3(0.2f, 0.2f, 0.2f),
                      glm::vec3(dis_vel(gen), dis_vel(gen), dis_vel(gen)));
   }

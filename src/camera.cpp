@@ -1,5 +1,4 @@
 #include <camera.hpp>
-#include <iostream>
 
 glm::mat4 Camera::GetViewMatrix() {
   if (viewMatrixNeedsUpdate) {

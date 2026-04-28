@@ -27,8 +27,7 @@ constexpr float BOID_REPULSION_FORCE = 0.1f;
 constexpr float BOID_ALIGN_FORCE = 0.1f;
 
 // Adds objects to the scene
-void spawn_boids(Scene *scene, std::string obj_path, std::string texture_path,
-                 glm::vec3 initial_position);
+void spawn_boids(Scene *scene, std::string obj_path, std::string texture_path);
 
 // Iteration of the boid algo
 void boid_iteration(std::vector<SceneObject *> &boids, float delta_time);
