@@ -70,10 +70,6 @@ std::pair<Scene *, InputSystem> setup_environment(GLFWwindow *window) {
   //                      glm::vec3(1.0f, 1.0f, 1.0f));
   //   }
   // }
-  // box
-  scene->addObject({"box"}, "objects/caixa/caixa.obj",
-                   "objects/caixa/caixa.jpg", glm::vec3(0.5f, 0.16f, 0.0f),
-                   glm::vec3(0.0f, 0.0f, 0.0f), glm::vec3(0.1f, 0.1f, 0.1f));
   // house
   scene->addObject({"house"}, "objects/sponge_bob_house/house.obj",
                    "objects/sponge_bob_house/home.png",
@@ -125,6 +121,12 @@ std::pair<Scene *, InputSystem> setup_environment(GLFWwindow *window) {
   scene->addObject({"gary"}, "objects/gary/lower.obj", "objects/gary/lower.png",
                    glm::vec3(1.0f, 0.05f, 1.5f), glm::vec3(0.0f, 180.0f, 0.0f),
                    glm::vec3(0.001f, 0.001f, 0.001f));
+
+  // patrick
+  scene->addObject({"patrick"}, "objects/patrick/patrick.obj",
+                   "objects/patrick/patrick.png", glm::vec3(1.5f, 0.00f, 1.0f),
+                   glm::vec3(0.0f, -45.0f, 0.0f),
+                   glm::vec3(0.03f, 0.03f, 0.03f));
 
   // Tv
   scene->addObject(
