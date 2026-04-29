@@ -24,7 +24,7 @@ void spawn_boids(Scene *scene, std::string obj_path, std::string texture_path) {
   for (int i = 0; i < BOID_COUNT; i++) {
     scene->addObject({"boid"}, obj_path, texture_path,
                      glm::vec3(dis_x(gen), dis_y(gen), dis_z(gen)),
-                     glm::vec3(0.0f, 0.0f, 0.0f), glm::vec3(0.2f, 0.2f, 0.2f),
+                     glm::vec3(0.0f, 0.0f, 0.0f), glm::vec3(BOID_SCALE, BOID_SCALE, BOID_SCALE),
                      glm::vec3(dis_vel(gen), dis_vel(gen), dis_vel(gen)));
   }
 }
@@ -34,10 +34,43 @@ void align_boid_to_velocity(SceneObject *boid) {
   float pitch = std::atan2(vel.y, std::sqrt(vel.x * vel.x + vel.z * vel.z));
   pitch = -1 * glm::degrees(pitch);
   // std::cout << pitch << std::endl;
-  boid->setRotation(glm::vec3(0.0f, 0.0f, pitch));
-  float yaw = std::atan2(vel.x, vel.z);
+  // boid->setRotation(glm::vec3(-90.0f, -pitch, 0.0f));
+  float yaw = std::atan2(vel.z, vel.x);
   yaw = glm::degrees(yaw);
-  boid->setRotation(glm::vec3(0.0f, yaw, 0.0f));
+  boid->setRotation(glm::vec3(-90.0f, -pitch, yaw));
+}
+
+void update_boid_position(SceneObject *boid, float delta_time) {
+  glm::vec3 pos = boid->getPosition();
+  glm::vec3 vel = boid->getVelocity();
+  glm::vec3 new_pos = pos + (vel * delta_time);
+
+  if (new_pos.x < BOID_BOUNDS_X.first) {
+    vel.x = std::abs(vel.x);
+    new_pos.x = BOID_BOUNDS_X.first;
+  } else if (new_pos.x > BOID_BOUNDS_X.second) {
+    vel.x = -std::abs(vel.x);
+    new_pos.x = BOID_BOUNDS_X.second;
+  }
+
+  if (new_pos.y < BOID_BOUNDS_Y.first) {
+    vel.y = std::abs(vel.y);
+    new_pos.y = BOID_BOUNDS_Y.first;
+  } else if (new_pos.y > BOID_BOUNDS_Y.second) {
+    vel.y = -std::abs(vel.y);
+    new_pos.y = BOID_BOUNDS_Y.second;
+  }
+
+  if (new_pos.z < BOID_BOUNDS_Z.first) {
+    vel.z = std::abs(vel.z);
+    new_pos.z = BOID_BOUNDS_Z.first;
+  } else if (new_pos.z > BOID_BOUNDS_Z.second) {
+    vel.z = -std::abs(vel.z);
+    new_pos.z = BOID_BOUNDS_Z.second;
+  }
+
+  boid->setVelocity(vel);
+  boid->setPosition(new_pos);
 }
 
 float distance(SceneObject *a, SceneObject *b) {
@@ -120,8 +153,7 @@ void boid_iteration(std::vector<SceneObject *> &boids, float delta_time) {
 
   // Update boid direction and position
   for (auto boid : boids) {
-    boid->updatePosition(delta_time);
-    auto pos = boid->getPosition();
+    update_boid_position(boid, delta_time);
     align_boid_to_velocity(boid);
   }
 }
