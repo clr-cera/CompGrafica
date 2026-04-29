@@ -115,18 +115,33 @@ std::pair<Scene *, InputSystem> setup_environment(GLFWwindow *window) {
                    glm::vec3(0.0f, 0.06f, -0.5f), glm::vec3(0.0f, 0.0f, 0.0f),
                    glm::vec3(0.6f, 0.6f, 0.6f));
 
+  // gary
+  scene->addObject({"gary"}, "objects/gary/back.obj", "objects/gary/back.png",
+                   glm::vec3(1.0f, 0.1f, 1.5f), glm::vec3(0.0f, 180.0f, 0.0f),
+                   glm::vec3(0.001f, 0.001f, 0.001f));
+  scene->addObject({"gary"}, "objects/gary/eyes.obj", "objects/gary/eyes.png",
+                   glm::vec3(1.0f, 0.1f, 1.5f), glm::vec3(0.0f, 180.0f, 0.0f),
+                   glm::vec3(0.001f, 0.001f, 0.001f));
+  scene->addObject({"gary"}, "objects/gary/lower.obj", "objects/gary/lower.png",
+                   glm::vec3(1.0f, 0.1f, 1.5f), glm::vec3(0.0f, 180.0f, 0.0f),
+                   glm::vec3(0.001f, 0.001f, 0.001f));
+
   // Tv
-  scene->addObject({"tv"}, "objects/tv/20349_Old_Television_set_v1_Textured.obj", "objects/tv/20349_Old_Television_set.jpg",
-    glm::vec3(-0.45, 0.05, 0.1), glm::vec3(-90, 0, -90), glm::vec3(0.03f, 0.03f, 0.03f)
-  );
+  scene->addObject(
+      {"tv"}, "objects/tv/20349_Old_Television_set_v1_Textured.obj",
+      "objects/tv/20349_Old_Television_set.jpg", glm::vec3(-0.45, 0.05, 0.1),
+      glm::vec3(-90, 0, -90), glm::vec3(0.03f, 0.03f, 0.03f));
 
   // boids
-  spawn_boids(scene, "objects/fish/12265_Fish_v1_L2.obj", "objects/fish/fish.jpg");
-  // scene->addObject({"fish"}, "objects/fish/12265_Fish_v1_L2.obj", "objects/fish/fish.jpg",
-  //   glm::vec3(-1, 0.8, 0), glm::vec3(-90, 0, 0), glm::vec3(0.05f, 0.05f, 0.05f),
-  //   glm::vec3(1.0f, 1.5f, 1.0f)
+  spawn_boids(scene, "objects/fish/12265_Fish_v1_L2.obj",
+              "objects/fish/fish.jpg");
+  // scene->addObject({"fish"}, "objects/fish/12265_Fish_v1_L2.obj",
+  // "objects/fish/fish.jpg",
+  //   glm::vec3(-1, 0.8, 0), glm::vec3(-90, 0, 0), glm::vec3(0.05f, 0.05f,
+  //   0.05f), glm::vec3(1.0f, 1.5f, 1.0f)
   // );
-  // scene->register_continuous_function("fish", [](std::vector<SceneObject *> objs, float delta_time) {
+  // scene->register_continuous_function("fish", [](std::vector<SceneObject *>
+  // objs, float delta_time) {
   //   for (auto &obj : objs) {
   //     align_boid_to_velocity(obj);
   //   }
@@ -219,28 +234,53 @@ std::pair<Scene *, InputSystem> setup_environment(GLFWwindow *window) {
                                         scene->camera.getVelocity().z));
   });
 
-  // Rotate on Y axis
+  // Gary Movement
+  inputSystem.registerKeyAction(GLFW_KEY_C, [](Scene *scene, float delta_time) {
+    scene->applyToObjects("gary", [](SceneObject *obj) {
+      obj->setRotation(glm::vec3(0.0f, 0.0f, 0.0f));
+      obj->translate(glm::vec3(0.1f, 0.0f, 0.0f));
+      if (obj->getPosition().x > 2.0f) {
+        obj->setPosition(
+            glm::vec3(2.0f, obj->getPosition().y, obj->getPosition().z));
+      }
+    });
+  });
+  inputSystem.registerKeyAction(GLFW_KEY_X, [](Scene *scene, float delta_time) {
+    scene->applyToObjects("gary", [](SceneObject *obj) {
+      obj->setRotation(glm::vec3(0.0f, 180.0f, 0.0f));
+      obj->translate(glm::vec3(-0.1f, 0.0f, 0.0f));
+      if (obj->getPosition().x < -2.0f) {
+        obj->setPosition(
+            glm::vec3(-2.0f, obj->getPosition().y, obj->getPosition().z));
+      }
+    });
+  });
+
+  // Jellyfish scale
+  inputSystem.registerKeyAction(GLFW_KEY_J, [](Scene *scene, float delta_time) {
+    scene->applyToObjects("jellyfish", [delta_time](SceneObject *obj) {
+      obj->scaleUp(glm::vec3(0.001f, 0.001f, 0.001f));
+    });
+  });
+  inputSystem.registerKeyAction(GLFW_KEY_K, [](Scene *scene, float delta_time) {
+    scene->applyToObjects("jellyfish", [delta_time](SceneObject *obj) {
+      obj->scaleUp(glm::vec3(-0.001f, -0.001f, -0.001f));
+      if (obj->getScale().x < 0.001f) {
+        obj->setScale(glm::vec3(0.001f, 0.001f, 0.001f));
+      }
+    });
+  });
+
+  // BobSponge rotate
+
   inputSystem.registerKeyAction(GLFW_KEY_Q, [](Scene *scene, float delta_time) {
-    scene->applyToObjects("rotate", [delta_time](SceneObject *obj) {
-      obj->rotate(glm::vec3(0, 60 * delta_time, 0));
+    scene->applyToObjects("spongebob", [delta_time](SceneObject *obj) {
+      obj->rotate(glm::vec3(0.0f, 30.0f * delta_time, 0.0f));
     });
   });
   inputSystem.registerKeyAction(GLFW_KEY_E, [](Scene *scene, float delta_time) {
-    scene->applyToObjects("rotate", [delta_time](SceneObject *obj) {
-      obj->rotate(glm::vec3(0, -60 * delta_time, 0));
-    });
-  });
-  // Scale
-  inputSystem.registerKeyAction(GLFW_KEY_H, [](Scene *scene, float delta_time) {
-    scene->applyToObjects("scale", [delta_time](SceneObject *obj) {
-      obj->scaleUp(
-          glm::vec3(0.5f * delta_time, 0.5f * delta_time, 0.5f * delta_time));
-    });
-  });
-  inputSystem.registerKeyAction(GLFW_KEY_J, [](Scene *scene, float delta_time) {
-    scene->applyToObjects("scale", [delta_time](SceneObject *obj) {
-      obj->scaleUp(glm::vec3(-0.5f * delta_time, -0.5f * delta_time,
-                             -0.5f * delta_time));
+    scene->applyToObjects("spongebob", [delta_time](SceneObject *obj) {
+      obj->rotate(glm::vec3(0.0f, -30.0f * delta_time, 0.0f));
     });
   });
 
