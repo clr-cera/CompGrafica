@@ -117,13 +117,13 @@ std::pair<Scene *, InputSystem> setup_environment(GLFWwindow *window) {
 
   // gary
   scene->addObject({"gary"}, "objects/gary/back.obj", "objects/gary/back.png",
-                   glm::vec3(1.0f, 0.1f, 1.5f), glm::vec3(0.0f, 180.0f, 0.0f),
+                   glm::vec3(1.0f, 0.05f, 1.5f), glm::vec3(0.0f, 180.0f, 0.0f),
                    glm::vec3(0.001f, 0.001f, 0.001f));
   scene->addObject({"gary"}, "objects/gary/eyes.obj", "objects/gary/eyes.png",
-                   glm::vec3(1.0f, 0.1f, 1.5f), glm::vec3(0.0f, 180.0f, 0.0f),
+                   glm::vec3(1.0f, 0.05f, 1.5f), glm::vec3(0.0f, 180.0f, 0.0f),
                    glm::vec3(0.001f, 0.001f, 0.001f));
   scene->addObject({"gary"}, "objects/gary/lower.obj", "objects/gary/lower.png",
-                   glm::vec3(1.0f, 0.1f, 1.5f), glm::vec3(0.0f, 180.0f, 0.0f),
+                   glm::vec3(1.0f, 0.05f, 1.5f), glm::vec3(0.0f, 180.0f, 0.0f),
                    glm::vec3(0.001f, 0.001f, 0.001f));
 
   // Tv
@@ -275,12 +275,12 @@ std::pair<Scene *, InputSystem> setup_environment(GLFWwindow *window) {
 
   inputSystem.registerKeyAction(GLFW_KEY_Q, [](Scene *scene, float delta_time) {
     scene->applyToObjects("spongebob", [delta_time](SceneObject *obj) {
-      obj->rotate(glm::vec3(0.0f, 30.0f * delta_time, 0.0f));
+      obj->rotate(glm::vec3(0.0f, 45.0f * delta_time, 0.0f));
     });
   });
   inputSystem.registerKeyAction(GLFW_KEY_E, [](Scene *scene, float delta_time) {
     scene->applyToObjects("spongebob", [delta_time](SceneObject *obj) {
-      obj->rotate(glm::vec3(0.0f, -30.0f * delta_time, 0.0f));
+      obj->rotate(glm::vec3(0.0f, -45.0f * delta_time, 0.0f));
     });
   });
 

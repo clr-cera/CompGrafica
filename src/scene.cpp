@@ -10,7 +10,7 @@
 Scene::Scene(std::string vertexShaderPath, std::string fragmentShaderPath,
              float aspect_ratio)
     : shader(vertexShaderPath, fragmentShaderPath),
-      camera(glm::vec3(0.0f, 0.0f, 1.0f)),
+      camera(glm::vec3(0.0f, 0.0f, 2.0f)),
       projection(45.0f, aspect_ratio, 0.1f, 100.0f) {}
 
 // Clears the screen and draws all objects
