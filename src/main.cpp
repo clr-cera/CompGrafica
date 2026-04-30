@@ -1,5 +1,6 @@
 #include "camera.hpp"
 #include "glm/fwd.hpp"
+#include <cmath>
 #define GLFW_INCLUDE_NONE
 #include "GLFW/glfw3.h"
 #include "boids.hpp"
@@ -91,6 +92,19 @@ std::pair<Scene *, InputSystem> setup_environment(GLFWwindow *window) {
                    "objects/jellyfish/jellyfish1.png",
                    glm::vec3(0.0f, 0.0f, -5.0f), glm::vec3(0.0f, 0.0f, 0.0f),
                    glm::vec3(0.01f, 0.01f, 0.01f));
+  scene->addObject({"jellyfish"}, "objects/jellyfish/jellyfish.obj",
+                   "objects/jellyfish/jellyfish1.png",
+                   glm::vec3(5.0f, 0.0f, 0.0f), glm::vec3(0.0f, 0.0f, 0.0f),
+                   glm::vec3(0.01f, 0.01f, 0.01f));
+  scene->addObject({"jellyfish"}, "objects/jellyfish/jellyfish.obj",
+                   "objects/jellyfish/jellyfish1.png",
+                   glm::vec3(0.0f, 0.0f, 5.0f), glm::vec3(0.0f, 0.0f, 0.0f),
+                   glm::vec3(0.01f, 0.01f, 0.01f));
+  scene->addObject({"jellyfish"}, "objects/jellyfish/jellyfish.obj",
+                   "objects/jellyfish/jellyfish1.png",
+                   glm::vec3(-5.0f, 0.0f, 0.0f), glm::vec3(0.0f, 0.0f, 0.0f),
+                   glm::vec3(0.01f, 0.01f, 0.01f));
+
   // floor inside the house
   scene->addObject({"floor"}, "objects/sponge_bob_house_floor/floor.obj",
                    "objects/sponge_bob_house_floor/floor.png",
@@ -186,11 +200,26 @@ std::pair<Scene *, InputSystem> setup_environment(GLFWwindow *window) {
       obj->setPosition(camera->getPosition());
     });
   });
+  // Jellyfish goes round and round
+  scene->register_system([](Scene *scene, float delta_time) {
+    scene->applyToObjects("jellyfish", [delta_time](SceneObject *obj) {
+      glm::vec3 normal2d =
+          glm::vec3(obj->getPosition().z, 0.0f, -obj->getPosition().x);
+      obj->translate(normal2d * 0.2f * delta_time);
+      obj->setRotation(
+          glm::vec3(0.0f,
+                    ((atan2(obj->getPosition().x, obj->getPosition().z)) *
+                     180.0f / M_PI) +
+                        90.0f,
+                    0.0f));
+    });
+  });
   // scene->register_continuous_function("has_velocity",
   // [](std::vector<SceneObject *> objs, float delta_time) {
   //   for (auto &obj : objs) {
   //     auto vel = obj->getVelocity();
-  //     obj->translate(glm::vec3(vel.x * delta_time, vel.y * delta_time, vel.z
+  //     obj->translate(glm::vec3(vel.x * delta_time, vel.y * delta_time,
+  //     vel.z
   //     * delta_time));
   //   }
   // });
