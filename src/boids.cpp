@@ -35,7 +35,7 @@ void align_boid_to_velocity(SceneObject *boid) {
   pitch = -1 * glm::degrees(pitch);
   // std::cout << pitch << std::endl;
   // boid->setRotation(glm::vec3(-90.0f, -pitch, 0.0f));
-  float yaw = std::atan2(vel.z, vel.x);
+  float yaw = std::atan2(vel.z, -vel.x);
   yaw = glm::degrees(yaw);
   boid->setRotation(glm::vec3(-90.0f, -pitch, yaw));
 }

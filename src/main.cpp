@@ -148,13 +148,20 @@ std::pair<Scene *, InputSystem> setup_environment(GLFWwindow *window) {
       "objects/tv/20349_Old_Television_set.jpg", glm::vec3(-0.45, 0.05, 0.1),
       glm::vec3(-90, 0, -90), glm::vec3(0.03f, 0.03f, 0.03f));
 
+  // Mr krabs
+  scene->addObject({"mr_krabs"}, "objects/mr_krabs/mr._krabs.obj", "objects/mr_krabs/Material.png",
+    glm::vec3(0.45, 0.05, 0), glm::vec3(90, 0, 66), glm::vec3(0.0007, 0.0007, 0.0007)
+  );
+
+
+
   // boids
   spawn_boids(scene, "objects/fish/12265_Fish_v1_L2.obj",
               "objects/fish/fish.jpg");
   // scene->addObject({"fish"}, "objects/fish/12265_Fish_v1_L2.obj",
   // "objects/fish/fish.jpg",
-  //   glm::vec3(-1, 0.8, 0), glm::vec3(-90, 0, 0), glm::vec3(0.05f, 0.05f,
-  //   0.05f), glm::vec3(1.0f, 1.5f, 1.0f)
+  //   glm::vec3(-0, 0.8, 2), glm::vec3(-0, 0, 0), glm::vec3(0.05f, 0.05f,
+  //   0.05f), glm::vec3(-0,0,1)
   // );
   // scene->register_continuous_function("fish", [](std::vector<SceneObject *>
   // objs, float delta_time) {
@@ -162,7 +169,7 @@ std::pair<Scene *, InputSystem> setup_environment(GLFWwindow *window) {
   //     align_boid_to_velocity(obj);
   //   }
   // });
-  // scene->addObject({"bird"}, "objects/bird2/DOVE.OBJ",
+  // // scene->addObject({"bird"}, "objects/bird2/DOVE.OBJ",
   // "objects/bird2/DOVE.JPG"); scene->addObject({"bird1"},
   // "objects/bird/bird.obj", "objects/bird/bird.png");
 
