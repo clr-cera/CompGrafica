@@ -234,6 +234,18 @@ std::pair<Scene *, InputSystem> setup_environment(GLFWwindow *window) {
                     obj->getPosition().z));
     });
   });
+
+  // patrick looks at camera
+  scene->register_system([](Scene *scene, float delta_time) {
+    glm::vec3 camPos = scene->camera.getPosition();
+    scene->applyToObjects("patrick", [camPos](SceneObject *obj) {
+      obj->setRotation(glm::vec3(0.0f,
+                                 atan2(camPos.x - obj->getPosition().x,
+                                       camPos.z - obj->getPosition().z) *
+                                     180.0f / M_PI,
+                                 0.0f));
+    });
+  });
   // scene->register_continuous_function("has_velocity",
   // [](std::vector<SceneObject *> objs, float delta_time) {
   //   for (auto &obj : objs) {
