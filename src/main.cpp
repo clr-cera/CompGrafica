@@ -149,11 +149,9 @@ std::pair<Scene *, InputSystem> setup_environment(GLFWwindow *window) {
       glm::vec3(-90, 0, -90), glm::vec3(0.03f, 0.03f, 0.03f));
 
   // Mr krabs
-  scene->addObject({"mr_krabs"}, "objects/mr_krabs/mr._krabs.obj", "objects/mr_krabs/Material.png",
-    glm::vec3(0.45, 0.05, 0), glm::vec3(90, 0, 66), glm::vec3(0.0007, 0.0007, 0.0007)
-  );
-
-
+  scene->addObject({"mr_krabs"}, "objects/mr_krabs/mr._krabs.obj",
+                   "objects/mr_krabs/Material.png", glm::vec3(0.45, 0.05, 0),
+                   glm::vec3(90, 0, 66), glm::vec3(0.0007, 0.0007, 0.0007));
 
   // boids
   spawn_boids(scene, "objects/fish/12265_Fish_v1_L2.obj",
@@ -178,6 +176,7 @@ std::pair<Scene *, InputSystem> setup_environment(GLFWwindow *window) {
         boid_iteration(objs, delta_time);
       });
 
+  // Camera movement system
   scene->register_system([](Scene *scene, float delta_time) {
     Camera *camera = &scene->camera;
     // Simple gravity
@@ -207,7 +206,8 @@ std::pair<Scene *, InputSystem> setup_environment(GLFWwindow *window) {
       obj->setPosition(camera->getPosition());
     });
   });
-  // Jellyfish goes round and round
+
+  // Jellyfish goes round and up and down
   scene->register_system([](Scene *scene, float delta_time) {
     scene->applyToObjects("jellyfish", [delta_time](SceneObject *obj) {
       glm::vec3 normal2d =
@@ -219,6 +219,10 @@ std::pair<Scene *, InputSystem> setup_environment(GLFWwindow *window) {
                      180.0f / M_PI) +
                         90.0f,
                     0.0f));
+      obj->setPosition(
+          glm::vec3(obj->getPosition().x,
+                    sin(obj->getRotation().y * 2 * M_PI / 180.0f) * 2.0f,
+                    obj->getPosition().z));
     });
   });
   // scene->register_continuous_function("has_velocity",
