@@ -311,6 +311,9 @@ std::pair<Scene *, InputSystem> setup_environment(GLFWwindow *window) {
   inputSystem.registerKeyAction(GLFW_KEY_J, [](Scene *scene, float delta_time) {
     scene->applyToObjects("jellyfish", [delta_time](SceneObject *obj) {
       obj->scaleUp(glm::vec3(0.001f, 0.001f, 0.001f));
+      if (obj->getScale().x > 0.015f) {
+        obj->setScale(glm::vec3(0.015f, 0.015f, 0.015f));
+      }
     });
   });
   inputSystem.registerKeyAction(GLFW_KEY_K, [](Scene *scene, float delta_time) {
