@@ -208,17 +208,26 @@ std::pair<Scene *, InputSystem> setup_environment(GLFWwindow *window) {
   });
 
   // Jellyfish goes round and up and down
+  // We store no state of the jellyfish beside transform, and therefore had to
+  // derive all movement from it, which made things fun, it is also slowly going
+  // away from the middle, but if the frame rate is very low it goes away
+  // faster, as it is translated with the normal vector per tick with its
+  // delta_time. So if delta_time -> 0 it is a perfect circle, but the higher it
+  // gets, more wrong the circle is.
   scene->register_system([](Scene *scene, float delta_time) {
     scene->applyToObjects("jellyfish", [delta_time](SceneObject *obj) {
+      // Goes round
       glm::vec3 normal2d =
           glm::vec3(obj->getPosition().z, 0.0f, -obj->getPosition().x);
       obj->translate(normal2d * 0.2f * delta_time);
+      // Looks at the center
       obj->setRotation(
           glm::vec3(0.0f,
                     ((atan2(obj->getPosition().x, obj->getPosition().z)) *
                      180.0f / M_PI) +
                         90.0f,
                     0.0f));
+      // Goes up and down
       obj->setPosition(
           glm::vec3(obj->getPosition().x,
                     sin(obj->getRotation().y * 2 * M_PI / 180.0f) * 2.0f,
