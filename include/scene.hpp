@@ -53,7 +53,7 @@ private:
       std::string, std::function<void(std::vector<SceneObject *>, float)>>
       render_functions;
   // Stores Systems to act on the scene, it is a more general version of render
-  // functions. Keeps the time from last frame, updated on render
+  // functions.
   std::vector<std::function<void(Scene *, float)>> systems;
 
   float last_frame_time = 0.0f;
