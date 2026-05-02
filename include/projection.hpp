@@ -12,6 +12,8 @@ public:
       : fov(fov), aspect_ratio(aspect_ratio), near_plane(near_plane),
         far_plane(far_plane) {};
 
+  // Creates the projection perspective matrix, if it is the same as before, it
+  // gets the cache.
   glm::mat4 getProjectionMatrix();
 
   void zoom(float zoom_delta);

@@ -23,19 +23,25 @@ public:
     updateCameraVectors();
   }
 
+  // translate the camera in a given direction
   void translate(Camera_Movement direction, float value);
+  // rotate the camera by changing its yaw and pitch
   void rotate(float yaw_delta, float pitch_delta);
+  // set the camera speed
   void setSpeed(glm::vec3 speed) { velocity = speed; }
+  // increment the camera speed
   void addSpeed(glm::vec3 speed) { velocity += speed; }
+  // uses the camera velocity to update its position
   void updatePosition(float delta_time);
+  // Getters and setters for position and velocity
   glm::vec3 getPosition() { return position; }
   glm::vec3 getVelocity() { return velocity; }
   void setPosition(glm::vec3 pos) {
     position = pos;
     viewMatrixNeedsUpdate = true;
   }
-  void setVelocity(glm::vec3 vel) { velocity = vel; }
 
+  // Returns the view matrix of this camera, it caches if there is no change
   glm::mat4 GetViewMatrix();
 
 private:

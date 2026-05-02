@@ -1,5 +1,6 @@
 #include <camera.hpp>
 
+// Calculates the view matrix using lookAt if the cache is invalid
 glm::mat4 Camera::GetViewMatrix() {
   if (viewMatrixNeedsUpdate) {
     cachedViewMatrix = glm::lookAt(position, position + front, up);
@@ -8,6 +9,8 @@ glm::mat4 Camera::GetViewMatrix() {
   return cachedViewMatrix;
 }
 
+// Calculates the front, right and up vector from the camera's yaw and pitch, we
+// did not use roll, as it usually used only on airplane cameras.
 void Camera::updateCameraVectors() {
   viewMatrixNeedsUpdate = true;
   // calculate the new Front vector
@@ -20,6 +23,9 @@ void Camera::updateCameraVectors() {
   up = glm::normalize(glm::cross(right, front));
 }
 
+// Translates the camera in the given direction, we only translate on x and z,
+// as y is used for jumping and gravity. This also makes so that if the camera
+// is looking up or down the camera moves slower.
 void Camera::translate(Camera_Movement direction, float value) {
   // I want to change this function to only translate on x and z.
 
@@ -42,6 +48,7 @@ void Camera::translate(Camera_Movement direction, float value) {
   }
 }
 
+// Rotate the camera limiting the pitch to prevent the camera being upside down.
 void Camera::rotate(float yaw_delta, float pitch_delta) {
   viewMatrixNeedsUpdate = true;
   yaw += yaw_delta;
@@ -58,6 +65,7 @@ void Camera::rotate(float yaw_delta, float pitch_delta) {
   updateCameraVectors();
 }
 
+// Applies velocity to the camera position.
 void Camera::updatePosition(float delta_time) {
   translate(FORWARD, this->velocity.x * delta_time * 0.5f);
   translate(LEFT, this->velocity.z * delta_time * 0.5f);

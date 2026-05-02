@@ -35,6 +35,7 @@ public:
   void register_system(std::function<void(Scene *, float)> system);
 
   void Render();
+  // Runs all systems and render functions, it is called every frame
   void RunSystems();
   void ToggleFill();
 
@@ -52,7 +53,7 @@ private:
       std::string, std::function<void(std::vector<SceneObject *>, float)>>
       render_functions;
   // Stores Systems to act on the scene, it is a more general version of render
-  // functions Keeps the time from last frame, updated on render
+  // functions. Keeps the time from last frame, updated on render
   std::vector<std::function<void(Scene *, float)>> systems;
 
   float last_frame_time = 0.0f;

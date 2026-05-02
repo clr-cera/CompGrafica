@@ -185,7 +185,7 @@ std::pair<Scene *, InputSystem> setup_environment(GLFWwindow *window) {
     if (camera->getPosition().y < 0.5f) {
       camera->setPosition(
           glm::vec3(camera->getPosition().x, 0.5f, camera->getPosition().z));
-      camera->setVelocity(
+      camera->setSpeed(
           glm::vec3(camera->getVelocity().x, 0.0f, camera->getVelocity().z));
     }
 
@@ -291,11 +291,11 @@ std::pair<Scene *, InputSystem> setup_environment(GLFWwindow *window) {
     scene->camera.translate(RIGHT, delta_time);
   });
   // Jump!
-  inputSystem.registerKeyAction(GLFW_KEY_SPACE, [](Scene *scene,
-                                                   float delta_time) {
-    scene->camera.setVelocity(glm::vec3(scene->camera.getVelocity().x, 10.0f,
-                                        scene->camera.getVelocity().z));
-  });
+  inputSystem.registerKeyAction(
+      GLFW_KEY_SPACE, [](Scene *scene, float delta_time) {
+        scene->camera.setSpeed(glm::vec3(scene->camera.getVelocity().x, 10.0f,
+                                         scene->camera.getVelocity().z));
+      });
 
   // Gary Movement
   inputSystem.registerKeyAction(GLFW_KEY_C, [](Scene *scene, float delta_time) {
