@@ -53,7 +53,7 @@ A cena está equipada com as seguintes interações:
 
 ## Descrição do cenário
 
-O programa possui uma sky-box e limita a câmera a apenas interagir dentro dos limites do terreno disponível. Além disso, possui uma área externa e interna.
+O programa possui uma sky-box e limita a câmera a apenas se movimentar dentro dos limites do terreno disponível, e também há um limite de altitude. Além disso, possui uma área externa e interna.
 
 ### Área Externa
 

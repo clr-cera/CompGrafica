@@ -200,6 +200,12 @@ std::pair<Scene *, InputSystem> setup_environment(GLFWwindow *window) {
       camera->setPosition(
           glm::vec3(camera->getPosition().x, camera->getPosition().y, z));
     }
+    if (camera->getPosition().y > 10.0f) {
+      camera->setPosition(
+          glm::vec3(camera->getPosition().x, 10.0f, camera->getPosition().z));
+      camera->setSpeed(
+          glm::vec3(camera->getVelocity().x, 0.0f, camera->getVelocity().z));
+    }
 
     camera->updatePosition(delta_time);
     scene->applyToObjects("sky", [camera](SceneObject *obj) {
