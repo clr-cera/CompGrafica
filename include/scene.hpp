@@ -10,10 +10,15 @@
 #include <string>
 #include <vector>
 
+#include "lighting.hpp"
+
 // Scene contains all the data of the program, including objects and shaders.
 // It also contains a component map, that allow to interact with objects that
 // have the same component.
 class Scene {
+private:
+  // Initialization order gambiarra
+  Shader shader;
 public:
   Scene(std::string vertexShaderPath, std::string fragmentShaderPath,
         float aspect_ratio);
@@ -39,11 +44,12 @@ public:
   void RunSystems();
   void ToggleFill();
 
+
   Camera camera;
   Projection projection;
+  Lighting lighting;
 
 private:
-  Shader shader;
   // Maps components to multiple objects
   std::unordered_multimap<std::string, SceneObject *> component_map;
   // Stores objects to be rendered

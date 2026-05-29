@@ -9,48 +9,10 @@
 // Creates a scene with the given shader
 Scene::Scene(std::string vertexShaderPath, std::string fragmentShaderPath,
              float aspect_ratio)
-    : shader(vertexShaderPath, fragmentShaderPath),
-      camera(glm::vec3(0.0f, 0.0f, 2.0f)),
-      projection(45.0f, aspect_ratio, 0.1f, 100.0f) {}
-
-// Clears the screen and draws all objects
-void Scene::Render() {
-  glClearColor(0.14f, 0.16f, 0.3f, 1.0f);
-  glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
-
-  shader.use();
-  shader.setMat4("view", camera.GetViewMatrix());
-  shader.setMat4("projection", projection.getProjectionMatrix());
-  for (auto &scene_object : objects) {
-    scene_object->draw(shader);
-  }
-}
-
-// Run systems and render functions
-void Scene::RunSystems() {
-  float current_time = glfwGetTime();
-  float delta_time = current_time - last_frame_time;
-  for (auto &system : systems) {
-    system(this, delta_time);
-  }
-
-  // Render functions
-  for (auto &render_function : render_functions) {
-    auto component = render_function.first;
-    std::vector<SceneObject *> objs;
-    for (auto it = component_map.equal_range(component).first;
-         it != component_map.equal_range(component).second; ++it) {
-      objs.push_back(it->second);
-    }
-    render_function.second(objs, delta_time);
-  }
-
-  last_frame_time = current_time;
-}
-
-void Scene::register_system(std::function<void(Scene *, float)> system) {
-  systems.push_back(system);
-}
+  : shader(vertexShaderPath, fragmentShaderPath),
+    camera(glm::vec3(0.0f, 0.0f, 2.0f)),
+    projection(45.0f, aspect_ratio, 0.1f, 100.0f),
+    lighting(0.2, glGetUniformLocation(shader.programID, "ambientLight")) {}
 
 // Adds an object to the scene
 void Scene::addObject(std::vector<std::string> components, std::string path,
@@ -90,9 +52,48 @@ void Scene::applyToObjects(std::string component,
 // Registers a function to be run at each render iteration, affecting all object
 // marked with component Function will receive the array of SceneObjects
 void Scene::register_continuous_function(
-    std::string component,
-    std::function<void(std::vector<SceneObject *>, float)> func) {
+  std::string component,
+  std::function<void(std::vector<SceneObject *>, float)> func) {
   render_functions.emplace(component, func);
+}
+
+void Scene::register_system(std::function<void(Scene *, float)> system) {
+  systems.push_back(system);
+}
+
+// Clears the screen and draws all objects
+void Scene::Render() {
+  glClearColor(0.14f, 0.16f, 0.3f, 1.0f);
+  glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
+
+  shader.use();
+  shader.setMat4("view", camera.GetViewMatrix());
+  shader.setMat4("projection", projection.getProjectionMatrix());
+  for (auto &scene_object : objects) {
+    scene_object->draw(shader);
+  }
+}
+
+// Run systems and render functions
+void Scene::RunSystems() {
+  float current_time = glfwGetTime();
+  float delta_time = current_time - last_frame_time;
+  for (auto &system : systems) {
+    system(this, delta_time);
+  }
+
+  // Render functions
+  for (auto &render_function : render_functions) {
+    auto component = render_function.first;
+    std::vector<SceneObject *> objs;
+    for (auto it = component_map.equal_range(component).first;
+         it != component_map.equal_range(component).second; ++it) {
+      objs.push_back(it->second);
+    }
+    render_function.second(objs, delta_time);
+  }
+
+  last_frame_time = current_time;
 }
 
 void Scene::ToggleFill() {
@@ -107,3 +108,4 @@ void Scene::ToggleFill() {
     glPolygonMode(GL_FRONT_AND_BACK, GL_LINE);
   }
 }
+

@@ -23,55 +23,10 @@ std::pair<Scene *, InputSystem> setup_environment(GLFWwindow *window) {
   Scene *scene = new Scene("shaders/vertex_shader.glsl",
                            "shaders/fragment_shader.glsl", WIDTH / HEIGHT);
 
-  // Inserts objects
-  // Link
-  // scene->addObject({"horizontal"}, "objects/link.obj", "objects/link.png",
-  //                  glm::vec3(0.0f, 0.0f, -0.15f), glm::vec3(0.0f, 45.0f,
-  //                  0.0f), glm::vec3(0.15f, 0.15f, 0.15f));
-  // // Triforce
-  // scene->addObject({"vertical", "rotate"}, "objects/triforce.obj",
-  // "objects/triforce.png",
-  //                  glm::vec3(0.0f, 0.65f, 0.0f), glm::vec3(0.0f, 0.0f, 0.0f),
-  //                  glm::vec3(0.05f, 0.05f, 0.05f));
-  // // Sword
-  // scene->addObject({"horizontal", "scale"}, "objects/sword.obj",
-  // "objects/sword.png",
-  //                  glm::vec3(0.11f, 0.02f, -0.55f),
-  //                  glm::vec3(-90.0f, 45.0f, 45.0f),
-  //                  glm::vec3(0.05f, 0.05f, 0.05f));
-  //
-  // // Shield
-  // scene->addObject({"horizontal"}, "objects/shield.obj",
-  // "objects/shield.png",
-  //                  glm::vec3(-0.1f, 0.02f, -0.55f),
-  //                  glm::vec3(0.0f, 45.0f, 0.0f), glm::vec3(0.5f, 0.5f,
-  //                  0.5f));
-  //
-  // // Rupee (zelda money)
-  // scene->addObject({"vertical", "horizontal", "rotate"}, "objects/rupee.obj",
-  // "objects/rupee.png",
-  //                  glm::vec3(-0.5f, 0.15f, 0.0f), glm::vec3(0.0f, 0.0f,
-  //                  0.0f), glm::vec3(0.2f, 0.2f, 0.2f));
-  // // Floor
-  // scene->addObject({}, "objects/floor.obj", "objects/floor.png",
-  // glm::vec3(0.0f, -0.5f, 0.0f),
-  //                  glm::vec3(-25.0f, 0.0f, 0.0f),
-  //                  glm::vec3(3.0f, 3.0f, 3.0f));
-  // // Grass
-  // for (int i = -10; i <= 10; i++) {
-  //   for (int j = -23; j <= 2; j++) {
-  //     float randomX = (static_cast<float>(rand()) / RAND_MAX - 0.5f) *
-  //                     10.0f; // Random noise between -5 and 5 degrees
-  //     float randomY = (static_cast<float>(rand()) / RAND_MAX - 0.5f) * 10.0f;
-  //     float randomZ = (static_cast<float>(rand()) / RAND_MAX - 0.5f) * 10.0f;
-  //
-  //     scene->addObject({}, "objects/grass.obj", "objects/grass.png",
-  //                      glm::vec3(i * 0.1f, -0.3f + j * 0.1f, j * 0.15f),
-  //                      glm::vec3(-95.0f + randomX, randomY, randomZ),
-  //                      glm::vec3(1.0f, 1.0f, 1.0f));
-  //   }
-  // }
-  // house
+  // FYI: Link is saved in another place to keep code clean
+
+
+   // house
   scene->addObject({"house"}, "objects/sponge_bob_house/house.obj",
                    "objects/sponge_bob_house/home.png",
                    glm::vec3(0.0f, 0.0f, 0.0f), glm::vec3(0.0f, 0.0f, 0.0f),
@@ -156,20 +111,6 @@ std::pair<Scene *, InputSystem> setup_environment(GLFWwindow *window) {
   // boids
   spawn_boids(scene, "objects/fish/12265_Fish_v1_L2.obj",
               "objects/fish/fish.jpg");
-  // scene->addObject({"fish"}, "objects/fish/12265_Fish_v1_L2.obj",
-  // "objects/fish/fish.jpg",
-  //   glm::vec3(-0, 0.8, 2), glm::vec3(-0, 0, 0), glm::vec3(0.05f, 0.05f,
-  //   0.05f), glm::vec3(-0,0,1)
-  // );
-  // scene->register_continuous_function("fish", [](std::vector<SceneObject *>
-  // objs, float delta_time) {
-  //   for (auto &obj : objs) {
-  //     align_boid_to_velocity(obj);
-  //   }
-  // });
-  // // scene->addObject({"bird"}, "objects/bird2/DOVE.OBJ",
-  // "objects/bird2/DOVE.JPG"); scene->addObject({"bird1"},
-  // "objects/bird/bird.obj", "objects/bird/bird.png");
 
   scene->register_continuous_function(
       "boid", [](std::vector<SceneObject *> objs, float delta_time) {
@@ -252,15 +193,6 @@ std::pair<Scene *, InputSystem> setup_environment(GLFWwindow *window) {
                                  0.0f));
     });
   });
-  // scene->register_continuous_function("has_velocity",
-  // [](std::vector<SceneObject *> objs, float delta_time) {
-  //   for (auto &obj : objs) {
-  //     auto vel = obj->getVelocity();
-  //     obj->translate(glm::vec3(vel.x * delta_time, vel.y * delta_time,
-  //     vel.z
-  //     * delta_time));
-  //   }
-  // });
 
   glPolygonMode(GL_FRONT_AND_BACK, GL_FILL);
 
@@ -359,6 +291,14 @@ std::pair<Scene *, InputSystem> setup_environment(GLFWwindow *window) {
   // Toggle mesh fill
   inputSystem.registerKeyAction(
       GLFW_KEY_P, [](Scene *scene, float delta_time) { scene->ToggleFill(); });
+
+  // Change ambient light intensity
+  inputSystem.registerKeyAction(GLFW_KEY_1, [](Scene *scene, float delta_time) {
+    scene->lighting.brighten_ambient(0.005);
+  });
+  inputSystem.registerKeyAction(GLFW_KEY_2, [](Scene *scene, float delta_time) {
+    scene->lighting.darken_ambient(0.005);
+  });
 
   return {scene, inputSystem};
 }

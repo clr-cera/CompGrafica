@@ -37,6 +37,8 @@ Para executar o binário compilado:
 
 ```bash
 ./cmake-build-debug/Graphics
+# caso o diretorio nao exista, o binario pode estar no root do projeto
+./Graphics
 ```
 
 ## Instruções do programa
