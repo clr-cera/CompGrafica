@@ -9,10 +9,11 @@
 // Creates a scene with the given shader
 Scene::Scene(std::string vertexShaderPath, std::string fragmentShaderPath,
              float aspect_ratio)
-  : shader(vertexShaderPath, fragmentShaderPath),
-    camera(glm::vec3(0.0f, 0.0f, 2.0f)),
-    projection(45.0f, aspect_ratio, 0.1f, 100.0f),
-    lighting(0.2, glGetUniformLocation(shader.programID, "ambientLight")) {}
+    : shader(vertexShaderPath, fragmentShaderPath),
+      camera(glm::vec3(0.0f, 0.0f, 2.0f)),
+      projection(45.0f, aspect_ratio, 0.1f, 100.0f),
+      lighting(0.2, glGetUniformLocation(shader.programID, "ambientLight"),
+               glGetUniformLocation(shader.programID, "ambientColor")) {}
 
 // Adds an object to the scene
 void Scene::addObject(std::vector<std::string> components, std::string path,
@@ -52,8 +53,8 @@ void Scene::applyToObjects(std::string component,
 // Registers a function to be run at each render iteration, affecting all object
 // marked with component Function will receive the array of SceneObjects
 void Scene::register_continuous_function(
-  std::string component,
-  std::function<void(std::vector<SceneObject *>, float)> func) {
+    std::string component,
+    std::function<void(std::vector<SceneObject *>, float)> func) {
   render_functions.emplace(component, func);
 }
 
@@ -108,4 +109,3 @@ void Scene::ToggleFill() {
     glPolygonMode(GL_FRONT_AND_BACK, GL_LINE);
   }
 }
-

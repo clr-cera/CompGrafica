@@ -5,13 +5,15 @@
 #ifndef COMPGRAFICA_LIGHTING_H
 #define COMPGRAFICA_LIGHTING_H
 
+#include "glm/glm.hpp"
+
 // Simple class to handle ambient lighing for now
-// Even if it's just a single value, I choose to keep it isolated if it grows any bigger later
+// Even if it's just a single value, I choose to keep it isolated if it grows
+// any bigger later
 
 class Lighting {
 public:
-
-  Lighting(float initial_lighting, int location);
+  Lighting(float initial_lighting, int location, int color_uniform_location);
 
   // Ambient lighting changing
   void brighten_ambient(float increase);
@@ -22,8 +24,9 @@ private:
   // Ambient lighting internals
   float ambient_light;
   float ambient_uniform_location;
+  glm::vec3 ambient_color;
+  float ambient_color_uniform_location;
   void set_ambient_uniform();
 };
 
-
-#endif //COMPGRAFICA_LIGHTING_H
+#endif // COMPGRAFICA_LIGHTING_H

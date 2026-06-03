@@ -9,10 +9,16 @@
 
 void Lighting::set_ambient_uniform() {
   glUniform1f(ambient_uniform_location, ambient_light);
+  glUniform3f(ambient_color_uniform_location, ambient_color.x, ambient_color.y,
+              ambient_color.z);
 }
 
-Lighting::Lighting(float initial_ambient, int location)
-: ambient_light(initial_ambient), ambient_uniform_location(location) {
+Lighting::Lighting(float initial_ambient, int ambient_location,
+                   int color_uniform_location)
+    : ambient_light(initial_ambient),
+      ambient_uniform_location(ambient_location),
+      ambient_color(glm::vec3(1.0f, 1.0f, 1.0f)),
+      ambient_color_uniform_location(color_uniform_location) {
   set_ambient_uniform();
 }
 
@@ -26,8 +32,4 @@ void Lighting::darken_ambient(float decrease) {
   set_ambient_uniform();
 }
 
-float Lighting::get_ambient() {
-  return ambient_light;
-}
-
-
+float Lighting::get_ambient() { return ambient_light; }
