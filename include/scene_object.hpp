@@ -11,6 +11,7 @@ class SceneObject {
 public:
   SceneObject() {}
   SceneObject(std::string path, std::string texture_path);
+  SceneObject(std::string path, std::string texture_path, glm::vec3 lightColor);
 
   Mesh *mesh;
 
@@ -50,6 +51,12 @@ private:
 
   const void bind(Shader shader);
   const void unbind();
+
+  struct LightSource {
+    glm::vec3 centroid;
+    glm::vec3 color;
+  };
+  LightSource lightSource;
 };
 
 #endif // SCENE_OBJECT_HPP

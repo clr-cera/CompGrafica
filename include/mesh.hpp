@@ -16,6 +16,8 @@ public:
 
   unsigned int VAO, VBO, EBO;
 
+  glm::vec3 getCentroid();
+
   Mesh() : VAO(0), VBO(0), EBO(0) {}
   Mesh(std::string path_to_wavefront_obj, std::string path_to_texture);
   void bind() const;

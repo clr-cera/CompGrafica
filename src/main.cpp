@@ -25,8 +25,7 @@ std::pair<Scene *, InputSystem> setup_environment(GLFWwindow *window) {
 
   // FYI: Link is saved in another place to keep code clean
 
-
-   // house
+  // house
   scene->addObject({"house"}, "objects/sponge_bob_house/house.obj",
                    "objects/sponge_bob_house/home.png",
                    glm::vec3(0.0f, 0.0f, 0.0f), glm::vec3(0.0f, 0.0f, 0.0f),
@@ -46,19 +45,23 @@ std::pair<Scene *, InputSystem> setup_environment(GLFWwindow *window) {
   scene->addObject({"jellyfish"}, "objects/jellyfish/jellyfish.obj",
                    "objects/jellyfish/jellyfish1.png",
                    glm::vec3(0.0f, 0.0f, -5.0f), glm::vec3(0.0f, 0.0f, 0.0f),
-                   glm::vec3(0.01f, 0.01f, 0.01f));
+                   glm::vec3(0.01f, 0.01f, 0.01f), glm::vec3(1.0f, 1.0f, 1.0f),
+                   glm::vec3(0.0f, 0.0f, 0.0f));
   scene->addObject({"jellyfish"}, "objects/jellyfish/jellyfish.obj",
                    "objects/jellyfish/jellyfish1.png",
                    glm::vec3(5.0f, 0.0f, 0.0f), glm::vec3(0.0f, 0.0f, 0.0f),
-                   glm::vec3(0.01f, 0.01f, 0.01f));
+                   glm::vec3(0.01f, 0.01f, 0.01f), glm::vec3(1.0f, 1.0f, 1.0f),
+                   glm::vec3(0.0f, 0.0f, 0.0f));
   scene->addObject({"jellyfish"}, "objects/jellyfish/jellyfish.obj",
                    "objects/jellyfish/jellyfish1.png",
                    glm::vec3(0.0f, 0.0f, 5.0f), glm::vec3(0.0f, 0.0f, 0.0f),
-                   glm::vec3(0.01f, 0.01f, 0.01f));
+                   glm::vec3(0.01f, 0.01f, 0.01f), glm::vec3(1.0f, 1.0f, 1.0f),
+                   glm::vec3(0.0f, 0.0f, 0.0f));
   scene->addObject({"jellyfish"}, "objects/jellyfish/jellyfish.obj",
                    "objects/jellyfish/jellyfish1.png",
                    glm::vec3(-5.0f, 0.0f, 0.0f), glm::vec3(0.0f, 0.0f, 0.0f),
-                   glm::vec3(0.01f, 0.01f, 0.01f));
+                   glm::vec3(0.01f, 0.01f, 0.01f), glm::vec3(1.0f, 1.0f, 1.0f),
+                   glm::vec3(0.0f, 0.0f, 0.0f));
 
   // floor inside the house
   scene->addObject({"floor"}, "objects/sponge_bob_house_floor/floor.obj",

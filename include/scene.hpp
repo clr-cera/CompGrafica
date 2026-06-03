@@ -19,6 +19,7 @@ class Scene {
 private:
   // Initialization order gambiarra
   Shader shader;
+
 public:
   Scene(std::string vertexShaderPath, std::string fragmentShaderPath,
         float aspect_ratio);
@@ -28,6 +29,10 @@ public:
   void addObject(std::vector<std::string> components, std::string path,
                  std::string texture_path, glm::vec3 position,
                  glm::vec3 rotation, glm::vec3 scale,
+                 glm::vec3 velocity = glm::vec3(0.0f));
+  void addObject(std::vector<std::string> components, std::string path,
+                 std::string texture_path, glm::vec3 position,
+                 glm::vec3 rotation, glm::vec3 scale, glm::vec3 lightColor,
                  glm::vec3 velocity = glm::vec3(0.0f));
 
   void applyToObjects(std::string component,
@@ -43,7 +48,6 @@ public:
   // Runs all systems and render functions, it is called every frame
   void RunSystems();
   void ToggleFill();
-
 
   Camera camera;
   Projection projection;
