@@ -8,8 +8,6 @@ Mesh::Mesh(std::string path_to_wavefront_obj, std::string path_to_texture) {
   this->indices = indices;
   this->texture = texture;
 
-
-
   // Setup gpu vertex buffers
   glGenBuffers(1, &VBO);
   glGenVertexArrays(1, &VAO);
@@ -18,11 +16,13 @@ Mesh::Mesh(std::string path_to_wavefront_obj, std::string path_to_texture) {
 
   // Texture creation
   glBindTexture(GL_TEXTURE_2D, this->texture.id);
-  // set the texture wrapping/filtering options (on the currently bound texture object)
-  // Needs some way to set this configs, but for now leave them hardcoded
+  // set the texture wrapping/filtering options (on the currently bound texture
+  // object) Needs some way to set this configs, but for now leave them
+  // hardcoded
   glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_WRAP_S, GL_REPEAT);
   glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_WRAP_T, GL_REPEAT);
-  glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MIN_FILTER, GL_LINEAR_MIPMAP_LINEAR);
+  glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MIN_FILTER,
+                  GL_LINEAR_MIPMAP_LINEAR);
   glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MAG_FILTER, GL_LINEAR);
 
   GLenum format = GL_RGB;
@@ -33,7 +33,9 @@ Mesh::Mesh(std::string path_to_wavefront_obj, std::string path_to_texture) {
   else if (this->texture.nrChannels == 4)
     format = GL_RGBA;
 
-  glTexImage2D(GL_TEXTURE_2D, 0, format, this->texture.width, this->texture.height, 0, format, GL_UNSIGNED_BYTE, this->texture.data);
+  glTexImage2D(GL_TEXTURE_2D, 0, format, this->texture.width,
+               this->texture.height, 0, format, GL_UNSIGNED_BYTE,
+               this->texture.data);
   glGenerateMipmap(GL_TEXTURE_2D);
   stbi_image_free(this->texture.data);
 
@@ -55,7 +57,8 @@ Mesh::Mesh(std::string path_to_wavefront_obj, std::string path_to_texture) {
   // position
   glVertexAttribPointer(0, 3, GL_FLOAT, GL_FALSE, sizeof(Vertex), (void *)0);
   // Texture coordinates
-  glVertexAttribPointer(2, 2, GL_FLOAT, GL_FALSE, sizeof(Vertex), (void *)(3 * sizeof(float)));
+  glVertexAttribPointer(2, 2, GL_FLOAT, GL_FALSE, sizeof(Vertex),
+                        (void *)(3 * sizeof(float)));
   // color
   glVertexAttribPointer(1, 3, GL_FLOAT, GL_FALSE, sizeof(Vertex),
                         (void *)(5 * sizeof(float)));
@@ -87,4 +90,13 @@ Mesh *MeshRegistry::getMesh(std::string path, std::string texture_path) {
     meshCache[path] = Mesh(path, texture_path);
   }
   return &meshCache[path];
+}
+
+glm::vec3 Mesh::getCentroid() {
+  glm::vec3 centroid(0.0f);
+  for (const auto &vertex : vertices) {
+    centroid += vertex.position;
+  }
+  centroid /= static_cast<float>(vertices.size());
+  return centroid;
 }

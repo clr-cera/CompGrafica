@@ -41,15 +41,14 @@ void Scene::addObject(std::vector<std::string> components, std::string path,
   }
 }
 
-void Scene::addObject(std::vector<std::string> components, std::string path,
-                      std::string texture_path, glm::vec3 position,
-                      glm::vec3 rotation, glm::vec3 scale, glm::vec3 velocity,
-                      glm::vec3 lightColor) {
+void Scene::addLightObject(std::vector<std::string> components,
+                           std::string path, std::string texture_path,
+                           glm::vec3 position, glm::vec3 rotation,
+                           glm::vec3 scale, glm::vec3 lightColor) {
   SceneObject *scene_object = new SceneObject(path, texture_path, lightColor);
   scene_object->setPosition(position);
   scene_object->setRotation(rotation);
   scene_object->setScale(scale);
-  scene_object->setVelocity(velocity);
 
   objects.push_back(scene_object);
   for (const auto &component : components) {

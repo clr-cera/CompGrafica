@@ -30,10 +30,10 @@ public:
                  std::string texture_path, glm::vec3 position,
                  glm::vec3 rotation, glm::vec3 scale,
                  glm::vec3 velocity = glm::vec3(0.0f));
-  void addObject(std::vector<std::string> components, std::string path,
-                 std::string texture_path, glm::vec3 position,
-                 glm::vec3 rotation, glm::vec3 scale, glm::vec3 lightColor,
-                 glm::vec3 velocity = glm::vec3(0.0f));
+  void addLightObject(std::vector<std::string> components, std::string path,
+                      std::string texture_path, glm::vec3 position,
+                      glm::vec3 rotation, glm::vec3 scale,
+                      glm::vec3 lightColor);
 
   void applyToObjects(std::string component,
                       std::function<void(SceneObject *)>);
