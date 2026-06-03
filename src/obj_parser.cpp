@@ -48,6 +48,7 @@ ObjFileParser::parse() {
   std::vector<glm::vec3> temp_positions;
   std::vector<glm::vec3> temp_colors;
   std::vector<glm::vec2> temp_tex_coords;
+  std::vector<glm::vec3> temp_normals;
 
   std::vector<Vertex> vertices;
   std::vector<unsigned int> indices;
@@ -87,6 +88,13 @@ ObjFileParser::parse() {
       temp_tex_coords.emplace_back(u, v);
       continue;
     }
+    // Parse normal line
+    if (token == "vn") {
+      float x, y, z;
+      ss >> x >> y >> z;
+      temp_normals.emplace_back(x, y, z);
+      continue;
+    }
     // Parse face line
     if (token == "f") {
       std::string vertexData;
@@ -112,10 +120,19 @@ ObjFileParser::parse() {
             }
           }
 
+          glm::vec3 normal(0.0f, 0.0f, 0.0f);
+          if (!vnIdxStr.empty()) {
+            unsigned int vnIdx = std::stoul(vnIdxStr) - 1;
+            if (vnIdx < temp_normals.size()) {
+                normal = temp_normals[vnIdx];
+            }
+          }
+
           Vertex v;
           v.position = temp_positions[vIdx];
           v.texCoords = texCoord;
           v.color = temp_colors[vIdx];
+          v.normal = normal;
 
           unique_vertices[vertexData] = static_cast<unsigned int>(vertices.size());
           vertices.push_back(v);

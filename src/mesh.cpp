@@ -59,9 +59,13 @@ Mesh::Mesh(std::string path_to_wavefront_obj, std::string path_to_texture) {
   // color
   glVertexAttribPointer(1, 3, GL_FLOAT, GL_FALSE, sizeof(Vertex),
                         (void *)(5 * sizeof(float)));
+  // normal
+  glVertexAttribPointer(3, 3, GL_FLOAT, GL_FALSE, sizeof(Vertex),
+                        (void *)(8 * sizeof(float)));
   glEnableVertexAttribArray(0);
   glEnableVertexAttribArray(1);
   glEnableVertexAttribArray(2);
+  glEnableVertexAttribArray(3);
 
   // Unbinds VAO
   glBindVertexArray(0);

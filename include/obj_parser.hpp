@@ -23,6 +23,7 @@ struct Vertex {
   glm::vec3 position;
   glm::vec2 texCoords;
   glm::vec3 color;
+  glm::vec3 normal;
   // The "Quickest" way: Overload the insertion operator
   friend std::ostream &operator<<(std::ostream &os, const Vertex &v) {
     os << "[Pos: " << v.position.x << ", " << v.position.y << ", "
@@ -30,7 +31,8 @@ struct Vertex {
        << "] "
        << "[UV: "  << v.texCoords.x << ", " << v.texCoords.y << "] "
        << "[Col: " << v.color.r << ", " << v.color.g << ", " << v.color.b
-       << "]";
+       << "] "
+       << "[Normal: " << v.normal.x << ", " << v.normal.y << ", " << v.normal.z << "]";
     return os;
   }
 };
