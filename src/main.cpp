@@ -46,22 +46,22 @@ std::pair<Scene *, InputSystem> setup_environment(GLFWwindow *window) {
       {"jellyfish"}, "objects/jellyfish/jellyfish.obj",
       "objects/jellyfish/jellyfish1.png", glm::vec3(0.0f, 0.0f, -5.0f),
       glm::vec3(0.0f, 0.0f, 0.0f), glm::vec3(0.01f, 0.01f, 0.01f),
-      glm::vec3(1.0f, 1.0f, 1.0f));
+      glm::vec3(0.9, 0.1, 0.9));
   scene->addLightObject(
       {"jellyfish"}, "objects/jellyfish/jellyfish.obj",
       "objects/jellyfish/jellyfish1.png", glm::vec3(5.0f, 0.0f, 0.0f),
       glm::vec3(0.0f, 0.0f, 0.0f), glm::vec3(0.01f, 0.01f, 0.01f),
       glm::vec3(1.0f, 1.0f, 1.0f));
-  scene->addLightObject(
-      {"jellyfish"}, "objects/jellyfish/jellyfish.obj",
-      "objects/jellyfish/jellyfish1.png", glm::vec3(0.0f, 0.0f, 5.0f),
-      glm::vec3(0.0f, 0.0f, 0.0f), glm::vec3(0.01f, 0.01f, 0.01f),
-      glm::vec3(1.0f, 1.0f, 1.0f));
-  scene->addLightObject(
-      {"jellyfish"}, "objects/jellyfish/jellyfish.obj",
-      "objects/jellyfish/jellyfish1.png", glm::vec3(-5.0f, 0.0f, 0.0f),
-      glm::vec3(0.0f, 0.0f, 0.0f), glm::vec3(0.01f, 0.01f, 0.01f),
-      glm::vec3(1.0f, 1.0f, 1.0f));
+  // scene->addLightObject(
+  //     {"jellyfish"}, "objects/jellyfish/jellyfish.obj",
+  //     "objects/jellyfish/jellyfish1.png", glm::vec3(0.0f, 0.0f, 5.0f),
+  //     glm::vec3(0.0f, 0.0f, 0.0f), glm::vec3(0.01f, 0.01f, 0.01f),
+  //     glm::vec3(1.0f, 1.0f, 1.0f));
+  // scene->addLightObject(
+  //     {"jellyfish"}, "objects/jellyfish/jellyfish.obj",
+  //     "objects/jellyfish/jellyfish1.png", glm::vec3(-5.0f, 0.0f, 0.0f),
+  //     glm::vec3(0.0f, 0.0f, 0.0f), glm::vec3(0.01f, 0.01f, 0.01f),
+  //     glm::vec3(1.0f, 1.0f, 1.0f));
 
   // floor inside the house
   scene->addObject({"floor"}, "objects/sponge_bob_house_floor/floor.obj",

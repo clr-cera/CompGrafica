@@ -6,6 +6,7 @@ layout (location = 3) in vec3 aNormal;
 
 out vec3 vertexColor;
 out vec2 texCoord;
+out vec3 worldPosition;
 out vec3 normal;
 
 uniform mat4 transform;
@@ -20,4 +21,5 @@ void main()
     vertexColor = aColor;
     texCoord = aTexCoord;
     normal = normalize(NormalMatrix * aNormal);
+    worldPosition = vec3(transform * vec4(aPos, 1.0));
 }

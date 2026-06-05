@@ -29,9 +29,13 @@ glm::mat4 SceneObject::transMatrix() {
                               glm::vec3(0.0f, 0.0f, 1.0f));
     transMatrix = glm::scale(transMatrix, scale);
 
+    // Update normal matrix
     cachedTransMatrix = transMatrix;
 
     cachedNormalMatrix = glm::transpose(glm::inverse(cachedTransMatrix));
+
+    // Updates light source centroid if applicable
+    lightSource.centroid = mesh->getCentroid() + position;
 
     transMatrixNeedsUpdate = false;
   }

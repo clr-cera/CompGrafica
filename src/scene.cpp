@@ -110,6 +110,8 @@ void Scene::RunSystems() {
     render_function.second(objs, delta_time);
   }
 
+  update_light_sources();
+
   last_frame_time = current_time;
 }
 
@@ -124,4 +126,16 @@ void Scene::ToggleFill() {
   } else {
     glPolygonMode(GL_FRONT_AND_BACK, GL_LINE);
   }
+}
+
+// Handles updating light sources positions in the
+// shader array
+void Scene::update_light_sources() {
+  auto light_sources = component_map.equal_range("light");
+  int i = 0;
+  for (auto it = light_sources.first; it != light_sources.second; ++it) {
+    shader.setVec3("pointLights[" + std::to_string(i) + "].position", it->second->getPosition());
+    shader.setVec3("pointLights[" + std::to_string(i++) + "].color", it->second->lightSource.color);
+  }
+  shader.setInt("currentLightCount", i);
 }

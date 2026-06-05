@@ -39,6 +39,12 @@ public:
   glm::vec3 getPosition();
   glm::vec3 getVelocity();
 
+  struct LightSource {
+    glm::vec3 centroid;
+    glm::vec3 color;
+  };
+  LightSource lightSource;
+
 private:
   // Cache the matrix if there is no transformation change
   glm::mat4 cachedTransMatrix;
@@ -53,11 +59,7 @@ private:
   const void bind(Shader shader);
   const void unbind();
 
-  struct LightSource {
-    glm::vec3 centroid;
-    glm::vec3 color;
-  };
-  LightSource lightSource;
+
 };
 
 #endif // SCENE_OBJECT_HPP

@@ -66,6 +66,8 @@ private:
   // functions.
   std::vector<std::function<void(Scene *, float)>> systems;
 
+  void update_light_sources();
+
   float last_frame_time = 0.0f;
   // Is used on ToggleFill to change polygon behavior
   struct FillToggle {
