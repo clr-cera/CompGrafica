@@ -297,7 +297,7 @@ std::pair<Scene *, InputSystem> setup_environment(GLFWwindow *window) {
 
   // Change ambient light intensity
   inputSystem.registerKeyAction(GLFW_KEY_1, [](Scene *scene, float delta_time) {
-    scene->lighting.brighten_ambient(0.005);
+    scene->lighting.brighten_ambient(0.0052);
   });
   inputSystem.registerKeyAction(GLFW_KEY_2, [](Scene *scene, float delta_time) {
     scene->lighting.darken_ambient(0.005);

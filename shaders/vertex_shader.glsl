@@ -12,10 +12,12 @@ uniform mat4 transform;
 uniform mat4 view;
 uniform mat4 projection;
 
+uniform mat3 NormalMatrix;
+
 void main()
 {
     gl_Position = projection * view * transform * vec4(aPos.x, aPos.y, aPos.z, 1.0);
     vertexColor = aColor;
     texCoord = aTexCoord;
-    normal = aNormal;
+    normal = normalize(NormalMatrix * aNormal);
 }

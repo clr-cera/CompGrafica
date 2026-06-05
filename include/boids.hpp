@@ -10,7 +10,7 @@
 // ========================================================================
 
 // Boid spawning
-constexpr int BOID_COUNT = 50;
+constexpr int BOID_COUNT = 200;
 constexpr std::pair<float, float> BOID_SPAWN_XRANGE = {-4.0f, 4.0f};
 constexpr std::pair<float, float> BOID_SPAWN_YRANGE = {2.2f, 3.4f};
 constexpr std::pair<float, float> BOID_SPAWN_ZRANGE = {-4.0f, 4.0f};
@@ -21,17 +21,17 @@ constexpr float BOID_SCALE = 0.02f;
 constexpr float BOID_MIN_SPEED = 0.5f;
 constexpr float BOID_MAX_SPEED = 1.0f;
 constexpr float BOID_INNER_DISTANCE = 0.4f;
-constexpr float BOID_OUTER_DISTANCE = 0.8f;
+constexpr float BOID_OUTER_DISTANCE = 1.2f;
 
 // Position bounds
-constexpr std::pair<float, float> BOID_BOUNDS_X = {-4.0f, 4.0f};
-constexpr std::pair<float, float> BOID_BOUNDS_Y = {2.2f, 3.4f};
-constexpr std::pair<float, float> BOID_BOUNDS_Z = {-4.0f, 4.0f};
+constexpr std::pair<float, float> BOID_BOUNDS_X = {-8.0f, 8.0f};
+constexpr std::pair<float, float> BOID_BOUNDS_Y = {2.2f, 4.0f};
+constexpr std::pair<float, float> BOID_BOUNDS_Z = {-8.0f, 8.0f};
 
 // Forces
 constexpr float BOID_ATTRACTION_FORCE = 0.001f;
 constexpr float BOID_REPULSION_FORCE = 0.5f;
-constexpr float BOID_ALIGN_FORCE = 0.007f;
+constexpr float BOID_ALIGN_FORCE = 0.01f;
 
 // Adds objects to the scene
 void spawn_boids(Scene *scene, std::string obj_path, std::string texture_path);

@@ -15,6 +15,7 @@ SceneObject::SceneObject(std::string path, std::string texture_path,
 // Transformation matrix caching, every time a transformation is updated,
 // the matrix is marked as dirty and will be recalculated on the next call to
 // transMatrix()
+// Update also applied to the normal matrix
 glm::mat4 SceneObject::transMatrix() {
   if (transMatrixNeedsUpdate) {
     glm::mat4 transMatrix = glm::mat4(1.0f);
@@ -29,6 +30,9 @@ glm::mat4 SceneObject::transMatrix() {
     transMatrix = glm::scale(transMatrix, scale);
 
     cachedTransMatrix = transMatrix;
+
+    cachedNormalMatrix = glm::transpose(glm::inverse(cachedTransMatrix));
+
     transMatrixNeedsUpdate = false;
   }
   return cachedTransMatrix;
@@ -79,6 +83,8 @@ glm::vec3 SceneObject::getVelocity() { return velocity; }
 const void SceneObject::bind(Shader shader) {
   mesh->bind();
   shader.setMat4("transform", transMatrix());
+  // If it needed to be recomputed, the call above already did so
+  shader.setMat3("NormalMatrix", cachedNormalMatrix);
 }
 
 const void SceneObject::unbind() { mesh->unbind(); }

@@ -42,6 +42,7 @@ public:
 private:
   // Cache the matrix if there is no transformation change
   glm::mat4 cachedTransMatrix;
+  glm::mat3 cachedNormalMatrix;
   bool transMatrixNeedsUpdate = true;
 
   glm::vec3 rotation = glm::vec3(0.0f, 0.0f, 0.0f);
