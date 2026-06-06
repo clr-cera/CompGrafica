@@ -6,11 +6,11 @@
 #define BOIDS_H
 #include "scene.hpp"
 // ========================================================================
-// Constants - Tune here the params fot the boids simultation
+// Constants - Tune here the params fot the boids simulation
 // ========================================================================
 
 // Boid spawning
-constexpr int BOID_COUNT = 10;
+constexpr int BOID_COUNT = 20;
 constexpr std::pair<float, float> BOID_SPAWN_XRANGE = {-4.0f, 4.0f};
 constexpr std::pair<float, float> BOID_SPAWN_YRANGE = {2.2f, 3.4f};
 constexpr std::pair<float, float> BOID_SPAWN_ZRANGE = {-4.0f, 4.0f};

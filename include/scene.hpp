@@ -19,9 +19,10 @@ class Scene {
 private:
   // Initialization order gambiarra
   Shader shader;
+  Shader lightSourceShader;
 
 public:
-  Scene(std::string vertexShaderPath, std::string fragmentShaderPath,
+  Scene(std::string vertexShaderPath, std::string fragmentShaderPath, std::string lightSourceFragShaderPath,
         float aspect_ratio);
 
   void addObject(std::vector<std::string> components, std::string path,

@@ -7,9 +7,10 @@
 #include <vector>
 
 // Creates a scene with the given shader
-Scene::Scene(std::string vertexShaderPath, std::string fragmentShaderPath,
+Scene::Scene(std::string vertexShaderPath, std::string fragmentShaderPath, std::string lightSourceFragShaderPath,
              float aspect_ratio)
     : shader(vertexShaderPath, fragmentShaderPath),
+      lightSourceShader(vertexShaderPath, lightSourceFragShaderPath),
       camera(glm::vec3(0.0f, 0.0f, 2.0f)),
       projection(45.0f, aspect_ratio, 0.1f, 100.0f),
       lighting(0.5, glGetUniformLocation(shader.programID, "ambientLight"),
@@ -23,6 +24,7 @@ void Scene::addObject(std::vector<std::string> components, std::string path,
   for (const auto &component : components) {
     component_map.emplace(component, scene_object);
   }
+  component_map.emplace("__default__", scene_object);
 }
 
 // Adds an object to the scene with the given transformation
@@ -39,6 +41,7 @@ void Scene::addObject(std::vector<std::string> components, std::string path,
   for (const auto &component : components) {
     component_map.emplace(component, scene_object);
   }
+  component_map.emplace("__default__", scene_object);
 }
 
 void Scene::addLightObject(std::vector<std::string> components,
@@ -54,7 +57,7 @@ void Scene::addLightObject(std::vector<std::string> components,
   for (const auto &component : components) {
     component_map.emplace(component, scene_object);
   }
-  component_map.emplace("light", scene_object);
+  component_map.emplace("__light_source__", scene_object);
 }
 
 // Applies a function to all objects that have the given component
@@ -84,10 +87,19 @@ void Scene::Render() {
   glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
 
   shader.use();
+  lighting.set_ambient_uniform();
   shader.setMat4("view", camera.GetViewMatrix());
   shader.setMat4("projection", projection.getProjectionMatrix());
-  for (auto &scene_object : objects) {
-    scene_object->draw(shader);
+  auto default_objs = component_map.equal_range("__default__");
+  for (auto it = default_objs.first; it != default_objs.second; ++it) {
+    it->second->draw(shader);
+  }
+  lightSourceShader.use();
+  lightSourceShader.setMat4("view", camera.GetViewMatrix());
+  lightSourceShader.setMat4("projection", projection.getProjectionMatrix());
+  auto light_objs = component_map.equal_range("__light_source__");
+  for (auto it = light_objs.first; it != light_objs.second; ++it) {
+    it->second->draw(lightSourceShader);
   }
 }
 
@@ -131,7 +143,8 @@ void Scene::ToggleFill() {
 // Handles updating light sources positions in the
 // shader array
 void Scene::update_light_sources() {
-  auto light_sources = component_map.equal_range("light");
+  shader.use();
+  auto light_sources = component_map.equal_range("__light_source__");
   int i = 0;
   for (auto it = light_sources.first; it != light_sources.second; ++it) {
     shader.setVec3("pointLights[" + std::to_string(i) + "].position", it->second->getPosition());

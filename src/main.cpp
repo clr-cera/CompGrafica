@@ -21,7 +21,9 @@ GLFWwindow *setup_screen();
 std::pair<Scene *, InputSystem> setup_environment(GLFWwindow *window) {
   // Creates the scene which contain all the data
   Scene *scene = new Scene("shaders/vertex_shader.glsl",
-                           "shaders/fragment_shader.glsl", WIDTH / HEIGHT);
+                           "shaders/fragment_shader.glsl",
+                           "shaders/lightSource_fragment_shader.glsl",
+                           WIDTH / HEIGHT);
 
   // FYI: Link is saved in another place to keep code clean
 

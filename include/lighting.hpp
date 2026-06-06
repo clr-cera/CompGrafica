@@ -19,6 +19,7 @@ public:
   void brighten_ambient(float increase);
   void darken_ambient(float decrease);
   float get_ambient();
+  void set_ambient_uniform();
 
 private:
   // Ambient lighting internals
@@ -26,7 +27,6 @@ private:
   float ambient_uniform_location;
   glm::vec3 ambient_color;
   float ambient_color_uniform_location;
-  void set_ambient_uniform();
 };
 
 #endif // COMPGRAFICA_LIGHTING_H
