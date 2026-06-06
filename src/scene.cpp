@@ -88,6 +88,7 @@ void Scene::Render() {
 
   shader.use();
   lighting.set_ambient_uniform();
+  shader.setVec3("cameraPos", camera.getPosition());
   shader.setMat4("view", camera.GetViewMatrix());
   shader.setMat4("projection", projection.getProjectionMatrix());
   auto default_objs = component_map.equal_range("__default__");
