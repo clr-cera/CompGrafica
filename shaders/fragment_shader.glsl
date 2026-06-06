@@ -9,7 +9,11 @@ in vec3 normal;
 uniform sampler2D aTexture;
 uniform float ambientLight;
 uniform vec3 ambientColor;
+uniform vec3 cameraPos;
 
+
+#define SPECULAR_STRENGHT 0.5
+#define SHININESS 32.0
 
 struct PointLight {
     vec3 position;
@@ -20,12 +24,14 @@ uniform PointLight pointLights[MAX_LIGHTS];
 uniform int currentLightCount;
 
 vec3 calculateDiffuseLight();
+vec3 calculateSpecularLight();
 
 void main()
 {
     vec3 lightCoeff = vec3(0.0);
     lightCoeff += ambientLight * ambientColor;
     lightCoeff += calculateDiffuseLight();
+    lightCoeff += calculateSpecularLight();
     FragColor = vec4(min(lightCoeff, 1.0), 1.0) * texture(aTexture, texCoord);
 }
 
@@ -38,4 +44,16 @@ vec3 calculateDiffuseLight()
         lightCoeff += diff * pointLights[i].color;
     }
     return lightCoeff;
+}
+
+
+vec3 calculateSpecularLight() {
+    vec3 specularCoeff  = vec3(0.0);
+    for (int i = 0; i < currentLightCount; i++) {
+        vec3 lightDir = normalize(pointLights[i].position - worldPosition);
+        vec3 reflectDir = reflect(-lightDir, normal);
+        vec3 viewDir = normalize(cameraPos - worldPosition);
+        specularCoeff += pow(max(dot(viewDir, reflectDir), 0.0), SHININESS) * SPECULAR_STRENGHT * pointLights[i].color;
+    }
+    return specularCoeff;
 }
