@@ -132,6 +132,7 @@ std::pair<Scene *, InputSystem> setup_environment(GLFWwindow *window) {
     Camera *camera = &scene->camera;
     // Simple gravity
     camera->addSpeed(glm::vec3(0.0f, -9.81f * delta_time, 0.0f));
+    camera->updatePosition(delta_time);
     // Camera limits
     if (camera->getPosition().y < 0.5f) {
       camera->setPosition(
@@ -158,7 +159,6 @@ std::pair<Scene *, InputSystem> setup_environment(GLFWwindow *window) {
           glm::vec3(camera->getVelocity().x, 0.0f, camera->getVelocity().z));
     }
 
-    camera->updatePosition(delta_time);
     scene->applyToObjects("sky", [camera](SceneObject *obj) {
       obj->setPosition(camera->getPosition());
     });
