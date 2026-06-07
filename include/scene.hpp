@@ -23,7 +23,7 @@ private:
 
 public:
   Scene(std::string vertexShaderPath, std::string fragmentShaderPath, std::string lightSourceFragShaderPath,
-        float aspect_ratio);
+        float aspect_ratio, glm::vec3 indoorBoundsCenter = glm::vec3(0.0f), float indoorBoundsRadius = 0.0f);
 
   void addObject(std::vector<std::string> components, std::string path,
                  std::string texture_path);
@@ -34,7 +34,7 @@ public:
   void addLightObject(std::vector<std::string> components, std::string path,
                       std::string texture_path, glm::vec3 position,
                       glm::vec3 rotation, glm::vec3 scale,
-                      glm::vec3 lightColor);
+                      glm::vec3 lightColor, LightZone zone = LightZone::All);
 
   void applyToObjects(std::string component,
                       std::function<void(SceneObject *)>);
@@ -49,6 +49,8 @@ public:
   // Runs all systems and render functions, it is called every frame
   void RunSystems();
   void ToggleFill();
+  void setIndoorBounds(glm::vec3 center, float radius);
+  bool isCameraIndoor() const;
 
   Camera camera;
   Projection projection;
@@ -68,6 +70,9 @@ private:
   std::vector<std::function<void(Scene *, float)>> systems;
 
   void update_light_sources();
+
+  glm::vec3 indoorCenter = glm::vec3(0.0f);
+  float indoorRadius = 0.0f;
 
   float last_frame_time = 0.0f;
   // Is used on ToggleFill to change polygon behavior

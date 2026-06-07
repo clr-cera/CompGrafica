@@ -12,7 +12,7 @@ uniform vec3 ambientColor;
 uniform vec3 cameraPos;
 
 
-#define SPECULAR_STRENGHT 0.5
+#define SPECULAR_STRENGTH 0.5
 #define SHININESS 32.0
 
 struct PointLight {
@@ -53,7 +53,7 @@ vec3 calculateSpecularLight() {
         vec3 lightDir = normalize(pointLights[i].position - worldPosition);
         vec3 reflectDir = reflect(-lightDir, normal);
         vec3 viewDir = normalize(cameraPos - worldPosition);
-        specularCoeff += pow(max(dot(viewDir, reflectDir), 0.0), SHININESS) * SPECULAR_STRENGHT * pointLights[i].color;
+        specularCoeff += pow(max(dot(viewDir, reflectDir), 0.0), SHININESS) * SPECULAR_STRENGTH * pointLights[i].color;
     }
     return specularCoeff;
 }

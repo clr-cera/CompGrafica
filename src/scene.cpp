@@ -4,17 +4,20 @@
 #include "shader.hpp"
 #include <GLFW/glfw3.h>
 #include <camera.hpp>
+#include <iostream>
 #include <vector>
 
 // Creates a scene with the given shader
-Scene::Scene(std::string vertexShaderPath, std::string fragmentShaderPath, std::string lightSourceFragShaderPath,
-             float aspect_ratio)
+Scene::Scene(std::string vertexShaderPath, std::string fragmentShaderPath,
+             std::string lightSourceFragShaderPath, float aspect_ratio,
+             glm::vec3 indoorBoundsCenter, float indoorBoundsRadius)
     : shader(vertexShaderPath, fragmentShaderPath),
       lightSourceShader(vertexShaderPath, lightSourceFragShaderPath),
       camera(glm::vec3(0.0f, 0.0f, 2.0f)),
       projection(45.0f, aspect_ratio, 0.1f, 100.0f),
       lighting(0.5, glGetUniformLocation(shader.programID, "ambientLight"),
-               glGetUniformLocation(shader.programID, "ambientColor")) {}
+               glGetUniformLocation(shader.programID, "ambientColor")),
+      indoorCenter(indoorBoundsCenter), indoorRadius(indoorBoundsRadius) {}
 
 // Adds an object to the scene
 void Scene::addObject(std::vector<std::string> components, std::string path,
@@ -47,11 +50,13 @@ void Scene::addObject(std::vector<std::string> components, std::string path,
 void Scene::addLightObject(std::vector<std::string> components,
                            std::string path, std::string texture_path,
                            glm::vec3 position, glm::vec3 rotation,
-                           glm::vec3 scale, glm::vec3 lightColor) {
+                           glm::vec3 scale, glm::vec3 lightColor,
+                           LightZone zone) {
   SceneObject *scene_object = new SceneObject(path, texture_path, lightColor);
   scene_object->setPosition(position);
   scene_object->setRotation(rotation);
   scene_object->setScale(scale);
+  scene_object->setZone(zone);
 
   objects.push_back(scene_object);
   for (const auto &component : components) {
@@ -145,11 +150,29 @@ void Scene::ToggleFill() {
 // shader array
 void Scene::update_light_sources() {
   shader.use();
+  LightZone currentZone =
+      isCameraIndoor() ? LightZone::Indoor : LightZone::Outdoor;
   auto light_sources = component_map.equal_range("__light_source__");
   int i = 0;
   for (auto it = light_sources.first; it != light_sources.second; ++it) {
-    shader.setVec3("pointLights[" + std::to_string(i) + "].position", it->second->getPosition());
-    shader.setVec3("pointLights[" + std::to_string(i++) + "].color", it->second->lightSource.color);
+    if (it->second->zone != LightZone::All && it->second->zone != currentZone)
+      continue;
+    shader.setVec3("pointLights[" + std::to_string(i) + "].position",
+                   it->second->getPosition());
+    shader.setVec3("pointLights[" + std::to_string(i++) + "].color",
+                   it->second->lightSource.color);
   }
   shader.setInt("currentLightCount", i);
+}
+
+void Scene::setIndoorBounds(glm::vec3 center, float radius) {
+  indoorCenter = center;
+  indoorRadius = radius;
+}
+
+bool Scene::isCameraIndoor() const {
+  glm::vec3 pos = const_cast<Camera &>(camera).getPosition();
+  float distance = glm::distance(pos, indoorCenter);
+
+  return distance <= indoorRadius;
 }

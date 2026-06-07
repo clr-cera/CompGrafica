@@ -5,6 +5,8 @@
 #include <glm/glm.hpp>
 #include <string>
 
+enum class LightZone { Indoor, Outdoor, All };
+
 // SceneObject represents an instance of a mesh,
 // it has its own transformation
 class SceneObject {
@@ -44,6 +46,8 @@ public:
     glm::vec3 color;
   };
   LightSource lightSource;
+  LightZone zone = LightZone::All;
+  void setZone(LightZone z) { zone = z; }
 
 private:
   // Cache the matrix if there is no transformation change

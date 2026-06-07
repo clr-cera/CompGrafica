@@ -20,10 +20,11 @@ GLFWwindow *setup_screen();
 // the inputSystem would reference a dead space
 std::pair<Scene *, InputSystem> setup_environment(GLFWwindow *window) {
   // Creates the scene which contain all the data
-  Scene *scene = new Scene("shaders/vertex_shader.glsl",
-                           "shaders/fragment_shader.glsl",
-                           "shaders/lightSource_fragment_shader.glsl",
-                           WIDTH / HEIGHT);
+  Scene *scene = new Scene(
+      "shaders/vertex_shader.glsl", "shaders/fragment_shader.glsl",
+      "shaders/lightSource_fragment_shader.glsl", WIDTH / HEIGHT,
+      glm::vec3(0.0f, 0.5f, 0.0f), // indoor bounds center (house center)
+      1.0f);                       // indoor bounds radius
 
   // FYI: Link is saved in another place to keep code clean
 
@@ -48,12 +49,12 @@ std::pair<Scene *, InputSystem> setup_environment(GLFWwindow *window) {
       {"jellyfish"}, "objects/jellyfish/jellyfish.obj",
       "objects/jellyfish/jellyfish1.png", glm::vec3(0.0f, 0.0f, -5.0f),
       glm::vec3(0.0f, 0.0f, 0.0f), glm::vec3(0.01f, 0.01f, 0.01f),
-      glm::vec3(0.9, 0.1, 0.9));
+      glm::vec3(0.9, 0.1, 0.9), LightZone::Outdoor);
   scene->addLightObject(
       {"jellyfish"}, "objects/jellyfish/jellyfish.obj",
       "objects/jellyfish/jellyfish1.png", glm::vec3(5.0f, 0.0f, 0.0f),
       glm::vec3(0.0f, 0.0f, 0.0f), glm::vec3(0.01f, 0.01f, 0.01f),
-      glm::vec3(1.0f, 1.0f, 1.0f));
+      glm::vec3(1.0f, 1.0f, 1.0f), LightZone::Outdoor);
   // scene->addLightObject(
   //     {"jellyfish"}, "objects/jellyfish/jellyfish.obj",
   //     "objects/jellyfish/jellyfish1.png", glm::vec3(0.0f, 0.0f, 5.0f),
