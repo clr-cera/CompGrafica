@@ -310,6 +310,33 @@ std::pair<Scene *, InputSystem> setup_environment(GLFWwindow *window) {
     scene->lighting.darken_ambient(0.005);
   });
 
+  // Change specular strength
+  inputSystem.registerKeyAction(GLFW_KEY_3, [](Scene *scene, float delta_time) {
+    scene->lighting.increase_specular(0.005f);
+  });
+  inputSystem.registerKeyAction(GLFW_KEY_4, [](Scene *scene, float delta_time) {
+    scene->lighting.decrease_specular(0.005f);
+  });
+
+  // Change diffuse strength
+  inputSystem.registerKeyAction(GLFW_KEY_5, [](Scene *scene, float delta_time) {
+    scene->lighting.increase_diffuse(0.005f);
+  });
+  inputSystem.registerKeyAction(GLFW_KEY_6, [](Scene *scene, float delta_time) {
+    scene->lighting.decrease_diffuse(0.005f);
+  });
+
+  // Toggle lights on/off
+  inputSystem.registerKeyAction(GLFW_KEY_R, [](Scene *scene, float delta_time) {
+    scene->lighting.toggle_ambient();
+  });
+  inputSystem.registerKeyAction(GLFW_KEY_T, [](Scene *scene, float delta_time) {
+    scene->lighting.toggle_specular();
+  });
+  inputSystem.registerKeyAction(GLFW_KEY_Y, [](Scene *scene, float delta_time) {
+    scene->lighting.toggle_diffuse();
+  });
+
   return {scene, inputSystem};
 }
 

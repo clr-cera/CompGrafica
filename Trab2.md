@@ -45,34 +45,12 @@ Para executar o binário compilado:
 
 A cena está equipada com as seguintes interações:
 
-### Movimento e Câmera
-
 - Teclas W/A/S/D: Move a câmera para a frente, esquerda, atrás e direita
 - Tecla Espaço: A câmera realiza um pulo, isso pode ser executado no ar para executar saltos consecutivos
-
-### Objetos
-
 - Teclas X/C: Move o Gary de um lado para o outro no cenário externo.
 - Teclas Q/E: Rotaciona o Bob Esponja no eixo vertical no sentido anti-horário e horário
 - Teclas J/K: Aumenta/Encolhe as águas vivas
-
-### Visualização
-
 - Tecla P: Alterna entre visualização de Polígonos cheios ou da Malha poligonal
-
-### Controles de Iluminação
-
-#### Ajuste de Intensidade
-
-- Teclas 1/2: Aumenta/Diminui a intensidade da luz ambiente
-- Teclas 3/4: Aumenta/Diminui a intensidade do reflexo especular
-- Teclas 5/6: Aumenta/Diminui a intensidade da iluminação difusa
-
-#### Alternância (On/Off)
-
-- Tecla R: Alterna luz ambiente (liga/desliga, mantém o último valor)
-- Tecla T: Alterna reflexo especular (liga/desliga, mantém o último valor)
-- Tecla Y: Alterna iluminação difusa (liga/desliga, mantém o último valor)
 
 
 ## Descrição do cenário

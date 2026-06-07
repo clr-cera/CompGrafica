@@ -11,9 +11,9 @@ uniform float ambientLight;
 uniform vec3 ambientColor;
 uniform vec3 cameraPos;
 uniform bool flipNormals;
+uniform float specularStrength;
+uniform float diffuseStrength;
 
-
-#define SPECULAR_STRENGTH 0.5
 #define SHININESS 32.0
 
 struct PointLight {
@@ -52,7 +52,7 @@ vec3 calculateDiffuseLight(vec3 surfaceNormal)
         float diff = max(dot(surfaceNormal, lightDir), 0.0);
         lightCoeff += diff * pointLights[i].color;
     }
-    return lightCoeff;
+    return lightCoeff * diffuseStrength;
 }
 
 
@@ -62,7 +62,7 @@ vec3 calculateSpecularLight(vec3 surfaceNormal) {
         vec3 lightDir = normalize(pointLights[i].position - worldPosition);
         vec3 reflectDir = reflect(-lightDir, surfaceNormal);
         vec3 viewDir = normalize(cameraPos - worldPosition);
-        specularCoeff += pow(max(dot(viewDir, reflectDir), 0.0), SHININESS) * SPECULAR_STRENGTH * pointLights[i].color;
+        specularCoeff += pow(max(dot(viewDir, reflectDir), 0.0), SHININESS) * specularStrength * pointLights[i].color;
     }
     return specularCoeff;
 }

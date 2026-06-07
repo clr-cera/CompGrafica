@@ -16,7 +16,9 @@ Scene::Scene(std::string vertexShaderPath, std::string fragmentShaderPath,
       camera(glm::vec3(0.0f, 0.0f, 2.0f)),
       projection(45.0f, aspect_ratio, 0.1f, 100.0f),
       lighting(0.5, glGetUniformLocation(shader.programID, "ambientLight"),
-               glGetUniformLocation(shader.programID, "ambientColor")),
+               glGetUniformLocation(shader.programID, "ambientColor"),
+               glGetUniformLocation(shader.programID, "specularStrength"),
+               glGetUniformLocation(shader.programID, "diffuseStrength")),
       indoorCenter(indoorBoundsCenter), indoorRadius(indoorBoundsRadius) {}
 
 // Adds an object to the scene
