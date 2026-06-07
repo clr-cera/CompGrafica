@@ -13,8 +13,9 @@
 
 class Lighting {
 public:
-  Lighting(float initial_lighting, int ambient_location, int ambient_color_location,
-           int specular_location, int diffuse_location);
+  Lighting(float initial_lighting, int ambient_location,
+           int ambient_color_location, int specular_location,
+           int diffuse_location);
 
   // Ambient lighting changing
   void brighten_ambient(float increase);
@@ -37,7 +38,8 @@ public:
   void set_ambient_uniform();
 
 private:
-  // Ambient lighting internals
+  // These values are used to render each type of light separately, and to
+  // toggle/change them with commands
   float ambient_light;
   float ambient_uniform_location;
   glm::vec3 ambient_color;
@@ -45,13 +47,11 @@ private:
   float ambient_light_saved;
   float ambient_last_toggle_time = 0.0f;
 
-  // Specular lighting internals
   float specular_strength;
   float specular_uniform_location;
   float specular_strength_saved;
   float specular_last_toggle_time = 0.0f;
 
-  // Diffuse lighting internals
   float diffuse_strength;
   float diffuse_uniform_location;
   float diffuse_strength_saved;
