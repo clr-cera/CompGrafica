@@ -98,6 +98,7 @@ void Scene::Render() {
   shader.setMat4("projection", projection.getProjectionMatrix());
   auto default_objs = component_map.equal_range("__default__");
   for (auto it = default_objs.first; it != default_objs.second; ++it) {
+    shader.setBool("flipNormals", it->second->flipNormals);
     it->second->draw(shader);
   }
   lightSourceShader.use();

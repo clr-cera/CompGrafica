@@ -48,6 +48,8 @@ public:
   LightSource lightSource;
   LightZone zone = LightZone::All;
   void setZone(LightZone z) { zone = z; }
+  bool flipNormals = false;
+  void setFlipNormals(bool flip) { flipNormals = flip; }
 
 private:
   // Cache the matrix if there is no transformation change

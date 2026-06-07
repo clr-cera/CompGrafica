@@ -1,4 +1,54 @@
 #include "mesh.hpp"
+#include <glm/glm.hpp>
+#include <unordered_set>
+
+namespace {
+bool hasDegenrateNormals(const std::vector<Vertex>& vertices) {
+  if (vertices.empty()) return false;
+
+  glm::vec3 firstNormal = vertices[0].normal;
+  for (size_t i = 1; i < vertices.size(); ++i) {
+    if (glm::length(glm::cross(firstNormal, vertices[i].normal)) > 0.001f) {
+      return false;
+    }
+  }
+  return true;
+}
+
+void recalculateNormals(std::vector<Vertex>& vertices,
+                        const std::vector<unsigned int>& indices) {
+  for (auto& v : vertices) {
+    v.normal = glm::vec3(0.0f);
+  }
+
+  for (size_t i = 0; i + 2 < indices.size(); i += 3) {
+    unsigned int i0 = indices[i];
+    unsigned int i1 = indices[i + 1];
+    unsigned int i2 = indices[i + 2];
+
+    glm::vec3 v0 = vertices[i0].position;
+    glm::vec3 v1 = vertices[i1].position;
+    glm::vec3 v2 = vertices[i2].position;
+
+    glm::vec3 edge1 = v1 - v0;
+    glm::vec3 edge2 = v2 - v0;
+    glm::vec3 faceNormal = glm::cross(edge1, edge2);
+
+    vertices[i0].normal += faceNormal;
+    vertices[i1].normal += faceNormal;
+    vertices[i2].normal += faceNormal;
+  }
+
+  for (auto& v : vertices) {
+    float len = glm::length(v.normal);
+    if (len > 0.0001f) {
+      v.normal = glm::normalize(v.normal);
+    } else {
+      v.normal = glm::vec3(0.0f, 1.0f, 0.0f);
+    }
+  }
+}
+} // namespace
 
 Mesh::Mesh(std::string path_to_wavefront_obj, std::string path_to_texture) {
   // Parse wavefront object
@@ -7,6 +57,11 @@ Mesh::Mesh(std::string path_to_wavefront_obj, std::string path_to_texture) {
   this->vertices = vertices;
   this->indices = indices;
   this->texture = texture;
+
+  // Recalculate normals if they are degenerate
+  if (hasDegenrateNormals(this->vertices)) {
+    recalculateNormals(this->vertices, this->indices);
+  }
 
   // Setup gpu vertex buffers
   glGenBuffers(1, &VBO);
@@ -44,8 +99,8 @@ Mesh::Mesh(std::string path_to_wavefront_obj, std::string path_to_texture) {
 
   // Vertex buffer bound and filled
   glBindBuffer(GL_ARRAY_BUFFER, VBO);
-  glBufferData(GL_ARRAY_BUFFER, vertices.size() * sizeof(Vertex),
-               vertices.data(), GL_STATIC_DRAW);
+  glBufferData(GL_ARRAY_BUFFER, this->vertices.size() * sizeof(Vertex),
+               this->vertices.data(), GL_STATIC_DRAW);
 
   // Element buffer bound and filled
   glBindBuffer(GL_ELEMENT_ARRAY_BUFFER, EBO);

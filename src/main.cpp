@@ -54,7 +54,7 @@ std::pair<Scene *, InputSystem> setup_environment(GLFWwindow *window) {
       {"jellyfish"}, "objects/jellyfish/jellyfish.obj",
       "objects/jellyfish/jellyfish1.png", glm::vec3(5.0f, 0.0f, 0.0f),
       glm::vec3(0.0f, 0.0f, 0.0f), glm::vec3(0.01f, 0.01f, 0.01f),
-      glm::vec3(1.0f, 1.0f, 1.0f), LightZone::Outdoor);
+      glm::vec3(0.9f, 0.1f, 0.9f), LightZone::Outdoor);
   // scene->addLightObject(
   //     {"jellyfish"}, "objects/jellyfish/jellyfish.obj",
   //     "objects/jellyfish/jellyfish1.png", glm::vec3(0.0f, 0.0f, 5.0f),
@@ -67,24 +67,24 @@ std::pair<Scene *, InputSystem> setup_environment(GLFWwindow *window) {
   //     glm::vec3(1.0f, 1.0f, 1.0f));
 
   // floor inside the house
-  scene->addObject({"floor"}, "objects/sponge_bob_house_floor/floor.obj",
-                   "objects/sponge_bob_house_floor/floor.png",
-                   glm::vec3(-4.7f, 0.06f, 0.0f), glm::vec3(0.0f, 0.0f, 0.0f),
-                   glm::vec3(0.72f, 0.72f, 0.72f));
+  scene->addObject(
+      {"floor", "inverted_normals"}, "objects/sponge_bob_house_floor/floor.obj",
+      "objects/sponge_bob_house_floor/floor.png", glm::vec3(-4.7f, 0.06f, 0.0f),
+      glm::vec3(0.0f, 0.0f, 0.0f), glm::vec3(0.72f, 0.72f, 0.72f));
 
   // spongebob
-  scene->addObject({"spongebob"}, "objects/spongebob/spongebobcore.obj",
-                   "objects/spongebob/spongebob.png",
-                   glm::vec3(0.0f, 0.06f, -0.5f), glm::vec3(0.0f, 0.0f, 0.0f),
-                   glm::vec3(0.6f, 0.6f, 0.6f));
-  scene->addObject({"spongebob"}, "objects/spongebob/spongebobarms.obj",
-                   "objects/spongebob/spongebob.png",
-                   glm::vec3(0.0f, 0.06f, -0.5f), glm::vec3(0.0f, 0.0f, 0.0f),
-                   glm::vec3(0.6f, 0.6f, 0.6f));
-  scene->addObject({"spongebob"}, "objects/spongebob/spongebobhips.obj",
-                   "objects/spongebob/spongebob.png",
-                   glm::vec3(0.0f, 0.06f, -0.5f), glm::vec3(0.0f, 0.0f, 0.0f),
-                   glm::vec3(0.6f, 0.6f, 0.6f));
+  scene->addObject(
+      {"spongebob", "inverted_normals"}, "objects/spongebob/spongebobcore.obj",
+      "objects/spongebob/spongebob.png", glm::vec3(0.0f, 0.06f, -0.5f),
+      glm::vec3(0.0f, 0.0f, 0.0f), glm::vec3(0.6f, 0.6f, 0.6f));
+  scene->addObject(
+      {"spongebob", "inverted_normals"}, "objects/spongebob/spongebobarms.obj",
+      "objects/spongebob/spongebob.png", glm::vec3(0.0f, 0.06f, -0.5f),
+      glm::vec3(0.0f, 0.0f, 0.0f), glm::vec3(0.6f, 0.6f, 0.6f));
+  scene->addObject(
+      {"spongebob", "inverted_normals"}, "objects/spongebob/spongebobhips.obj",
+      "objects/spongebob/spongebob.png", glm::vec3(0.0f, 0.06f, -0.5f),
+      glm::vec3(0.0f, 0.0f, 0.0f), glm::vec3(0.6f, 0.6f, 0.6f));
 
   // gary
   scene->addObject({"gary"}, "objects/gary/back.obj", "objects/gary/back.png",
@@ -104,10 +104,11 @@ std::pair<Scene *, InputSystem> setup_environment(GLFWwindow *window) {
                    glm::vec3(0.03f, 0.03f, 0.03f));
 
   // Tv
-  scene->addObject(
+  scene->addLightObject(
       {"tv"}, "objects/tv/20349_Old_Television_set_v1_Textured.obj",
-      "objects/tv/20349_Old_Television_set.jpg", glm::vec3(-0.45, 0.05, 0.1),
-      glm::vec3(-90, 0, -90), glm::vec3(0.03f, 0.03f, 0.03f));
+      "objects/tv/20349_Old_Television_set.jpg", glm::vec3(-0.45, 0.06, 0.1),
+      glm::vec3(-90, 0, -90), glm::vec3(0.03f, 0.03f, 0.03f),
+      glm::vec3(1.0f, 1.0f, 1.0f), LightZone::Indoor);
 
   // Mr krabs
   scene->addObject({"mr_krabs"}, "objects/mr_krabs/mr._krabs.obj",
@@ -117,6 +118,9 @@ std::pair<Scene *, InputSystem> setup_environment(GLFWwindow *window) {
   // boids
   spawn_boids(scene, "objects/fish/12265_Fish_v1_L2.obj",
               "objects/fish/fish.jpg");
+
+  scene->applyToObjects("inverted_normals",
+                        [](SceneObject *obj) { obj->setFlipNormals(true); });
 
   scene->register_continuous_function(
       "boid", [](std::vector<SceneObject *> objs, float delta_time) {
