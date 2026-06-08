@@ -104,11 +104,34 @@ std::pair<Scene *, InputSystem> setup_environment(GLFWwindow *window) {
                    glm::vec3(0.03f, 0.03f, 0.03f));
 
   // Tv
-  scene->addLightObject(
+  scene->addObject(
       {"tv"}, "objects/tv/20349_Old_Television_set_v1_Textured.obj",
       "objects/tv/20349_Old_Television_set.jpg", glm::vec3(-0.45, 0.06, 0.1),
-      glm::vec3(-90, 0, -90), glm::vec3(0.03f, 0.03f, 0.03f),
-      glm::vec3(1.0f, 1.0f, 1.0f), LightZone::Indoor);
+      glm::vec3(-90, 0, -90), glm::vec3(0.03f, 0.03f, 0.03f));
+
+  // Angler Fish
+  scene->addLightObject(
+      {"anglerfish"}, "objects/anglerfish/body.obj",
+      "objects/anglerfish/body.png", glm::vec3(-0.35f, 0.4f, -0.35f),
+      glm::vec3(0.0f, 0.0f, 0.0f), glm::vec3(40.0f, 40.0f, 40.0f),
+      glm::vec3(1.0f, 1.0f, 0.0f), LightZone::Indoor);
+  scene->addLightObject(
+      {"anglerfish"}, "objects/anglerfish/eyes.obj",
+      "objects/anglerfish/eyes.png", glm::vec3(-0.35f, 0.4f, -0.35f),
+      glm::vec3(0.0f, 0.0f, 0.0f), glm::vec3(40.0f, 40.0f, 40.0f),
+      glm::vec3(1.0f, 1.0f, 0.0f), LightZone::Indoor);
+  scene->addLightObject(
+      {"anglerfish"}, "objects/anglerfish/fins.obj",
+      "objects/anglerfish/fins.png", glm::vec3(-0.35f, 0.4f, -0.35f),
+      glm::vec3(0.0f, 0.0f, 0.0f), glm::vec3(40.0f, 40.0f, 40.0f),
+      glm::vec3(1.0f, 1.0f, 0.0f), LightZone::Indoor);
+
+  // small hand lamp
+  scene->addLightObject(
+      {"small_lamp"}, "objects/smalllamp/smalllamp.obj",
+      "objects/smalllamp/smalllamp.png", glm::vec3(0.48f, 0.17f, 0.24f),
+      glm::vec3(0.0f, 0.0f, 0.0f), glm::vec3(0.1f, 0.1f, 0.1f),
+      glm::vec3(0.0f, 1.0f, 1.0f), LightZone::Indoor);
 
   // Mr krabs
   scene->addObject({"mr_krabs"}, "objects/mr_krabs/mr._krabs.obj",
