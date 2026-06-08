@@ -360,6 +360,23 @@ std::pair<Scene *, InputSystem> setup_environment(GLFWwindow *window) {
     scene->lighting.toggle_diffuse();
   });
 
+  // Toggle object lights
+  inputSystem.registerKeyAction(GLFW_KEY_U, [](Scene *scene, float delta_time) {
+    scene->applyToObjects("jellyfish", [](SceneObject *obj) {
+      obj->toggleLight();
+    });
+  });
+  inputSystem.registerKeyAction(GLFW_KEY_I, [](Scene *scene, float delta_time) {
+    scene->applyToObjects("anglerfish", [](SceneObject *obj) {
+      obj->toggleLight();
+    });
+  });
+  inputSystem.registerKeyAction(GLFW_KEY_O, [](Scene *scene, float delta_time) {
+    scene->applyToObjects("small_lamp", [](SceneObject *obj) {
+      obj->toggleLight();
+    });
+  });
+
   return {scene, inputSystem};
 }
 

@@ -74,6 +74,12 @@ A cena está equipada com as seguintes interações:
 - Tecla T: Alterna reflexo especular (liga/desliga, mantém o último valor)
 - Tecla Y: Alterna iluminação difusa (liga/desliga, mantém o último valor)
 
+#### Objetos Luminosos
+
+- Tecla U: Alterna as águas vivas (liga/desliga)
+- Tecla I: Alterna o Siriguejo (liga/desliga)
+- Tecla O: Alterna a pequena lâmpada (liga/desliga)
+
 
 ## Descrição do cenário
 

@@ -4,6 +4,7 @@
 #include "shader.hpp"
 #include <glm/glm.hpp>
 #include <string>
+#include <GLFW/glfw3.h>
 
 enum class LightZone { Indoor, Outdoor, All };
 
@@ -50,6 +51,14 @@ public:
   void setZone(LightZone z) { zone = z; }
   bool flipNormals = false;
   void setFlipNormals(bool flip) { flipNormals = flip; }
+  bool lightsEnabled = true;
+  void toggleLight() {
+    if (last_light_toggle_time + 0.2f > glfwGetTime()) {
+      return;
+    }
+    last_light_toggle_time = glfwGetTime();
+    lightsEnabled = !lightsEnabled;
+  }
 
 private:
   // Cache the matrix if there is no transformation change
@@ -61,6 +70,8 @@ private:
   glm::vec3 scale = glm::vec3(1.0f, 1.0f, 1.0f);
   glm::vec3 position = glm::vec3(0.0f, 0.0f, 0.0f);
   glm::vec3 velocity = glm::vec3(0.0f, 0.0f, 0.0f);
+
+  float last_light_toggle_time = 0.0f;
 
   const void bind(Shader shader);
   const void unbind();
