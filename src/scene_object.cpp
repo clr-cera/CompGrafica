@@ -89,6 +89,8 @@ const void SceneObject::bind(Shader shader) {
   shader.setMat4("transform", transMatrix());
   // If it needed to be recomputed, the call above already did so
   shader.setMat3("NormalMatrix", cachedNormalMatrix);
+  shader.setFloat("objectDiffuse", materialDiffuse);
+  shader.setFloat("objectSpecular", materialSpecular);
 }
 
 const void SceneObject::unbind() { mesh->unbind(); }

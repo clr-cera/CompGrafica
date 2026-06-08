@@ -59,6 +59,12 @@ public:
     last_light_toggle_time = glfwGetTime();
     lightsEnabled = !lightsEnabled;
   }
+  float materialDiffuse = 1.0f;
+  float materialSpecular = 0.5f;
+  void setMaterialDiffuse(float d) { materialDiffuse = d; }
+  void setMaterialSpecular(float s) { materialSpecular = s; }
+  float getMaterialDiffuse() const { return materialDiffuse; }
+  float getMaterialSpecular() const { return materialSpecular; }
 
 private:
   // Cache the matrix if there is no transformation change

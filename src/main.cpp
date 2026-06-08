@@ -145,6 +145,56 @@ std::pair<Scene *, InputSystem> setup_environment(GLFWwindow *window) {
   scene->applyToObjects("inverted_normals",
                         [](SceneObject *obj) { obj->setFlipNormals(true); });
 
+  // Per-object material parameters
+  scene->applyToObjects("house", [](SceneObject *obj) {
+    obj->setMaterialDiffuse(0.9f);
+    obj->setMaterialSpecular(0.3f);
+  });
+  scene->applyToObjects("floor", [](SceneObject *obj) {
+    obj->setMaterialDiffuse(0.8f);
+    obj->setMaterialSpecular(0.2f);
+  });
+  scene->applyToObjects("sky", [](SceneObject *obj) {
+    obj->setMaterialDiffuse(0.7f);
+    obj->setMaterialSpecular(0.1f);
+  });
+  scene->applyToObjects("jellyfish", [](SceneObject *obj) {
+    obj->setMaterialDiffuse(0.6f);
+    obj->setMaterialSpecular(0.8f);
+  });
+  scene->applyToObjects("spongebob", [](SceneObject *obj) {
+    obj->setMaterialDiffuse(0.85f);
+    obj->setMaterialSpecular(0.4f);
+  });
+  scene->applyToObjects("gary", [](SceneObject *obj) {
+    obj->setMaterialDiffuse(0.75f);
+    obj->setMaterialSpecular(0.5f);
+  });
+  scene->applyToObjects("patrick", [](SceneObject *obj) {
+    obj->setMaterialDiffuse(0.8f);
+    obj->setMaterialSpecular(0.35f);
+  });
+  scene->applyToObjects("tv", [](SceneObject *obj) {
+    obj->setMaterialDiffuse(0.7f);
+    obj->setMaterialSpecular(0.6f);
+  });
+  scene->applyToObjects("anglerfish", [](SceneObject *obj) {
+    obj->setMaterialDiffuse(0.7f);
+    obj->setMaterialSpecular(0.7f);
+  });
+  scene->applyToObjects("small_lamp", [](SceneObject *obj) {
+    obj->setMaterialDiffuse(0.6f);
+    obj->setMaterialSpecular(0.9f);
+  });
+  scene->applyToObjects("mr_krabs", [](SceneObject *obj) {
+    obj->setMaterialDiffuse(0.82f);
+    obj->setMaterialSpecular(0.55f);
+  });
+  scene->applyToObjects("boid", [](SceneObject *obj) {
+    obj->setMaterialDiffuse(0.7f);
+    obj->setMaterialSpecular(0.65f);
+  });
+
   scene->register_continuous_function(
       "boid", [](std::vector<SceneObject *> objs, float delta_time) {
         boid_iteration(objs, delta_time);
