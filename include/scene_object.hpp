@@ -2,9 +2,9 @@
 #define SCENE_OBJECT_HPP
 #include "mesh.hpp"
 #include "shader.hpp"
+#include <GLFW/glfw3.h>
 #include <glm/glm.hpp>
 #include <string>
-#include <GLFW/glfw3.h>
 
 enum class LightZone { Indoor, Outdoor, All };
 
@@ -42,6 +42,8 @@ public:
   glm::vec3 getPosition();
   glm::vec3 getVelocity();
 
+  // Below fields and methods are used for lighting and are only used if the
+  // object is a light source
   struct LightSource {
     glm::vec3 centroid;
     glm::vec3 color;
@@ -59,6 +61,7 @@ public:
     last_light_toggle_time = glfwGetTime();
     lightsEnabled = !lightsEnabled;
   }
+  // These are fields that are used to specify how to light affects each object
   float materialDiffuse = 1.0f;
   float materialSpecular = 0.5f;
   void setMaterialDiffuse(float d) { materialDiffuse = d; }
@@ -81,8 +84,6 @@ private:
 
   const void bind(Shader shader);
   const void unbind();
-
-
 };
 
 #endif // SCENE_OBJECT_HPP

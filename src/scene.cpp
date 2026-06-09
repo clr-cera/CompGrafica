@@ -150,7 +150,7 @@ void Scene::ToggleFill() {
 }
 
 // Handles updating light sources positions in the
-// shader array
+// shader array, it checks if the light source is enabled and in the camera zone
 void Scene::update_light_sources() {
   shader.use();
   LightZone currentZone =
@@ -158,7 +158,8 @@ void Scene::update_light_sources() {
   auto light_sources = component_map.equal_range("__light_source__");
   int i = 0;
   for (auto it = light_sources.first; it != light_sources.second; ++it) {
-    if ((it->second->zone != LightZone::All && it->second->zone != currentZone) ||
+    if ((it->second->zone != LightZone::All &&
+         it->second->zone != currentZone) ||
         !it->second->lightsEnabled)
       continue;
     shader.setVec3("pointLights[" + std::to_string(i) + "].position",

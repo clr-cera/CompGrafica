@@ -152,15 +152,11 @@ std::pair<Scene *, InputSystem> setup_environment(GLFWwindow *window) {
   });
   scene->applyToObjects("floor", [](SceneObject *obj) {
     obj->setMaterialDiffuse(0.8f);
-    obj->setMaterialSpecular(0.2f);
+    obj->setMaterialSpecular(0.9f);
   });
   scene->applyToObjects("sky", [](SceneObject *obj) {
     obj->setMaterialDiffuse(0.7f);
     obj->setMaterialSpecular(0.1f);
-  });
-  scene->applyToObjects("jellyfish", [](SceneObject *obj) {
-    obj->setMaterialDiffuse(0.6f);
-    obj->setMaterialSpecular(0.8f);
   });
   scene->applyToObjects("spongebob", [](SceneObject *obj) {
     obj->setMaterialDiffuse(0.85f);
@@ -176,14 +172,6 @@ std::pair<Scene *, InputSystem> setup_environment(GLFWwindow *window) {
   });
   scene->applyToObjects("tv", [](SceneObject *obj) {
     obj->setMaterialDiffuse(0.7f);
-    obj->setMaterialSpecular(0.6f);
-  });
-  scene->applyToObjects("anglerfish", [](SceneObject *obj) {
-    obj->setMaterialDiffuse(0.7f);
-    obj->setMaterialSpecular(0.7f);
-  });
-  scene->applyToObjects("small_lamp", [](SceneObject *obj) {
-    obj->setMaterialDiffuse(0.6f);
     obj->setMaterialSpecular(0.9f);
   });
   scene->applyToObjects("mr_krabs", [](SceneObject *obj) {
@@ -412,19 +400,16 @@ std::pair<Scene *, InputSystem> setup_environment(GLFWwindow *window) {
 
   // Toggle object lights
   inputSystem.registerKeyAction(GLFW_KEY_U, [](Scene *scene, float delta_time) {
-    scene->applyToObjects("jellyfish", [](SceneObject *obj) {
-      obj->toggleLight();
-    });
+    scene->applyToObjects("jellyfish",
+                          [](SceneObject *obj) { obj->toggleLight(); });
   });
   inputSystem.registerKeyAction(GLFW_KEY_I, [](Scene *scene, float delta_time) {
-    scene->applyToObjects("anglerfish", [](SceneObject *obj) {
-      obj->toggleLight();
-    });
+    scene->applyToObjects("anglerfish",
+                          [](SceneObject *obj) { obj->toggleLight(); });
   });
   inputSystem.registerKeyAction(GLFW_KEY_O, [](Scene *scene, float delta_time) {
-    scene->applyToObjects("small_lamp", [](SceneObject *obj) {
-      obj->toggleLight();
-    });
+    scene->applyToObjects("small_lamp",
+                          [](SceneObject *obj) { obj->toggleLight(); });
   });
 
   return {scene, inputSystem};
